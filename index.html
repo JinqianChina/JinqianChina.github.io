@@ -1,278 +1,184 @@
-<!DOCTYPE html>
-<html>
+
+ <!DOCTYPE HTML>
+<html >
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   
-  <title>Jingege&#39;blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jingege'blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Jingege'blog">
-<meta property="og:description">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jingege'blog">
-<meta name="twitter:description">
-  
-    <link rel="alternative" href="/atom.xml" title="Jingege&#39;blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  
-
+    <title>Jingege&#39;blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="John Doe">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Jingege&#39;blog</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Jingege&#39;blog" title="Jingege&#39;blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Jingege&#39;blog">Jingege&#39;blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main">
+
+  <section class="post" itemscope itemprop="blogPost">
   
-    <article id="post-firstMD" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/11/27/firstMD/" class="article-date">
-  <time datetime="2015-11-27T08:19:20.000Z" itemprop="datePublished">2015-11-27</time>
-</a>
+    <a href="/2015/11/27/firstMD/" title="成功搭建hexo本地博客并部署到github上" itemprop="url">
+  
+    <h1 itemprop="name">成功搭建hexo本地博客并部署到github上</h1>
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+     
+           <p itemprop="description" >一、搭建hexo本地博客
+
+首先是安装Brew。好多人说Mac OS X上自带有brew，但是我今天试了N多遍，都是cannot find brew（我的系统是OS X Yosemite 10.10.5），于是只能安装brew了。 
+打开Iterm，输入以下安装命令：
+curl </p>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/27/firstMD/">成功搭建hexo本地博客并部署到github上</a>
-    </h1>
-  
-
-      </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、搭建hexo本地博客</p>
-<ol>
-<li><p>首先是安装Brew。好多人说Mac OS X上自带有brew，但是我今天试了N多遍，都是cannot find brew（我的系统是OS X Yosemite 10.10.5），于是只能安装brew了。 </p>
-<pre><code>打开<span class="constant">Iterm</span>，输入以下安装命令：
-curl -<span class="constant">LsSf</span> <span class="symbol">http:</span>/<span class="regexp">/github.com/mxcl</span><span class="regexp">/homebrew/tarball</span><span class="regexp">/master | sudo tar xvz -C/usr</span><span class="regexp">/local --strip 1
-安装brew成功后如图1所示： 
-当brew安装成功后，就可以随意安装自己想要的软件了，例如wget，命令如下：
-sudo brew install wget  
-卸载的话，命令如下：
-sudo brew uninstall wget
-查看安装软件的话，命令如下：
-sudo brew search /apache</span>*<span class="regexp">/
-注意/apache</span>*<span class="regexp">/是使用的正则表达式，用/</span>分割。
-</code></pre><p><img src="/Users/jingege/hexo/source/_posts/image/1.png" alt="Mou icon"><br>图 1</p>
-</li>
-<li><p>安装好brew后，就是安装git和Node.js</p>
-<pre><code>git安装命令如下：
-sudo brew install git 
-安装成功如图<span class="number">2</span>所示：
-<span class="keyword">Node</span>.<span class="identifier"></span><span class="title">js</span>安装命令如下：
-sudo brew install -g <span class="keyword">node</span><span class="identifier"></span><span class="title"></span>
-</code></pre><p><img src="/Users/jingege/hexo/source/_posts/image/2.png" alt="Mou icon"><br>图 2</p>
-</li>
-<li><p>git和Node.js都安装成功后，安装hexo</p>
-<pre><code>安装hexo的命令如下：
-sudo npm install hexo -g
-成功后如图<span class="number">3</span>和<span class="number">4</span>所示：
-注意：以上命令以sudo开头一定不要忘记加sudo，这是实践中的经验
-</code></pre><p><img src="/Users/jingege/hexo/source/_posts/image/3.png" alt="Mou icon"><br>图 3<br><img src="/Users/jingege/hexo/source/_posts/image/4.png" alt="Mou icon"><br>图 4</p>
-</li>
-<li><p>创建hexo文件夹。hexo安装成功后，，在你喜爱的文件夹下（如: Desktop/hexo )，执行如下命令：</p>
-<pre><code>创建hexo文件夹:
-hexo init +文件夹名字例如：hexo
-安装依赖包:
-npm <span class="keyword">install</span>
-这两步成功后如图<span class="number">5</span>所示：
-</code></pre><p><img src="/Users/jingege/hexo/source/_posts/image/5.png" alt="Mou icon"><br>图 5</p>
-</li>
-<li><p>启动本地服务。现在我们已经搭建起本地的hexo博客了，执行以下命令(在 H:\hexo )，然后到浏览器输入 localhost:4000 看看。</p>
-<pre><code>hexo generate
-成功后如图<span class="number">6</span>所示：
-hexo server
-成功后如图<span class="number">7</span>所示：
-hexo博客如图<span class="number">8</span>所示：
-</code></pre><p><img src="/Users/jingege/hexo/source/_posts/image/6.png" alt="Mou icon"><br><img src="/Users/jingege/hexo/source/_posts/image/7.png" alt="Mou icon"><br><img src="/Users/jingege/hexo/source/_posts/image/8.png" alt="Mou icon"><br>图 6、7、8。好了，至此，本地博客已经搭建起来了，只是本地哦。别人是看不到了</p>
-</li>
-</ol>
-<p>一、部署到github上</p>
-<ol>
-<li><p>注册Github帐号。</p>
-<pre><code>创建repository
-登录github后，将鼠标点击github右上角“+”号，在下拉菜单上，选择“New repository”项，将跳到如下页面，        填写库名称，勾选“Initialize this repository <span class="operator">with</span> <span class="operator">a</span> README”，点击“<span class="built_in">create</span> repository”，即可完        成创建库。
-</code></pre><p><img src="/Users/jingege/hexo/source/_posts/image/9.png" alt="Mou icon"></p>
-</li>
-<li><p>部署</p>
-<pre><code>编辑 _config.yml (在 <span class="keyword">H</span>:\hexo 下)。你在部署时，要把下面的 zippera 都换成你的账号名。
-
-deploy:
-  <span class="keyword">type</span>: git
-  repository: https:<span class="comment">//github.com/JinqianChina/JinqianChina.github.io.git</span>
-  branch: master
-
-执行下列指令即可完成部署。
-
-hexo <span class="keyword">generate</span>
-hexo deploy
-如果提示：<span class="keyword">ERROR</span> Deployer not found: git
-执行以下以下命令：npm install hexo-deployer-git --<span class="keyword">save</span>
-</code></pre><p><img src="/Users/jingege/hexo/source/_posts/image/10.png" alt="Mou icon"></p>
-<pre><code>完成之后再执行：
-hexo <span class="keyword">generate</span>
-hexo deploy
-</code></pre><p>注意：有些新用户需要设置 ssh，否则上述命令会失败。ssh 的介绍和设置方法请看 官方教程<a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank" rel="external">https://help.github.com/articles/generating-ssh-keys/</a> ，不用担心，很简单。</p>
-<pre><code>记住：每次修改本地文件后，需要 hexo <span class="keyword">generate</span> 才能保存。每次使用命令时，都要在 ~\hexo 目录下。
-Okay,我们的博客已经完全搭建起来了，在浏览器访问 JinqianChina.github.io 就能看到你的成就了！
-还有一点，有一些用户在hexo deploy之后会有提示验证邮箱
-那么我们要输入我们在git上验证的邮箱
-再次hexo deploy
-就发布上去了。
-就可以看到我们就成就了。。。
-
-tips
-
-hexo现在支持更加简单的命令格式了，比如：
-
-hexo <span class="keyword">g</span> ==  hexo <span class="keyword">generate</span>
-
-hexo <span class="keyword">d</span> ==  hexo deploy
-
-hexo s ==  hexo server
-
-hexo <span class="keyword">n</span> ==  hexo new
-</code></pre></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/27/firstMD/" data-id="cihheuwtx0000os0je2pxjyp9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
+    <time datetime="2015-11-27T08:19:20.000Z" itemprop="datePublished">2015-11-27</time>
+  </a>
 </section>
-        
-          <aside id="sidebar">
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li></ul>
-    </div>
-  </div>
+
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<aside class="clearfix">
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/hexo/" style="font-size: 10px;">hexo</a>
-    </div>
-  </div>
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
+<div class="tagslist">
+	<p class="asidetitle">標簽</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+		</ul>
+</div>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recents</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2015/11/27/firstMD/">成功搭建hexo本地博客并部署到github上</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
+  <div class="rsspart">
+	<a href="null" target="_blank" title="rss">RSS 訂閱</a>
+</div>
+
 </aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2015 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+</div>
     </div>
-  </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://yoursite.com" target="_blank" title="John Doe">John Doe</a>
+		
+		</p>
+</div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
 
-  </div>
-</body>
-</html>
+
+  </body>
+ </html>
