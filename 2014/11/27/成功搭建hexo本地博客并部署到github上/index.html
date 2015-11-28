@@ -77,7 +77,7 @@ curl -LsSf http">
     </p>
   <p class="article-time">
     <time datetime="2014-11-27T08:19:20.000Z" itemprop="datePublished">2014-11-27</time>
-    更新日期:<time datetime="2015-11-28T01:26:07.000Z" itemprop="dateModified">2015-11-28</time>
+    更新日期:<time datetime="2015-11-28T02:14:57.000Z" itemprop="dateModified">2015-11-28</time>
     
   </p>
 </header>
@@ -144,25 +144,32 @@ hexo博客如图<span class="number">8</span>所示：
 </code></pre><p><img src="/Users/jingege/hexo/public/image/9.png" alt="Mou icon"></p>
 </li>
 <li><p>部署</p>
-<pre><code>编辑 _config.yml (在 <span class="keyword">H</span>:\hexo 下)。你在部署时，要把下面的 zippera 都换成你的账号名。
+<pre><code>编辑 _config<span class="class">.yml</span> (在 H:\hexo 下)。你在部署时，要把下面的 zippera 都换成你的账号名。
 
 deploy:
-  <span class="keyword">type</span>: git
+  type: git
   repository: https:<span class="comment">//github.com/JinqianChina/JinqianChina.github.io.git</span>
+  branch: master
+
+这里需要注意：https:<span class="comment">//方式可能会出现，部署文件到github和每次更新文件到github时都需要输入github用户 名和密码的情况，这个情况不是一定出现，我在部署的时候遇到了，网上搜了没有找到解决的方式，于是我采用SSH-key方式，ssh 的介绍和设置方法请看 官方教程&lt;https://help.github.com/articles/generating-ssh-keys/&gt; ，不用担心，很简单。</span>
+设置好SSH-key后， _config<span class="class">.yml</span> 配置文件应该为：
+deploy:
+  type: git
+  repository: git@github<span class="class">.com</span>:JinqianChina/JinqianChina<span class="class">.github</span><span class="class">.io</span><span class="class">.git</span>
   branch: master
 
 执行下列指令即可完成部署。
 
-hexo <span class="keyword">generate</span>
+hexo generate
 hexo deploy
-如果提示：<span class="keyword">ERROR</span> Deployer not found: git
-执行以下以下命令：npm install hexo-deployer-git --<span class="keyword">save</span>
+如果提示：ERROR Deployer not found: git
+执行以下以下命令：npm install hexo-deployer-git --save
 </code></pre><p><img src="/Users/jingege/hexo/public/image/10.png" alt="Mou icon"></p>
 <pre><code>完成之后再执行：
 hexo <span class="keyword">generate</span>
 hexo deploy
-</code></pre><p>注意：有些新用户需要设置 ssh，否则上述命令会失败。ssh 的介绍和设置方法请看 官方教程<a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank" rel="external">https://help.github.com/articles/generating-ssh-keys/</a> ，不用担心，很简单。</p>
-<pre><code>记住：每次修改本地文件后，需要 hexo <span class="keyword">generate</span> 才能保存。每次使用命令时，都要在 ~\hexo 目录下。
+
+记住：每次修改本地文件后，需要 hexo <span class="keyword">generate</span> 才能保存，hexo deploy 才能部署到github。每次使用命令 时，都要在 ~\hexo 目录下。
 Okay,我们的博客已经完全搭建起来了，在浏览器访问 JinqianChina.github.io 就能看到你的成就了！
 还有一点，有一些用户在hexo deploy之后会有提示验证邮箱
 那么我们要输入我们在git上验证的邮箱
