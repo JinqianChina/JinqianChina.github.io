@@ -19,12 +19,12 @@
 具体原因不太清楚，这是iOS9出现的新问题，好像是字典变字符串时出问题了。下面直接附上解决办法:
 
 找到JSONKit.h文件，在JSONKit.h文件中找到 @interface NSDictionary (JS">
-<meta property="og:image" content="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/kIe0Dwn6zsEUxAq40v4UCG9QDy.NvP7vFjpab6SKQBA!/b/dHIBAAAAAAAA&bo=5AXwAAAAAAAFBzU!&rf=viewer_4">
-<meta property="og:image" content="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/6oVflkgzvnlibia6YN2PcgE.9aQ2lUKakR8fzSousS4!/b/dHUBAAAAAAAA&bo=HQMLAQAAAAADBzY!&rf=viewer_4">
-<meta property="og:image" content="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/qVDhg6.drqV3JQKJtAHzbPo2g2YqCiM36jIRAZZ9pNQ!/b/dHIBAAAAAAAA&bo=FwMxAQAAAAADAAE!&rf=viewer_4">
-<meta property="og:image" content="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/3uxO2**afJgWd87QTxI7C0O1f4ypWqUFVgrAT7ATnZo!/b/dHIBAAAAAAAA&bo=kASjAQAAAAAFABU!&rf=viewer_4">
-<meta property="og:image" content="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/kIe0Dwn6zsEUxAq40v4UCG9QDy.NvP7vFjpab6SKQBA!/b/dHIBAAAAAAAA&bo=5AXwAAAAAAAFBzU!&rf=viewer_4">
-<meta property="og:updated_time" content="2015-11-30T09:58:20.000Z">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/13.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/14.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/12.jpg">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg">
+<meta property="og:updated_time" content="2015-12-01T06:43:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSONKit 在iOS9 arm7 64位下出现的问题">
 <meta name="twitter:description" content="最近遇到了一个关于JSONKit的问题，在项目加了arm7 64位以后，JSONKIT会出现[params JSONString] forKey:@”gson”];报错的情况，如下图
@@ -104,12 +104,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近遇到了一个关于JSONKit的问题，在项目加了arm7 64位以后，JSONKIT会出现[params JSONString] forKey:@”gson”];报错的情况，如下图</p>
-<p><img src="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/kIe0Dwn6zsEUxAq40v4UCG9QDy.NvP7vFjpab6SKQBA!/b/dHIBAAAAAAAA&amp;bo=5AXwAAAAAAAFBzU!&amp;rf=viewer_4" alt="Mou icon"></p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg" alt="Mou icon"></p>
 <p>具体原因不太清楚，这是iOS9出现的新问题，好像是字典变字符串时出问题了。下面直接附上解决办法:</p>
 <ol>
-<li><p>找到JSONKit.h文件，在JSONKit.h文件中找到 @interface NSDictionary (JSONKitSerializing)，在其中添加一个XMJSONString方法，如下图<br><img src="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/6oVflkgzvnlibia6YN2PcgE.9aQ2lUKakR8fzSousS4!/b/dHUBAAAAAAAA&amp;bo=HQMLAQAAAAADBzY!&amp;rf=viewer_4" alt="Mou icon"></p>
+<li><p>找到JSONKit.h文件，在JSONKit.h文件中找到 @interface NSDictionary (JSONKitSerializing)，在其中添加一个XMJSONString方法，如下图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/13.png" alt="Mou icon"></p>
 </li>
-<li><p>找到JSONKit.m文件，在JSONKit.m文件中实现刚才添加的方法，实现如下图<br><img src="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/qVDhg6.drqV3JQKJtAHzbPo2g2YqCiM36jIRAZZ9pNQ!/b/dHIBAAAAAAAA&amp;bo=FwMxAQAAAAADAAE!&amp;rf=viewer_4" alt="Mou icon"><br>附上实现代码：</p>
+<li><p>找到JSONKit.m文件，在JSONKit.m文件中实现刚才添加的方法，实现如下图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/14.png" alt="Mou icon"><br>附上实现代码：</p>
 <pre><code>- (<span class="built_in">NSString</span> *)XMJSO<span class="built_in">NString</span>{
     <span class="built_in">NSError</span> *error = <span class="literal">nil</span>;
     <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:<span class="keyword">self</span>
@@ -127,18 +127,18 @@
 }
 </code></pre></li>
 </ol>
-<p>PS：如果不知道怎么去添加方法的话，可以去云盘中下载改写好的JSONKit的.h和.m文件，然后直接把这两个文件替换掉就行。这里是云盘链接: <a href="http://pan.baidu.com/s/1gd59ed9" target="_blank" rel="external">http://pan.baidu.com/s/1gd59ed9</a> 密码: s5eh<br>注意，文件替换之后，JSONKit可能会出现19个关于ARC的错误，在项目里找到TARGETS-Build Phases，加上如下图的设置即可<br><img src="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/3uxO2**afJgWd87QTxI7C0O1f4ypWqUFVgrAT7ATnZo!/b/dHIBAAAAAAAA&amp;bo=kASjAQAAAAAFABU!&amp;rf=viewer_4" alt="Mou icon"></p>
+<p>PS：如果不知道怎么去添加方法的话，可以去云盘中下载改写好的JSONKit的.h和.m文件，然后直接把这两个文件替换掉就行。这里是云盘链接: <a href="http://pan.baidu.com/s/1gd59ed9" target="_blank" rel="external">http://pan.baidu.com/s/1gd59ed9</a> 密码: s5eh<br>注意，文件替换之后，JSONKit可能会出现19个关于ARC的错误，在项目里找到TARGETS-Build Phases，加上如下图的设置即可<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/12.jpg" alt="Mou icon"></p>
 <p>最后，不要忘记在这里使用的方法改为你刚才添加的方法（- (NSString *)XMJSONString）哦。格式为：</p>
 <pre><code><span class="attr_selector">[request addPostValue:[params XMJSONString]</span>];
 <span class="tag">if</span> (type.length != <span class="number">0</span>) {
 
 }
-</code></pre><p><img src="http://a2.qpic.cn/psb?/V12jgnxY4CE01o/kIe0Dwn6zsEUxAq40v4UCG9QDy.NvP7vFjpab6SKQBA!/b/dHIBAAAAAAAA&amp;bo=5AXwAAAAAAAFBzU!&amp;rf=viewer_4" alt="Mou icon"></p>
+</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg" alt="Mou icon"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cihn0jm5h0000jr0jzm70p95b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cihn0ra1f0000kw0j8qv5myc3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a></li></ul>
