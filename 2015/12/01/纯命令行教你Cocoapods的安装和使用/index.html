@@ -3,35 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JSONKit 在iOS9 arm7 64位下出现的问题 | Jinge&#39;blog</title>
+  <title>纯命令行教你Cocoapods的安装和使用 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近遇到了一个关于JSONKit的问题，在项目加了arm7 64位以后，JSONKIT会出现[params JSONString] forKey:@”gson”];报错的情况，如下图
-
-具体原因不太清楚，这是iOS9出现的新问题，好像是字典变字符串时出问题了。下面直接附上解决办法:
-
-找到JSONKit.h文件，在JSONKit.h文件中找到 @interface NSDictionary (JS">
+  <meta name="description" content="关于cocoapods的介绍和作用，网上有很多大神介绍的比我清楚，建议去看一下唐巧的http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/、http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml
+我就不多说了，这里">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JSONKit 在iOS9 arm7 64位下出现的问题">
-<meta property="og:url" content="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/index.html">
+<meta property="og:title" content="纯命令行教你Cocoapods的安装和使用">
+<meta property="og:url" content="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="最近遇到了一个关于JSONKit的问题，在项目加了arm7 64位以后，JSONKIT会出现[params JSONString] forKey:@”gson”];报错的情况，如下图
-
-具体原因不太清楚，这是iOS9出现的新问题，好像是字典变字符串时出问题了。下面直接附上解决办法:
-
-找到JSONKit.h文件，在JSONKit.h文件中找到 @interface NSDictionary (JS">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/13.png">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/14.png">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/12.jpg">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg">
-<meta property="og:updated_time" content="2015-12-01T06:43:19.000Z">
+<meta property="og:description" content="关于cocoapods的介绍和作用，网上有很多大神介绍的比我清楚，建议去看一下唐巧的http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/、http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml
+我就不多说了，这里">
+<meta property="og:updated_time" content="2015-12-01T08:32:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JSONKit 在iOS9 arm7 64位下出现的问题">
-<meta name="twitter:description" content="最近遇到了一个关于JSONKit的问题，在项目加了arm7 64位以后，JSONKIT会出现[params JSONString] forKey:@”gson”];报错的情况，如下图
-
-具体原因不太清楚，这是iOS9出现的新问题，好像是字典变字符串时出问题了。下面直接附上解决办法:
-
-找到JSONKit.h文件，在JSONKit.h文件中找到 @interface NSDictionary (JS">
+<meta name="twitter:title" content="纯命令行教你Cocoapods的安装和使用">
+<meta name="twitter:description" content="关于cocoapods的介绍和作用，网上有很多大神介绍的比我清楚，建议去看一下唐巧的http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/、http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml
+我就不多说了，这里">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -81,10 +67,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-JSONKit-在iOS9-arm7-64位下出现的问题" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-纯命令行教你Cocoapods的安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" class="article-date">
-  <time datetime="2015-11-30T09:50:08.000Z" itemprop="datePublished">2015-11-30</time>
+    <a href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/" class="article-date">
+  <time datetime="2015-12-01T08:31:41.000Z" itemprop="datePublished">2015-12-01</time>
 </a>
     
   </div>
@@ -95,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JSONKit 在iOS9 arm7 64位下出现的问题
+      纯命令行教你Cocoapods的安装和使用
     </h1>
   
 
@@ -103,45 +89,61 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近遇到了一个关于JSONKit的问题，在项目加了arm7 64位以后，JSONKIT会出现[params JSONString] forKey:@”gson”];报错的情况，如下图</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg" alt="Mou icon"></p>
-<p>具体原因不太清楚，这是iOS9出现的新问题，好像是字典变字符串时出问题了。下面直接附上解决办法:</p>
+        <p>关于cocoapods的介绍和作用，网上有很多大神介绍的比我清楚，建议去看一下唐巧的<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/" target="_blank" rel="external">http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/</a>、<a href="http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml" target="_blank" rel="external">http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml</a></p>
+<p>我就不多说了，这里直接上方法。</p>
+<p>一、安装 CocoaPods</p>
 <ol>
-<li><p>找到JSONKit.h文件，在JSONKit.h文件中找到 @interface NSDictionary (JSONKitSerializing)，在其中添加一个XMJSONString方法，如下图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/13.png" alt="Mou icon"></p>
+<li><p>安装方式灰常简单，Mac下都自带ruby，使用ruby的gem命令即可下载安装：</p>
+<pre><code><span class="variable">$ </span>sudo gem install cocoapods
+<span class="variable">$ </span>pod setup
+
+注意：如果你的gem太老，这里会有问题，不过不用怕，可以尝试如下命令升级<span class="symbol">gem:</span>
+
+<span class="variable">$ </span>sudo gem update --system
+</code></pre></li>
+<li><p>对了，ruby的软件源<a href="https://rubygems.org使用的是亚马逊的云服务，被墙了，你懂的！更新一下ruby的源就行了，用如下代码将官方的" target="_blank" rel="external">https://rubygems.org使用的是亚马逊的云服务，被墙了，你懂的！更新一下ruby的源就行了，用如下代码将官方的</a> ruby 源替换成国内淘宝的源：</p>
+<pre><code><span class="variable">$ </span>gem sources --remove <span class="symbol">https:</span>/<span class="regexp">/rubygems.org/</span>
+<span class="variable">$ </span>gem sources -a <span class="symbol">http:</span>/<span class="regexp">/ruby.taobao.org/</span>
+
+查看ruby源
+<span class="variable">$ </span>gem sources -l
+</code></pre></li>
+<li><p>还有一点需要注意，pod setup在执行时，会输出Setting up CocoaPods master repo，但是会等待比较久的时间。这步其实是 Cocoapods 在将它的信息下载到 ~/.cocoapods目录下，如果你等太久，可以试着 cd 到那个目录，用du -sh *来查看下载进度。</p>
 </li>
-<li><p>找到JSONKit.m文件，在JSONKit.m文件中实现刚才添加的方法，实现如下图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/14.png" alt="Mou icon"><br>附上实现代码：</p>
-<pre><code>- (<span class="built_in">NSString</span> *)XMJSO<span class="built_in">NString</span>{
-    <span class="built_in">NSError</span> *error = <span class="literal">nil</span>;
-    <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:<span class="keyword">self</span>
-                                                       options:<span class="built_in">NSJSONWritingPrettyPrinted</span>
-                                                         error:&amp;error];
-       <span class="keyword">if</span> ([jsonData length] &amp;&amp; error == <span class="literal">nil</span>){
-        <span class="built_in">NSString</span> *jsonString = [[<span class="built_in">NSString</span> alloc] initWithData:jsonData
-                                                     encoding:<span class="built_in">NSUTF8StringEncoding</span>];
-        <span class="built_in">NSString</span> *replaceString = [jsonString stringByReplacingOccurrencesOfString:<span class="string">@"\n"</span> withString:<span class="string">@""</span>];
-        <span class="built_in">NSString</span> *treplaceString = [replaceString stringByReplacingOccurrencesOfString:<span class="string">@"\\"</span> withString:<span class="string">@""</span>];
-        <span class="keyword">return</span> [treplaceString stringByReplacingOccurrencesOfString:<span class="string">@" "</span> withString:<span class="string">@""</span>];
-    }<span class="keyword">else</span>{
-        <span class="keyword">return</span> <span class="literal">nil</span>;
-    }
-}
+</ol>
+<p>二、使用 CocoaPods</p>
+<ol>
+<li><p>创建一个新的Project，cd的你创建的项目文件夹中，使用如下命令新建一个名为Podfile的文件；</p>
+<pre><code><span class="keyword">touch</span> Podfile
+</code></pre></li>
+<li><p>这里可以利用vim打开Podfile文件；</p>
+<pre><code><span class="title">vim</span> Podfile
+</code></pre><p> ps:如果不熟悉Vim编辑器，可以去看以我的一篇关于Vim介绍的博客，可以简单看一下Vim帮助文档 <a href="http://jinqianchina.github.io/2015/04/20/vim-%E7%BC%96%E8%BE%91%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">http://jinqianchina.github.io/2015/04/20/vim-%E7%BC%96%E8%BE%91%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a></p>
+</li>
+<li><p>将依赖的库名字依次列在文件中即可；</p>
+<pre><code>platform <span class="symbol">:ios</span>
+pod <span class="string">'SDWebImage'</span>
+pod <span class="string">'AFNetworking'</span>
+pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0.0'</span>
+
+注意：~&gt;后面的是版本号，不加版本号的，，默认是最新版本
+</code></pre></li>
+<li><p>然后你将编辑好的Podfile保存退出 :wq。然后执行如下命令即可；</p>
+<pre><code>pod <span class="keyword">install</span>
+</code></pre></li>
+<li><p>到此，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖（cocoapods自动完成），你只需要记住如下 2 点即可：</p>
+<pre><code><span class="number">1</span>. 使用 CocoaPods 生成的 <span class="class">.xcworkspace</span> 文件来打开工程，而不是以前的 <span class="class">.xcodeproj</span> 文件。
+<span class="number">2</span>. 每次更改了 Podfile 文件，你需要重新执行一次pod update命令。
 </code></pre></li>
 </ol>
-<p>PS：如果不知道怎么去添加方法的话，可以去云盘中下载改写好的JSONKit的.h和.m文件，然后直接把这两个文件替换掉就行。这里是云盘链接: <a href="http://pan.baidu.com/s/1gd59ed9" target="_blank" rel="external">http://pan.baidu.com/s/1gd59ed9</a> 密码: s5eh<br>注意，文件替换之后，JSONKit可能会出现19个关于ARC的错误，在项目里找到TARGETS-Build Phases，加上如下图的设置即可<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/12.jpg" alt="Mou icon"></p>
-<p>最后，不要忘记在这里使用的方法改为你刚才添加的方法（- (NSString *)XMJSONString）哦。格式为：</p>
-<pre><code><span class="attr_selector">[request addPostValue:[params XMJSONString]</span>];
-<span class="tag">if</span> (type.length != <span class="number">0</span>) {
-
-}
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/11.jpg" alt="Mou icon"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cihn4ndlf0000sw0juahns7tx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/" data-id="cihn4ndlr0003sw0jeg7501rh" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods-纯命令行/">cocoapods 纯命令行</a></li></ul>
 
     </footer>
   </div>
@@ -149,19 +151,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/04/20/vim-编辑器常用命令/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">vim 编辑器常用命令</div>
+      <div class="article-nav-title">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</div>
     </a>
   
 </nav>

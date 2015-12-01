@@ -65,6 +65,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-纯命令行教你Cocoapods的安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/" class="article-date">
+  <time datetime="2015-12-01T08:31:41.000Z" itemprop="datePublished">2015-12-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于cocoapods的介绍和作用，网上有很多大神介绍的比我清楚，建议去看一下唐巧的<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/" target="_blank" rel="external">http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/</a>、<a href="http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml" target="_blank" rel="external">http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml</a></p>
+<p>我就不多说了，这里直接上方法。</p>
+<p>一、安装 CocoaPods</p>
+<ol>
+<li><p>安装方式灰常简单，Mac下都自带ruby，使用ruby的gem命令即可下载安装：</p>
+<pre><code><span class="variable">$ </span>sudo gem install cocoapods
+<span class="variable">$ </span>pod setup
+
+注意：如果你的gem太老，这里会有问题，不过不用怕，可以尝试如下命令升级<span class="symbol">gem:</span>
+
+<span class="variable">$ </span>sudo gem update --system
+</code></pre></li>
+<li><p>对了，ruby的软件源<a href="https://rubygems.org使用的是亚马逊的云服务，被墙了，你懂的！更新一下ruby的源就行了，用如下代码将官方的" target="_blank" rel="external">https://rubygems.org使用的是亚马逊的云服务，被墙了，你懂的！更新一下ruby的源就行了，用如下代码将官方的</a> ruby 源替换成国内淘宝的源：</p>
+<pre><code><span class="variable">$ </span>gem sources --remove <span class="symbol">https:</span>/<span class="regexp">/rubygems.org/</span>
+<span class="variable">$ </span>gem sources -a <span class="symbol">http:</span>/<span class="regexp">/ruby.taobao.org/</span>
+
+查看ruby源
+<span class="variable">$ </span>gem sources -l
+</code></pre></li>
+<li><p>还有一点需要注意，pod setup在执行时，会输出Setting up CocoaPods master repo，但是会等待比较久的时间。这步其实是 Cocoapods 在将它的信息下载到 ~/.cocoapods目录下，如果你等太久，可以试着 cd 到那个目录，用du -sh *来查看下载进度。</p>
+</li>
+</ol>
+<p>二、使用 CocoaPods</p>
+<ol>
+<li><p>创建一个新的Project，cd的你创建的项目文件夹中，使用如下命令新建一个名为Podfile的文件；</p>
+<pre><code><span class="keyword">touch</span> Podfile
+</code></pre></li>
+<li><p>这里可以利用vim打开Podfile文件；</p>
+<pre><code><span class="title">vim</span> Podfile
+</code></pre><p> ps:如果不熟悉Vim编辑器，可以去看以我的一篇关于Vim介绍的博客，可以简单看一下Vim帮助文档 <a href="http://jinqianchina.github.io/2015/04/20/vim-%E7%BC%96%E8%BE%91%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">http://jinqianchina.github.io/2015/04/20/vim-%E7%BC%96%E8%BE%91%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a></p>
+</li>
+<li><p>将依赖的库名字依次列在文件中即可；</p>
+<pre><code>platform <span class="symbol">:ios</span>
+pod <span class="string">'SDWebImage'</span>
+pod <span class="string">'AFNetworking'</span>
+pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0.0'</span>
+
+注意：~&gt;后面的是版本号，不加版本号的，，默认是最新版本
+</code></pre></li>
+<li><p>然后你将编辑好的Podfile保存退出 :wq。然后执行如下命令即可；</p>
+<pre><code>pod <span class="keyword">install</span>
+</code></pre></li>
+<li><p>到此，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖（cocoapods自动完成），你只需要记住如下 2 点即可：</p>
+<pre><code><span class="number">1</span>. 使用 CocoaPods 生成的 <span class="class">.xcworkspace</span> 文件来打开工程，而不是以前的 <span class="class">.xcodeproj</span> 文件。
+<span class="number">2</span>. 每次更改了 Podfile 文件，你需要重新执行一次pod update命令。
+</code></pre></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/" data-id="cihn4ndlr0003sw0jeg7501rh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods-纯命令行/">cocoapods 纯命令行</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="article-date">
@@ -102,7 +187,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cihn0ra1r0003kw0jl4tjpz95" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cihn4ndm00006sw0jbc51ymeg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
@@ -171,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cihn0ra1f0000kw0j8qv5myc3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cihn4ndlf0000sw0juahns7tx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a></li></ul>
@@ -217,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/20/vim-编辑器常用命令/" data-id="cihn0ra260009kw0jkcxidbre" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/20/vim-编辑器常用命令/" data-id="cihn4ndm8000csw0jyz11sh91" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
@@ -370,7 +455,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/18/shell常用命令-脚本编写/" data-id="cihn0ra29000ckw0jhcoihskk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/18/shell常用命令-脚本编写/" data-id="cihn4ndma000fsw0junqp7mcn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -427,7 +512,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="cihn0ra2b000fkw0j2qri43jx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="cihn4ndmc000isw0jzeuco4jz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/">zsh</a></li></ul>
@@ -566,7 +651,7 @@ hexo <span class="keyword">n</span> ==  hexo new
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/11/27/成功搭建hexo本地博客并部署到github上/" data-id="cihn0ra220006kw0jwu3pe2dg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/11/27/成功搭建hexo本地博客并部署到github上/" data-id="cihn4ndm30009sw0jfe1w1b7d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -589,7 +674,7 @@ hexo <span class="keyword">n</span> ==  hexo new
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods-纯命令行/">cocoapods 纯命令行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -598,7 +683,7 @@ hexo <span class="keyword">n</span> ==  hexo new
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
+      <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/cocoapods-纯命令行/" style="font-size: 10px;">cocoapods 纯命令行</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
     </div>
   </div>
 
@@ -607,7 +692,7 @@ hexo <span class="keyword">n</span> ==  hexo new
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -617,6 +702,10 @@ hexo <span class="keyword">n</span> ==  hexo new
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
+          </li>
         
           <li>
             <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
@@ -632,10 +721,6 @@ hexo <span class="keyword">n</span> ==  hexo new
         
           <li>
             <a href="/2015/04/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
-          </li>
-        
-          <li>
-            <a href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
           </li>
         
       </ul>
