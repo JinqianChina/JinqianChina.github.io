@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: vim | Jinge&#39;blog</title>
+  <title>如何更好的限制一个UITextField/UITextView的输入字数 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/tags/vim/index.html">
+  <meta name="description" content="要限制一个UITextField/UITextView的输入字数，首先想到的应该是通过UITextFieldDelegate/UITextViewDelegate的代理方法来限制，那么如何来更好的限制输入字数呢，下面我们来看看：
+TextView。幸运的是，当我们点进去UITextView.h头文件里时，会发现- (void)textViewDidChange:(UITextView *)text">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何更好的限制一个UITextField/UITextView的输入字数">
+<meta property="og:url" content="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="要限制一个UITextField/UITextView的输入字数，首先想到的应该是通过UITextFieldDelegate/UITextViewDelegate的代理方法来限制，那么如何来更好的限制输入字数呢，下面我们来看看：
+TextView。幸运的是，当我们点进去UITextView.h头文件里时，会发现- (void)textViewDidChange:(UITextView *)text">
+<meta property="og:updated_time" content="2015-12-04T09:56:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="如何更好的限制一个UITextField/UITextView的输入字数">
+<meta name="twitter:description" content="要限制一个UITextField/UITextView的输入字数，首先想到的应该是通过UITextFieldDelegate/UITextViewDelegate的代理方法来限制，那么如何来更好的限制输入字数呢，下面我们来看看：
+TextView。幸运的是，当我们点进去UITextView.h头文件里时，会发现- (void)textViewDidChange:(UITextView *)text">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +67,78 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/04/20/vim-编辑器常用命令/" class="archive-article-date">
-  <time datetime="2015-04-20T02:00:12.000Z" itemprop="datePublished">Apr 20</time>
+        <section id="main"><article id="post-如何更好的限制一个UITextField-UITextView的输入字数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" class="article-date">
+  <time datetime="2015-12-04T09:56:02.000Z" itemprop="datePublished">2015-12-04</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/04/20/vim-编辑器常用命令/">vim 编辑器常用命令</a>
+    <h1 class="article-title" itemprop="name">
+      如何更好的限制一个UITextField/UITextView的输入字数
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要限制一个UITextField/UITextView的输入字数，首先想到的应该是通过UITextFieldDelegate/UITextViewDelegate<br>的代理方法来限制，那么如何来更好的限制输入字数呢，下面我们来看看：</p>
+<p>TextView。幸运的是，当我们点进去UITextView.h头文件里时，会发现- (void)textViewDidChange:(UITextView *)textView;这个代理方法，我们只需要在这个方法里实现字数限制就好</p>
+<pre><code>- (void)textViewDidChange:(UITextField *)textView
+{
+    <span class="preprocessor">if</span> (textView == <span class="keyword">self.textView) </span>{
+        <span class="preprocessor">if</span> (textView<span class="preprocessor">.text</span>.length &gt; <span class="number">20</span>) {
+            textView<span class="preprocessor">.text</span> = [textView<span class="preprocessor">.text</span> <span class="keyword">substringToIndex:20];
+</span>        }
+    }
+}
+</code></pre><p>TextField。Textfield就没有那么幸运了，当我们点进去UITextField.h头文件的时候，怎么也找不到- (void)textFieldDidChange:(UITextField *)textField方法，就在我们寻觅上述回调方法而不得时，可能会发现最下面有这么个消息通知名称：</p>
+<pre><code><span class="built_in">UIKIT_EXTERN</span> <span class="built_in">NSString</span> *<span class="keyword">const</span> <span class="built_in">UITextFieldTextDidChangeNotification</span>;
+</code></pre><p>不过，监听消息还要记得解除监听，通常我还习惯把监听消息的代码统一放在一个方法中，看起来有点“大动干戈”。<br>所幸的是UITextField本身提供了相应的事件监听：</p>
+<pre><code>[textField <span class="string">addTarget:</span>self <span class="string">action:</span><span class="annotation">@selector</span>(<span class="string">textFieldDidChange:</span>) <span class="string">forControlEvents:</span>UIControlEventEditingChanged];
+</code></pre><p>这样就可以更好地限制输入长度：</p>
+<pre><code>- (void)textFieldDidChange:(UITextField <span class="variable">*)</span><span class="keyword">textField</span>
+{
+    <span class="keyword">if</span> (<span class="keyword">textField</span> == self.titleField) {
+        <span class="keyword">if</span> (<span class="keyword">textField</span>.<span class="keyword">text</span>.length &gt; <span class="number">20</span>) {
+            <span class="keyword">textField</span>.<span class="keyword">text</span> = [<span class="keyword">textField</span>.<span class="keyword">text</span> substringToIndex:<span class="number">20</span>];
+        }
+    }
+}
+</code></pre><p>这样两种方法好的原因，可以看一下详细介绍 <a href="http://blog.csdn.net/jasonblog/article/details/23771117" target="_blank" rel="external">http://blog.csdn.net/jasonblog/article/details/23771117</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cihrhz2wx000cyt0jc4ftoxol" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Xcode7:让你只需4步就可以免证书进行真机调试了！</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
