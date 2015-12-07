@@ -3,17 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Xcode7 真机调试 | Jinge&#39;blog</title>
+  <title>根据label正文内容动态计算正文的宽或高 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/tags/Xcode7-真机调试/index.html">
+  <meta name="description" content="在iOS开发中，有很多地方用到了label的高度自适应，即根据label中text的内容、宽度(或高度)、以及字体等条件来动态计算label的高度（或宽度），实现代码如下
+//根据传过来的文字内容，文字大小，和最大尺寸动态计算文字所占用的size
+- (CGSize)labelAutoCalculateRectWith:(NSString*)text FontSize:(CGFloat)fontS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="根据label正文内容动态计算正文的宽或高">
+<meta property="og:url" content="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="在iOS开发中，有很多地方用到了label的高度自适应，即根据label中text的内容、宽度(或高度)、以及字体等条件来动态计算label的高度（或宽度），实现代码如下
+//根据传过来的文字内容，文字大小，和最大尺寸动态计算文字所占用的size
+- (CGSize)labelAutoCalculateRectWith:(NSString*)text FontSize:(CGFloat)fontS">
+<meta property="og:updated_time" content="2015-12-07T05:21:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="根据label正文内容动态计算正文的宽或高">
+<meta name="twitter:description" content="在iOS开发中，有很多地方用到了label的高度自适应，即根据label中text的内容、宽度(或高度)、以及字体等条件来动态计算label的高度（或宽度），实现代码如下
+//根据传过来的文字内容，文字大小，和最大尺寸动态计算文字所占用的size
+- (CGSize)labelAutoCalculateRectWith:(NSString*)text FontSize:(CGFloat)fontS">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +70,80 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" class="archive-article-date">
-  <time datetime="2015-12-03T09:28:25.000Z" itemprop="datePublished">Dec 3</time>
+        <section id="main"><article id="post-根据label正文内容动态计算正文的宽或高" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/07/根据label正文内容动态计算正文的宽或高/" class="article-date">
+  <time datetime="2015-12-07T05:20:47.000Z" itemprop="datePublished">2015-12-07</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
+    <h1 class="article-title" itemprop="name">
+      根据label正文内容动态计算正文的宽或高
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在iOS开发中，有很多地方用到了label的高度自适应，即根据label中text的内容、宽度(或高度)、以及字体等条件来动态计算label的高度（或宽度），实现代码如下</p>
+<pre><code><span class="comment">//根据传过来的文字内容，文字大小，和最大尺寸动态计算文字所占用的size</span>
+- (<span class="built_in">CGSize</span>)labelAutoCalculateRectWith:(<span class="built_in">NSString</span>*)text FontSize:(<span class="built_in">CGFloat</span>)fontSize MaxSize:(<span class="built_in">CGSize</span>)maxSize
+{
+    <span class="built_in">NSMutableParagraphStyle</span>* paragraphStyle = [[<span class="built_in">NSMutableParagraphStyle</span> alloc]init];
+   paragraphStyle<span class="variable">.lineBreakMode</span>=<span class="built_in">NSLineBreakByWordWrapping</span>;
+    <span class="built_in">NSDictionary</span>* attributes =@{<span class="built_in">NSFontAttributeName</span>:[<span class="built_in">UIFont</span> systemFontOfSize:fontSize],<span class="built_in">NSParagraphStyleAttributeName</span>:paragraphStyle<span class="variable">.copy</span>};
+    <span class="built_in">CGSize</span> labelSize;
+
+      <span class="comment">//如果是IOS6.0</span>
+    <span class="keyword">if</span> (![text respondsToSelector:<span class="keyword">@selector</span>(boundingRectWithSize:options:attributes:context:)]){
+        labelSize = [text sizeWithFont:[<span class="built_in">UIFont</span> systemFontOfSize:fontSize] constrainedToSize:maxSize lineBreakMode:<span class="built_in">NSLineBreakByWordWrapping</span>];
+    }
+    <span class="comment">//如果系统为iOS7.0</span>
+   　<span class="keyword">else</span>
+　　{
+　　        <span class="comment">// iOS7中用以下方法替代过时的iOS6中的sizeWithFont:constrainedToSize:lineBreakMode:方法</span>
+        labelSize = [text boundingRectWithSize: maxSize
+                                       options: <span class="built_in">NSStringDrawingUsesLineFragmentOrigin</span>|<span class="built_in">NSStringDrawingUsesFontLeading</span>|<span class="built_in">NSStringDrawingTruncatesLastVisibleLine</span>
+                                    attributes:attributes
+                                       context:<span class="literal">nil</span>]<span class="variable">.size</span>;
+    }
+    labelSize<span class="variable">.height</span>=ceil(labelSize<span class="variable">.height</span>);    
+    labelSize<span class="variable">.width</span>=ceil(labelSize<span class="variable">.width</span>);
+    <span class="keyword">return</span> labelSize;
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/" data-id="cihviglav0006gu0jqayx7pde" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
