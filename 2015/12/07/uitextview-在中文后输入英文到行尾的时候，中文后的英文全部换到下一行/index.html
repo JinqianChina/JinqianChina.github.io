@@ -3,17 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: iOS真机调试 | Jinge&#39;blog</title>
+  <title>uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/tags/iOS真机调试/index.html">
+  <meta name="description" content="uitextview在中文后输入英文到行尾的时候，中文后的英文全部换到下一行，如下图所示：
+
+会出现自动换行的问题，当然我们正常输入的时候是不希望看到这种情况的，所以，要去掉这种情况，我们只需在textView的代理方法- (void)textViewDidChange:(UITextView *)textView;中实现如下代码即可
+- (void)textViewDidChange:(UITe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行">
+<meta property="og:url" content="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="uitextview在中文后输入英文到行尾的时候，中文后的英文全部换到下一行，如下图所示：
+
+会出现自动换行的问题，当然我们正常输入的时候是不希望看到这种情况的，所以，要去掉这种情况，我们只需在textView的代理方法- (void)textViewDidChange:(UITextView *)textView;中实现如下代码即可
+- (void)textViewDidChange:(UITe">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/textView排版-1.jpg">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/textView排版-2.png">
+<meta property="og:updated_time" content="2015-12-07T04:58:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行">
+<meta name="twitter:description" content="uitextview在中文后输入英文到行尾的时候，中文后的英文全部换到下一行，如下图所示：
+
+会出现自动换行的问题，当然我们正常输入的时候是不希望看到这种情况的，所以，要去掉这种情况，我们只需在textView的代理方法- (void)textViewDidChange:(UITextView *)textView;中实现如下代码即可
+- (void)textViewDidChange:(UITe">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +75,69 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="archive-article-date">
-  <time datetime="2015-11-30T10:38:26.000Z" itemprop="datePublished">Nov 30</time>
+        <section id="main"><article id="post-uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" class="article-date">
+  <time datetime="2015-12-07T04:56:59.000Z" itemprop="datePublished">2015-12-07</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
+    <h1 class="article-title" itemprop="name">
+      uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>uitextview在中文后输入英文到行尾的时候，中文后的英文全部换到下一行，如下图所示：</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/textView排版-1.jpg" alt="Mou icon"></p>
+<p>会出现自动换行的问题，当然我们正常输入的时候是不希望看到这种情况的，所以，要去掉这种情况，我们只需在textView的代理方法- (void)textViewDidChange:(UITextView *)textView;中实现如下代码即可</p>
+<pre><code>- (<span class="keyword">void</span>)textViewDidChange:(<span class="built_in">UITextView</span> *)textView {
+        <span class="comment">//防止输入时在中文后输入英文过长直接中文和英文换行</span>
+        <span class="built_in">NSMutableParagraphStyle</span> *paragraphStyle = [[<span class="built_in">NSMutableParagraphStyle</span> alloc] init];
+        paragraphStyle<span class="variable">.lineBreakMode</span> = <span class="built_in">NSLineBreakByCharWrapping</span>;
+        <span class="built_in">NSDictionary</span> *attributes = @{    
+                                     <span class="built_in">NSFontAttributeName</span>:[<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">14</span>],
+                                     <span class="built_in">NSParagraphStyleAttributeName</span>:paragraphStyle
+                                     };
+        textView<span class="variable">.attributedText</span> = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:textView<span class="variable">.text</span> attributes:attributes];
+}
+</code></pre><p>这样处理后就会看到效果如下图所示：</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/textView排版-2.png" alt="Mou icon"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cihvhm7du000id40jxfopmeiu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">如何更好的限制一个UITextField/UITextView的输入字数</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
