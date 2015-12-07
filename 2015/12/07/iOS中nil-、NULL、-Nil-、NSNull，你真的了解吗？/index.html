@@ -3,17 +3,39 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: textField textView 限制字数 | Jinge&#39;blog</title>
+  <title>iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？ | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/tags/textField-textView-限制字数/index.html">
+  <meta name="description" content="今天突然间对nil和NULL产生了疑问，就在网上查了一下相关的问题，看完之后终于有了清晰的认识，跟我一样有疑问的童鞋们可以看看。
+
+nil，定义一个空的实例，指向OC中对象的空指针。
+示例代码：
+NSString *someString = nil;
+NSURL *someURL = nil;
+id someObject = nil;
+if (anotherObject == nil) // do">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？">
+<meta property="og:url" content="http://yoursite.com/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="今天突然间对nil和NULL产生了疑问，就在网上查了一下相关的问题，看完之后终于有了清晰的认识，跟我一样有疑问的童鞋们可以看看。
+
+nil，定义一个空的实例，指向OC中对象的空指针。
+示例代码：
+NSString *someString = nil;
+NSURL *someURL = nil;
+id someObject = nil;
+if (anotherObject == nil) // do">
+<meta property="og:updated_time" content="2015-12-07T05:47:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？">
+<meta name="twitter:description" content="今天突然间对nil和NULL产生了疑问，就在网上查了一下相关的问题，看完之后终于有了清晰的认识，跟我一样有疑问的童鞋们可以看看。
+
+nil，定义一个空的实例，指向OC中对象的空指针。
+示例代码：
+NSString *someString = nil;
+NSURL *someURL = nil;
+id someObject = nil;
+if (anotherObject == nil) // do">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +85,99 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" class="archive-article-date">
-  <time datetime="2015-12-04T09:56:02.000Z" itemprop="datePublished">Dec 4</time>
+        <section id="main"><article id="post-iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" class="article-date">
+  <time datetime="2015-12-07T05:45:45.000Z" itemprop="datePublished">2015-12-07</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/">如何更好的限制一个UITextField/UITextView的输入字数</a>
+    <h1 class="article-title" itemprop="name">
+      iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天突然间对nil和NULL产生了疑问，就在网上查了一下相关的问题，看完之后终于有了清晰的认识，跟我一样有疑问的童鞋们可以看看。</p>
+<ol>
+<li><p>nil，定义一个空的实例，指向OC中对象的空指针。</p>
+<pre><code>示例代码：
+<span class="built_in">NSString</span> *someString = <span class="literal">nil</span>;
+<span class="built_in">NSURL</span> *someURL = <span class="literal">nil</span>;
+<span class="keyword">id</span> someObject = <span class="literal">nil</span>;
+<span class="keyword">if</span> (anotherObject == <span class="literal">nil</span>) <span class="comment">// do something</span>
+
+用法讲解：
+　当对某个对象release 的同时最好把他们赋值为<span class="literal">nil</span>，这样可以确保安全性，如果不赋值<span class="literal">nil</span>，可能导致程序
+ 崩溃.
+　　    <span class="built_in">NSArray</span> * array = [<span class="built_in">NSArray</span> arrayWithObjects:<span class="string">@"test"</span>,<span class="string">@"test1"</span> ,<span class="literal">nil</span>];
+　　    [array release];
+　　    
+　　    <span class="keyword">if</span> (array)
+　　    {
+　　　　　　<span class="comment">//仅仅对数组release，并没有赋值为nil，在程序某个地方如果继续对数组操作，程序直接崩溃</span>
+　　        <span class="built_in">NSString</span> * string = [array objectAtIndex:<span class="number">0</span>];
+　　        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,string);
+　　    }
+</code></pre></li>
+<li><p>NULL，NULL可以用在C语言的各种指针上。</p>
+<pre><code><span class="preprocessor">#define __DARWIN_NULL </span>
+<span class="preprocessor">#define__DARWIN_NULLConstants</span>
+示例代码：
+<span class="keyword">int</span> *pointerToInt = <span class="literal">NULL</span>;　　　　
+<span class="keyword">char</span> *pointerToChar = <span class="literal">NULL</span>;　　
+<span class="keyword">struct</span> TreeNode *rootNode = <span class="literal">NULL</span>;
+
+用法讲解：
+  在Objective-C里，<span class="literal">nil</span>对象被设计来跟<span class="literal">NULL</span>空指针关联的。他们的区别就是<span class="literal">nil</span>是一个对象，而<span class="literal">NULL</span>只是一个
+  值。而且我们对于<span class="literal">nil</span>调用方法，不会产生crash或者抛出异常。
+</code></pre></li>
+<li><p>Nil，定义一个空的类</p>
+<pre><code>示例代码：　　
+<span class="keyword">Class</span> someClass = <span class="keyword">Nil</span>;　
+<span class="keyword">Class</span> anotherClass = [NSString <span class="keyword">class</span>];
+</code></pre></li>
+<li><p>NSNull，NSNull是一个类，它定义了一个单例对象用于表示集合对象的空值</p>
+<pre><code>集合对象无法包含<span class="literal">nil</span>作为其具体值，如<span class="built_in">NSArray</span>、<span class="built_in">NSSet</span>和<span class="built_in">NSDictionary</span>。相应地，<span class="literal">nil</span>值用一个特定的对象
+<span class="built_in">NSNull</span>来表示。<span class="built_in">NSNull</span>提供了一个单一实例用于表示对象属性中的的<span class="literal">nil</span>值。默认的实现方法中，
+dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将        <span class="built_in">NSNull</span>和<span class="literal">nil</span>相互转换，因此您的对象不需要进行<span class="built_in">NSNull</span>的测试操作。
+</code></pre></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cihvjd9gl000ui80jpcb7xleq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/07/根据label正文内容动态计算正文的宽或高/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">根据label正文内容动态计算正文的宽或高</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">

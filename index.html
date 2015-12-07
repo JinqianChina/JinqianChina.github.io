@@ -65,6 +65,89 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" class="article-date">
+  <time datetime="2015-12-07T05:45:45.000Z" itemprop="datePublished">2015-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天突然间对nil和NULL产生了疑问，就在网上查了一下相关的问题，看完之后终于有了清晰的认识，跟我一样有疑问的童鞋们可以看看。</p>
+<ol>
+<li><p>nil，定义一个空的实例，指向OC中对象的空指针。</p>
+<pre><code>示例代码：
+<span class="built_in">NSString</span> *someString = <span class="literal">nil</span>;
+<span class="built_in">NSURL</span> *someURL = <span class="literal">nil</span>;
+<span class="keyword">id</span> someObject = <span class="literal">nil</span>;
+<span class="keyword">if</span> (anotherObject == <span class="literal">nil</span>) <span class="comment">// do something</span>
+
+用法讲解：
+　当对某个对象release 的同时最好把他们赋值为<span class="literal">nil</span>，这样可以确保安全性，如果不赋值<span class="literal">nil</span>，可能导致程序
+ 崩溃.
+　　    <span class="built_in">NSArray</span> * array = [<span class="built_in">NSArray</span> arrayWithObjects:<span class="string">@"test"</span>,<span class="string">@"test1"</span> ,<span class="literal">nil</span>];
+　　    [array release];
+　　    
+　　    <span class="keyword">if</span> (array)
+　　    {
+　　　　　　<span class="comment">//仅仅对数组release，并没有赋值为nil，在程序某个地方如果继续对数组操作，程序直接崩溃</span>
+　　        <span class="built_in">NSString</span> * string = [array objectAtIndex:<span class="number">0</span>];
+　　        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,string);
+　　    }
+</code></pre></li>
+<li><p>NULL，NULL可以用在C语言的各种指针上。</p>
+<pre><code><span class="preprocessor">#define __DARWIN_NULL </span>
+<span class="preprocessor">#define__DARWIN_NULLConstants</span>
+示例代码：
+<span class="keyword">int</span> *pointerToInt = <span class="literal">NULL</span>;　　　　
+<span class="keyword">char</span> *pointerToChar = <span class="literal">NULL</span>;　　
+<span class="keyword">struct</span> TreeNode *rootNode = <span class="literal">NULL</span>;
+
+用法讲解：
+  在Objective-C里，<span class="literal">nil</span>对象被设计来跟<span class="literal">NULL</span>空指针关联的。他们的区别就是<span class="literal">nil</span>是一个对象，而<span class="literal">NULL</span>只是一个
+  值。而且我们对于<span class="literal">nil</span>调用方法，不会产生crash或者抛出异常。
+</code></pre></li>
+<li><p>Nil，定义一个空的类</p>
+<pre><code>示例代码：　　
+<span class="keyword">Class</span> someClass = <span class="keyword">Nil</span>;　
+<span class="keyword">Class</span> anotherClass = [NSString <span class="keyword">class</span>];
+</code></pre></li>
+<li><p>NSNull，NSNull是一个类，它定义了一个单例对象用于表示集合对象的空值</p>
+<pre><code>集合对象无法包含<span class="literal">nil</span>作为其具体值，如<span class="built_in">NSArray</span>、<span class="built_in">NSSet</span>和<span class="built_in">NSDictionary</span>。相应地，<span class="literal">nil</span>值用一个特定的对象
+<span class="built_in">NSNull</span>来表示。<span class="built_in">NSNull</span>提供了一个单一实例用于表示对象属性中的的<span class="literal">nil</span>值。默认的实现方法中，
+dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将        <span class="built_in">NSNull</span>和<span class="literal">nil</span>相互转换，因此您的对象不需要进行<span class="built_in">NSNull</span>的测试操作。
+</code></pre></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cihvjd9gl000ui80jpcb7xleq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-根据label正文内容动态计算正文的宽或高" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/12/07/根据label正文内容动态计算正文的宽或高/" class="article-date">
@@ -117,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/" data-id="cihviglav0006gu0jqayx7pde" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/" data-id="cihvjd9ft0006i80jtniiaob8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
@@ -170,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cihviglbl000lgu0jddkcixik" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cihvjd9g6000li80jbouhusn3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
@@ -232,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cihviglb9000fgu0j6yc0nk3p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cihvjd9g0000fi80jcza6wwpb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
@@ -278,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cihviglcb000ugu0jgu5is7gw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cihvjd9go000xi80jml7rfz3j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
@@ -362,7 +445,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/" data-id="cihvigla60003gu0j0ti4akaa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/" data-id="cihvjd9fn0003i80j7jjzojvt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
@@ -411,7 +494,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cihviglb10009gu0jepjqasi5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cihvjd9fv0009i80jpdwjb5wd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
@@ -480,7 +563,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cihvigl9o0000gu0jykdy4hqh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cihvjd9ew0000i80j6g4ob7xe" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a></li></ul>
@@ -526,7 +609,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/20/vim-编辑器常用命令/" data-id="cihviglbe000igu0jn3vw4ord" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/20/vim-编辑器常用命令/" data-id="cihvjd9g2000ii80jhcgyqxx9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
@@ -679,67 +762,10 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/18/shell常用命令-脚本编写/" data-id="cihviglbu000ogu0j33wxw631" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/04/18/shell常用命令-脚本编写/" data-id="cihvjd9gb000oi80jv2esb0pi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-mac下如何安装iterm2并使用zsh" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/12/21/mac下如何安装iterm2并使用zsh/" class="article-date">
-  <time datetime="2014-12-21T03:51:59.000Z" itemprop="datePublished">2014-12-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、安装iTerm2</p>
-<pre><code><span class="number">1.</span> 下载iTer<span class="title">m2</span>，建议去官网下载，网址：http:<span class="comment">//www.iterm2.com/，也可以在下面分享云盘里取压缩包</span>
-<span class="number">2.</span> 把iTer<span class="title">m2</span>移动到应用程序文件夹中
-<span class="number">3.</span> 双击iTer<span class="title">m2</span>来启动iter<span class="title">m2</span>,并在dock中保留
-</code></pre><p>二、安装zsh</p>
-<pre><code><span class="number">1</span>. 下载oh-<span class="keyword">my</span>-zsh，这里分享一个云盘文件，里面有iterm2、oh-<span class="keyword">my</span>-zsh以及下面所需要的dotfiles
-   链接: http:<span class="regexp">//pan</span>.baidu.com/<span class="regexp">s/1eQyj02Y 密码: 5tca
-2. 移动oh-my-zsh到根目录下  
-   mv oh-my-zsh ~/.oh-my-zsh
-3. 下载dotfiles，可以执行下面命令下载，也可以直接在上面分享云盘里取 
-   git clone http:/</span><span class="regexp">/github.com/dorayo</span><span class="regexp">/dotfiles.git
-4. 移动dotfiles到根目录下 
-   mv dotfiles ~/dotfiles</span>
-<span class="number">5</span>. 切到dotfiles文件夹下 
-   cd ~<span class="regexp">/dotfiles
-6. 执行install.sh  
-   ./install</span>.sh
-<span class="number">7</span>. chsh -<span class="keyword">s</span> /bin/zsh
-<span class="number">8</span>. 关闭并重新打开iTerm2就OK了
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="cihviglc1000rgu0jykidlsjj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/">zsh</a></li></ul>
 
     </footer>
   </div>
@@ -763,7 +789,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -772,7 +798,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
+      <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
     </div>
   </div>
 
@@ -781,7 +807,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -791,6 +817,10 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
+          </li>
         
           <li>
             <a href="/2015/12/07/根据label正文内容动态计算正文的宽或高/">根据label正文内容动态计算正文的宽或高</a>
@@ -806,10 +836,6 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
         
           <li>
             <a href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
           </li>
         
       </ul>
