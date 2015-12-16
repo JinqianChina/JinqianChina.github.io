@@ -3,17 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: hexo | Jinge&#39;blog</title>
+  <title>Undefined symbols for architectur referenced from问题解决 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/tags/hexo/index.html">
+  <meta name="description" content="多个人共同操作同一个项目或拷贝项目时，经常会出现类似这样的问题：Undefined symbols for architecture x86_64:“_OBJCCLASS$_xxx文件名”, referenced from:今天我就遇到了这个问题，当我从svn上update服务器上的改动后再commit本地的修改，出现了冲突，打不开工程，当我删除冲突后打开工程，就出现上述错误（是误删出了错）。删除">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Undefined symbols for architectur referenced from问题解决">
+<meta property="og:url" content="http://yoursite.com/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="多个人共同操作同一个项目或拷贝项目时，经常会出现类似这样的问题：Undefined symbols for architecture x86_64:“_OBJCCLASS$_xxx文件名”, referenced from:今天我就遇到了这个问题，当我从svn上update服务器上的改动后再commit本地的修改，出现了冲突，打不开工程，当我删除冲突后打开工程，就出现上述错误（是误删出了错）。删除">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/svn报错svn冲突误删报错.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/svn报错5.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/svn报错2.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/svn报错3.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/svn报错4.png">
+<meta property="og:updated_time" content="2015-12-16T05:53:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Undefined symbols for architectur referenced from问题解决">
+<meta name="twitter:description" content="多个人共同操作同一个项目或拷贝项目时，经常会出现类似这样的问题：Undefined symbols for architecture x86_64:“_OBJCCLASS$_xxx文件名”, referenced from:今天我就遇到了这个问题，当我从svn上update服务器上的改动后再commit本地的修改，出现了冲突，打不开工程，当我删除冲突后打开工程，就出现上述错误（是误删出了错）。删除">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +69,66 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/11/27/成功搭建hexo本地博客并部署到github上/" class="archive-article-date">
-  <time datetime="2014-11-27T08:19:20.000Z" itemprop="datePublished">Nov 27</time>
+        <section id="main"><article id="post-Undefined-symbols-for-architectur-referenced-from问题解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/" class="article-date">
+  <time datetime="2015-12-16T05:52:22.000Z" itemprop="datePublished">2015-12-16</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/11/27/成功搭建hexo本地博客并部署到github上/">成功搭建hexo本地博客并部署到github上</a>
+    <h1 class="article-title" itemprop="name">
+      Undefined symbols for architectur referenced from问题解决
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>多个人共同操作同一个项目或拷贝项目时，经常会出现类似这样的问题：<br>Undefined symbols for architecture x86_64:<br>“_OBJC<em>CLASS</em>$_xxx文件名”, referenced from:<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错svn冲突误删报错.png" alt="Mou icon"><br>今天我就遇到了这个问题，当我从svn上update服务器上的改动后再commit本地的修改，出现了冲突，打不开工程，当我删除冲突后打开工程，就出现上述错误（是误删出了错）。删除冲突操作如下图：<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错5.png" alt="Mou icon"></p>
+<p>下面给我的解决办法，在报错这里我们可以看到，是因为缺少了两个XXX.o文件</p>
+<ol>
+<li><p>先打开svn，找到工程的配置文件，选中project.pbxproj，然后revert，这里是把你之前解决冲突时删除的操作恢复了。如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错2.png" alt="Mou icon"></p>
+</li>
+<li><p>这里你之前添加到工程里的文件会被恢复，文件还在（因为之前你已经commit了），只是没有添加到工程中，这时打开之前文件添加的位置，点击add files，如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错3.png" alt="Mou icon"></p>
+</li>
+<li><p>会出现一个窗口，在这个窗口中，灰色不能点击的文件均为已经添加到工程里的文件，这时你会看到你之前添加的文件，它们是正常文件颜色，可以点击，选中它们添加到工程即可，如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错4.png" alt="Mou icon"></p>
+</li>
+<li><p>最后，运行项目即可</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cii8ekcoz0010480jipbq7oxu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
