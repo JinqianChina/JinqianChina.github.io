@@ -1,98 +1,374 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <title>vim 编辑器常用命令 | Jinge&#39;blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="vim 编辑器常用命令说明启动or退出vim123在终端输入 vimtutor+回车 进入vim 帮助文档 vimtutor :q! : 不保存当前文档就退出:wq! :  保存当前正在编辑的文档然后退出
-移动光标命令123456h ⬅️ 向左移动一个字符j ⬇️ 向下移动一行k ⬆️ 向上移动一行l → 右移动一个字符$ 光标移动打牌行尾 ^ 光标移动打牌行首   注: 0 也可以返回到行首
-插">
-<meta property="og:type" content="article">
-<meta property="og:title" content="vim 编辑器常用命令">
-<meta property="og:url" content="http://yoursite.com/2015/04/20/vim-编辑器常用命令/index.html">
-<meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="vim 编辑器常用命令说明启动or退出vim123在终端输入 vimtutor+回车 进入vim 帮助文档 vimtutor :q! : 不保存当前文档就退出:wq! :  保存当前正在编辑的文档然后退出
-移动光标命令123456h ⬅️ 向左移动一个字符j ⬇️ 向下移动一行k ⬆️ 向上移动一行l → 右移动一个字符$ 光标移动打牌行尾 ^ 光标移动打牌行首   注: 0 也可以返回到行首
-插">
-<meta property="og:updated_time" content="2015-11-30T01:20:16.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vim 编辑器常用命令">
-<meta name="twitter:description" content="vim 编辑器常用命令说明启动or退出vim123在终端输入 vimtutor+回车 进入vim 帮助文档 vimtutor :q! : 不保存当前文档就退出:wq! :  保存当前正在编辑的文档然后退出
-移动光标命令123456h ⬅️ 向左移动一个字符j ⬇️ 向下移动一行k ⬆️ 向上移动一行l → 右移动一个字符$ 光标移动打牌行尾 ^ 光标移动打牌行首   注: 0 也可以返回到行首
-插">
-  
-    <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
+  <meta name="description" content="iOS探索之路" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/component.css" />
+  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+  <meta name="generator" content="Jinge'blog">
+  <script src="http://static.duoshuo.com/embed.js"></script>
   
   
-    <link rel="icon" href="/favicon.png">
   
-  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
   
 
 </head>
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Jinge&#39;blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">iOS探索之路</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-vim-编辑器常用命令" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/04/20/vim-编辑器常用命令/" class="article-date">
-  <time datetime="2015-04-20T02:00:12.000Z" itemprop="datePublished">2015-04-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      vim 编辑器常用命令
-    </h1>
+<div class="container">
+    <div class="mp-pusher" id="mp-pusher">
+        <i id="scroll-up" class="fa fa-angle-up"></i>
+        <nav id="mp-menu" class="mp-menu">
+            <div class="mp-level">
+                <a data-pjax class="back-home" style="font-size: 20px" href="/"><h2 ><i class="fa fa-home"></i>
+                        Home</h2></a>
+                <ul class="first-level">
+                    <li>
+                        <a class="fa fa-archive" href="#"><i class="fa fa-angle-left">
+                            </i>&nbsp;&nbsp;Archive</a>
+                        <div class="mp-level page-list">
+                            <h2 ><i class="fa fa-archive"></i>
+                                Archive</h2>
+                            <a class="mp-back" href="#">back</a>
+                            <form id="search-form" action="">
+                                <input type="text" class="search search-archive" placeholder="Search.."/>
+                            </form>
+                            <ul>
+                                <div class="mp-scroll">
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/">Undefined symbols for architectur referenced from问题解决</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/07/根据label正文内容动态计算正文的宽或高/">根据label正文内容动态计算正文的宽或高</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/">uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/">如何更好的限制一个UITextField/UITextView的输入字数</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/">JSONKit 在iOS9 arm7 64位下出现的问题</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/04/20/vim-编辑器常用命令/">vim 编辑器常用命令</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2015/04/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
+                                </li>
+                                
+                                <li class="search-archive-li mp-pjax">
+                                    <a href="/2014/11/27/成功搭建hexo本地博客并部署到github上/">成功搭建hexo本地博客并部署到github上</a>
+                                </li>
+                                
+                                </div>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="fa fa-copy" href="#"><i class="fa fa-angle-left">
+                            </i>&nbsp;&nbsp;Categories</a>
+
+                        <div class="mp-level page-list">
+                            <h2 ><i class="fa fa-copy"></i>
+                                Categories</h2>
+                            <a class="mp-back" href="#">back</a>
+                            <form id="search-form" action="">
+                                <input type="text" class="search search-category" placeholder="Search.."/>
+                            </form>
+                            <ul>
+                                <div class="mp-scroll">
+                                
+                                </div>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="fa fa-tags" href="#"><i class="fa fa-angle-left">
+                            </i>&nbsp;&nbsp;Tags</a>
+                        <div class="mp-level page-list">
+                            <h2 ><i class="fa fa-tags"></i>
+                                Tags</h2>
+                            <a class="mp-back" href="#">back</a>
+                            <form id="search-form" action="">
+                                <input type="text" class="search search-tag" placeholder="Search.."/>
+                            </form>
+                            <ul>
+                                <div class="mp-scroll">
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/JSONKit-iOS9-arm7/">&nbsp;&nbsp;&nbsp;JSONKit iOS9 arm7</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/UICollectionview-header-footerView/">&nbsp;&nbsp;&nbsp;UICollectionview header/footerView</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/UITextField-UITextView-过滤-Emoji表情/">&nbsp;&nbsp;&nbsp;UITextField UITextView 过滤 Emoji表情</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/Xcode7-真机调试/">&nbsp;&nbsp;&nbsp;Xcode7 真机调试</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/cocoapods/">&nbsp;&nbsp;&nbsp;cocoapods</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/hexo/">&nbsp;&nbsp;&nbsp;hexo</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/iOS-nil-NULL-Nil-NSNull/">&nbsp;&nbsp;&nbsp;iOS nil NULL Nil NSNull</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/iOS6-横屏-旋转/">&nbsp;&nbsp;&nbsp;iOS6 横屏 旋转</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/iOS8-横屏-状态栏/">&nbsp;&nbsp;&nbsp;iOS8 横屏 状态栏</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/iOS真机调试/">&nbsp;&nbsp;&nbsp;iOS真机调试</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/label-动态计算宽高/">&nbsp;&nbsp;&nbsp;label 动态计算宽高</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/shell/">&nbsp;&nbsp;&nbsp;shell</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/svn-合作开发-冲突/">&nbsp;&nbsp;&nbsp;svn 合作开发 冲突</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/textField-textView-限制字数/">&nbsp;&nbsp;&nbsp;textField textView 限制字数</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/textView-自动换行/">&nbsp;&nbsp;&nbsp;textView 自动换行</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/vim/">&nbsp;&nbsp;&nbsp;vim</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                <li class="search-tag-li mp-pjax">
+                                    <a href="/tags/zsh/">&nbsp;&nbsp;&nbsp;zsh</a>
+                                    <small>1</small>
+                                </li>
+                                
+                                </div>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="mp-pjax"><a class="fa fa-user" href="/about">&nbsp;&nbsp;&nbsp;About me</a></li>
+                    <li><a class="fa fa-github" href="#">&nbsp;&nbsp;&nbsp;Github</a></li>
+
+                </ul>
+
+            </div>
+        </nav>
+        <div id="pjax">
+            <div class="pjax-hidden" style="display: none">
+                
+                    <a  data-pjax href="/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
+                
+                    <a  data-pjax href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
+                
+                    <a  data-pjax href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
+                
+                    <a  data-pjax href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
+                
+                    <a  data-pjax href="/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/">Undefined symbols for architectur referenced from问题解决</a>
+                
+                    <a  data-pjax href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
+                
+                    <a  data-pjax href="/2015/12/07/根据label正文内容动态计算正文的宽或高/">根据label正文内容动态计算正文的宽或高</a>
+                
+                    <a  data-pjax href="/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/">uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行</a>
+                
+                    <a  data-pjax href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/">如何更好的限制一个UITextField/UITextView的输入字数</a>
+                
+                    <a  data-pjax href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
+                
+                    <a  data-pjax href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
+                
+                    <a  data-pjax href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
+                
+                    <a  data-pjax href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/">JSONKit 在iOS9 arm7 64位下出现的问题</a>
+                
+                    <a  data-pjax href="/2015/04/20/vim-编辑器常用命令/">vim 编辑器常用命令</a>
+                
+                    <a  data-pjax href="/2015/04/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
+                
+                    <a  data-pjax href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
+                
+                    <a  data-pjax href="/2014/11/27/成功搭建hexo本地博客并部署到github上/">成功搭建hexo本地博客并部署到github上</a>
+                
+                
+                
+                    <a data-pjax href="/tags/JSONKit-iOS9-arm7/">&nbsp;&nbsp;JSONKit iOS9 arm7</a>
+                
+                    <a data-pjax href="/tags/UICollectionview-header-footerView/">&nbsp;&nbsp;UICollectionview header/footerView</a>
+                
+                    <a data-pjax href="/tags/UITextField-UITextView-过滤-Emoji表情/">&nbsp;&nbsp;UITextField UITextView 过滤 Emoji表情</a>
+                
+                    <a data-pjax href="/tags/Xcode7-真机调试/">&nbsp;&nbsp;Xcode7 真机调试</a>
+                
+                    <a data-pjax href="/tags/cocoapods/">&nbsp;&nbsp;cocoapods</a>
+                
+                    <a data-pjax href="/tags/hexo/">&nbsp;&nbsp;hexo</a>
+                
+                    <a data-pjax href="/tags/iOS-nil-NULL-Nil-NSNull/">&nbsp;&nbsp;iOS nil NULL Nil NSNull</a>
+                
+                    <a data-pjax href="/tags/iOS6-横屏-旋转/">&nbsp;&nbsp;iOS6 横屏 旋转</a>
+                
+                    <a data-pjax href="/tags/iOS8-横屏-状态栏/">&nbsp;&nbsp;iOS8 横屏 状态栏</a>
+                
+                    <a data-pjax href="/tags/iOS真机调试/">&nbsp;&nbsp;iOS真机调试</a>
+                
+                    <a data-pjax href="/tags/label-动态计算宽高/">&nbsp;&nbsp;label 动态计算宽高</a>
+                
+                    <a data-pjax href="/tags/shell/">&nbsp;&nbsp;shell</a>
+                
+                    <a data-pjax href="/tags/svn-合作开发-冲突/">&nbsp;&nbsp;svn 合作开发 冲突</a>
+                
+                    <a data-pjax href="/tags/textField-textView-限制字数/">&nbsp;&nbsp;textField textView 限制字数</a>
+                
+                    <a data-pjax href="/tags/textView-自动换行/">&nbsp;&nbsp;textView 自动换行</a>
+                
+                    <a data-pjax href="/tags/vim/">&nbsp;&nbsp;vim</a>
+                
+                    <a data-pjax href="/tags/zsh/">&nbsp;&nbsp;zsh</a>
+                
+                <a data-pjax class="fa fa-user" href="/about">&nbsp;&nbsp;&nbsp;About me</a>
+            </div>
+            <nav class="nexus">
+                <li  style="border-left: 1px solid #c6d0da;">
+                    <a id="trigger" href="#"><i class="fa fa-bars"></i></a>
+                </li>
+                <li ><a id="nexus-back" data-pjax href="/">Jinge&#39;blog</a></li>
+                
+                <div id="nav-container">
+                    <div class="post-navbar" style="line-height: 63px;display:none">
+                        <li id="navbar-title"><a href="#">vim 编辑器常用命令</a></li>
+                        <li id="navbar-toc" style="border-left: none">
+                            <a style="padding-right: 15px">
+                                <span id="toc-content" >Introduction</span><i class="fa fa-chevron-down" ></i>
+                            </a>
+                            <div class="hidden-box">
+                                <ul id="toc"></ul>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                
+            </nav>
+
+            <div class="scroller">
+            <div class="scroller-inner">
+
+
+<!-- -->
+<!--<body class="post-template">-->
+<!---->
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="vim_编辑器常用命令说明">vim 编辑器常用命令说明</h1><h3 id="启动or退出vim">启动or退出vim</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在终端输入 vimtutor+回车 进入vim 帮助文档 vimtutor </span><br><span class="line"><span class="attribute">:q! :</span> 不保存当前文档就退出</span><br><span class="line"><span class="attribute">:wq! :</span>  保存当前正在编辑的文档然后退出</span><br></pre></td></tr></table></figure>
+<main class="content" role="main">
+    <article class="post" >
+    <span class="post-meta">
+                  <div class="tag-tile">
+                      
+                      
+                      <a data-pjax href='/tags/vim/' style='color:#D5D5D5'>vim</a>
+                      
+                      
+                  </div>
+                <h1 class="post-title" style="margin: 14px 0;color:#50585D">vim 编辑器常用命令</h1>
+
+                    <div class="post-meta">
+                        Post on<span class="fa fa-clock-o"></span>
+                        <time datetime="2015-04-20T02:00:12.000Z"
+                              itemprop="datePublished">2015-04-20</time>
+                    </div>
+    </span>
+
+        <section class="post-content">
+            <h1 id="vim_编辑器常用命令说明">vim 编辑器常用命令说明</h1><h3 id="启动or退出vim">启动or退出vim</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在终端输入 vimtutor+回车 进入vim 帮助文档 vimtutor </span><br><span class="line"><span class="attribute">:q! :</span> 不保存当前文档就退出</span><br><span class="line"><span class="attribute">:wq! :</span>  保存当前正在编辑的文档然后退出</span><br></pre></td></tr></table></figure>
 <h3 id="移动光标命令">移动光标命令</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">h</span> ⬅️ 向左移动一个字符</span><br><span class="line">j ⬇️ 向下移动一行</span><br><span class="line">k ⬆️ 向上移动一行</span><br><span class="line">l → 右移动一个字符</span><br><span class="line">$ 光标移动打牌行尾 <span class="regexp"></span><br><span class="line">^</span> 光标移动打牌行首   注: <span class="number">0</span> 也可以返回到行首</span><br></pre></td></tr></table></figure>
 <h3 id="插入模式or普通模式命令">插入模式or普通模式命令</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">i :</span> 从当前光标处进入插入模式</span><br><span class="line"><span class="string">I :</span> 进入插入模式，并置光标于行首</span><br><span class="line"><span class="string">a :</span> 追加模式，置光标于当前光标之后</span><br><span class="line"><span class="string">A :</span> 追加模式，置光标于行末</span><br><span class="line"><span class="string">o :</span> 在当前行之下新加一行，并进入插入模式</span><br><span class="line"><span class="string">O :</span> 在当前行之上新加一行，并进入插入模式</span><br><span class="line"><span class="string">Esc:</span>退出插入模式</span><br></pre></td></tr></table></figure>
 <h3 id="复制删除类命令">复制删除类命令</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">x :</span> 删除光标当前的字符	</span><br><span class="line"><span class="string">d$:</span> 删除光标处到改行末尾的内容</span><br><span class="line"><span class="string">dw:</span> 删除一个字</span><br><span class="line"><span class="string">dd:</span> 删除本行内容</span><br><span class="line"><span class="string">ndd:</span>删除从光标处所在行往下n行的内容</span><br><span class="line"><span class="string">cc:</span> 删除当前行并进入编辑模式</span><br><span class="line"><span class="string">p :</span> 在按dd后删除的内容暂时存在缓冲取中,p 可以将这些内容粘贴到光标所在处下面</span><br><span class="line"><span class="string">P :</span> 在按dd后删除的内容暂时存在缓冲取中,p 可以将这些内容粘贴到光标所在处上面</span><br><span class="line"><span class="string">yy:</span> 复制光标所在行</span><br><span class="line"><span class="string">nyy:</span>复制从光标处所在行往下n行的内容</span><br></pre></td></tr></table></figure>
@@ -101,135 +377,71 @@
 <h3 id="保存文件类命令">保存文件类命令</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">:w  :</span>  保存正在编辑的问价</span><br><span class="line"><span class="attribute">:#,# w 文件名 :</span> 将#与#行之内的内容写到文件中</span><br><span class="line"><span class="attribute">:r 文件名 :</span> 将文件中得内容追加到正在编辑文件的光标所在行</span><br><span class="line"><span class="attribute">:行号,行号 w! &gt;&gt; 文件名 :将一个正在编辑的文件的几行追加到另一个已经存在的文件中</span></span><br><span class="line">cp 文件名1  文件名2  :将文件1 的内容移动到文件2中 (文件1.2 都存在)</span><br><span class="line">cp 文件名 ..:将文件移动到上级目录(该目录,上级目录都包含该文件) </span><br><span class="line">mv 文件名1 文件名2 : 将文件名1更改为文件名2(文件1不存在,只有文件2)</span><br></pre></td></tr></table></figure>
 <h3 id="其他命令">其他命令</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">% : 匹配当前配对的符号 如: ( ) <span class="attr_selector">[ ]</span> &#123; &#125;	 * *等等</span><br><span class="line">:! : 这样就可以执行外部命令了</span><br><span class="line"><span class="pseudo">:help</span>  : 可以查看帮助文档</span><br><span class="line"><span class="tag">command</span> + <span class="attr_selector">[ ]</span> : 分别切换到左右不同的终端界面</span><br><span class="line"><span class="tag">source</span> 文件 : 终端重新加载该文件</span><br><span class="line"><span class="tag">open</span>   :  打开文件命令</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/20/vim-编辑器常用命令/" data-id="cii9zz5rs000l570jaf48klgw" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
+        </section>
+        <hr/>
+        <nav class="pagination" style="width:auto" role="pagination">
+            
+            <a data-pjax class="newer-posts" href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/">← Prev Post</a>
+            
+            <a class="share-button" data-original-title title>Share this Post</a>
+            
+            <a data-pjax class="older-posts" href="/2015/04/18/shell常用命令-脚本编写/">Next Post →</a>
+            
+        </nav>
+        <br/>
+        <br/>
+        <section id="comment">
+            <div id="comment-box"></div>
+        </section>
 
-    </footer>
-  </div>
+
+    </article>
+</main>
+
+
   
+<footer class="site-footer">
     
-<nav id="article-nav">
-  
-    <a href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          JSONKit 在iOS9 arm7 64位下出现的问题
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/04/18/shell常用命令-脚本编写/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">shell常用命令&amp;脚本编写</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
+    <div class="inner">
+        <section class="copyright"><a href="/"></a> &copy; Jinge'blog 2014</section>
+        <section class="poweredby">Published with <a target="_blank" href="http://hexo.io/">Hexo   </a> and Theme by <a target="_blank" href="https://github.com/yuche/hexo-theme-kael">Kael</a></section>
     </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recents</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/">Undefined symbols for architectur referenced from问题解决</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2015 Jingege<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
 </footer>
+</div>
+</div><!-- /scroller -->
+
+</div><!-- /pusher -->
+</div><!-- /container -->
+</div>
+
+<!-- Easter eggs -->
+
+<div class="egg animated">
+    <a id="close-button" href="#">X</a>
+    <div class="block">
+        <div class="loading">
+            <span class="ball1"></span>
+            <span class="ball2"></span>
+        </div>
     </div>
-    <nav id="mobile-nav">
+</div>
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
-  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+<script src="//cdn.staticfile.org/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.src = "/js/jquery.min.js";
+        document.body.appendChild(script);
+    }
+</script>
+<script type="text/javascript" src="/js/lib.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
 
 
-<script src="/js/script.js" type="text/javascript"></script>
 
-  </div>
+
+
+
+
 </body>
 </html>
