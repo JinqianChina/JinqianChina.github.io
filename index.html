@@ -65,6 +65,173 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS6的单个控制器横竖屏显示以及旋转屏控制技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" class="article-date">
+  <time datetime="2015-12-17T06:00:33.000Z" itemprop="datePublished">2015-12-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、在应用中从竖屏模式强制转换为横屏模式</p>
+<ol>
+<li><p>第一种方法：通过模态弹出视图的方式，使得特定ViewController坚持特定的interfaceOrientation<br>（1）iOS6之后提供了这样一个方法，可以让你的Controller倔强的坚持某个特定的interfaceOrientation:</p>
+<pre><code>- (UIInterfaceOrientation)<span class="function">preferredInterfaceOrientationForPresentation     <span class="title">NS_AVAILABLE_IOS</span><span class="params">(<span class="number">6</span>_0)</span>
+</span>{
+    <span class="keyword">return</span> UIInterfaceOrientationLandscapeRight;<span class="comment">//左下右上显示</span>
+
+    这里有<span class="number">5</span>种供选择，具体什么方向显示，自己可以试一下
+    <span class="comment">//UIInterfaceOrientationUnknown           </span>
+    <span class="comment">//UIInterfaceOrientationPortrait          </span>
+    <span class="comment">//UIInterfaceOrientationPortraitUpsideDown</span>
+    <span class="comment">//UIInterfaceOrientationLandscapeLeft     </span>
+    <span class="comment">//UIInterfaceOrientationLandscapeRight    </span>
+}
+</code></pre><p>（2）当然，使用这个方法是有前提的，就是当前ViewController是通过全屏的Presentation（模态视图）方式展现出来的。而且需要设置下面方法返回值为NO，这样控制器就不会再进行旋转，而是以你设定方向显示。</p>
+<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotate <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">6</span>_0)
+{
+    <span class="keyword">return</span> <span class="literal">NO</span>;
+}
+</code></pre></li>
+<li><p>第二种方法：通过人为的办法改变view.transform的属性。<br>具体办法：</p>
+<p> view.transform一般是View的旋转，拉伸移动等属性，类似view.layer.transform，区别在于View.transform是二维的，也就是使用仿射的办法通常就是带有前缀CGAffineTransform的类（可以到API文档里面搜索这个前缀的所有类），而view.layer.transform可以在3D模式下面的变化，通常使用的都是前缀为CATransform3D的类。</p>
+<p> 这里要记住一点，当你改变过一个view.transform属性或者view.layer.transform的时候需要恢复默认状态的话，记得先把他们重置可以使用view.transform = CGAffineTransformIdentity，或者view.layer.transform = CATransform3DIdentity，假设你一直不断的改变一个view.transform的属性，而每次改变之前没有重置的话，你会发现后来的改变和你想要的发生变化了，不是你真正想要的结果。</p>
+<p> 好了，上面介绍了旋转的属性，接下来就是关键了。官方提供了一个办法就是查看当前电池条的状态UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;通过这个办法，你可以知道当前屏幕的电池条的显示方向，而且你还可以强制设置他的显示方向，通过设置这个属性就OK了，可以选择是否动画改变电池条方向。有了这两个那我们就可以任意的改变我们想要的显示方式了。</p>
+<pre><code>(<span class="number">1</span>)获取当前电池条的方向<span class="built_in">UIInterfaceOrientation</span> orientation = [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.statusBarOrientation</span>
+
+(<span class="number">2</span>)获取当前屏幕的大小<span class="built_in">CGRect</span> frame = [<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.applicationFrame</span>;
+
+(<span class="number">3</span>)设置我们的View的中心点
+
+    <span class="built_in">CGPoint</span> center = <span class="built_in">CGPointMake</span>(frame<span class="variable">.origin</span><span class="variable">.x</span> + ceil(frame<span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>), frame<span class="variable">.origin</span><span class="variable">.y</span> + ceil(frame<span class="variable">.size</span><span class="variable">.height</span>/<span class="number">2</span>));
+
+(<span class="number">4</span>)根据当前电池条的方向，获取需要旋转的角度的大小。通常
+
+- (<span class="built_in">CGAffineTransform</span>)getARotation {
+    <span class="keyword">if</span> (orientation == <span class="built_in">UIInterfaceOrientationLandscapeLeft</span>) {
+            <span class="keyword">return</span> <span class="built_in">CGAffineTransformMakeRotation</span>(M_PI*<span class="number">1.5</span>);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (orientation == <span class="built_in">UIInterfaceOrientationLandscapeRight</span>) {
+            <span class="keyword">return</span> <span class="built_in">CGAffineTransformMakeRotation</span>(M_PI/<span class="number">2</span>);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (orientation == <span class="built_in">UIInterfaceOrientationPortraitUpsideDown</span>) {
+            <span class="keyword">return</span> <span class="built_in">CGAffineTransformMakeRotation</span>(-M_PI);
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="built_in">CGAffineTransformIdentity</span>;
+        }
+}
+
+(<span class="number">5</span>)可以动画的改变我们view的显示方式了
+[[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarOrientation:<span class="built_in">UIDeviceOrientationLandscapeRight</span> animated:<span class="literal">YES</span>];
+
+<span class="built_in">CGFloat</span> duration = [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.statusBarOrientationAnimationDuration</span>;（获取当前电池条动画改变的时间）
+[<span class="built_in">UIView</span> beginAnimations:<span class="literal">nil</span> context:<span class="literal">nil</span>];
+[<span class="built_in">UIView</span> setAnimationDuration:duration];
+
+<span class="comment">//在这里设置view.transform需要匹配的旋转角度的大小就可以了。</span>
+<span class="comment">//把（4）中返回的rotation赋给self.view.transform</span>
+<span class="keyword">self</span><span class="variable">.view</span><span class="variable">.transform</span> = [<span class="keyword">self</span> getARotation];
+
+[<span class="built_in">UIView</span> commitAnimations];
+</code></pre></li>
+</ol>
+<ol>
+<li><p>第三种方法：通过setOrientation:的办法强制性的旋转到一个特定的方向。</p>
+<p><strong>注意：Apple在3.0以后都不支持这个办法了，这个办法已经成为了私有的了，但是要跳过App Stroe的审核，需要一点巧妙的办法。</strong></p>
+<pre><code>    不要直接调用<span class="attr_selector">[[UIDevice currentDevice]</span> <span class="tag">setOrientation</span>: <span class="tag">UIInterfaceOrientationLandscapeRight</span>]这样的办法来强制性的横屏，这样导致你的程序是很难通过<span class="tag">App</span> <span class="tag">Store</span>审核的。但是你可以选择使用<span class="tag">performSelector</span>的办法来调用它。具体就几行代码如下：
+
+<span class="comment">//强制横屏</span>
+    <span class="tag">if</span> ([[UIDevice currentDevice] <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setOrientation</span>:)]) {
+        <span class="attr_selector">[[UIDevice currentDevice]</span> <span class="tag">performSelector</span>:@<span class="tag">selector</span>(<span class="attribute">setOrientation</span>:)
+                                       <span class="tag">withObject</span>:(id)<span class="tag">UIInterfaceOrientationLandscapeRight</span>];
+    }
+</code></pre></li>
+<li><p>总结：如果第一种办法可以满足你需要的话，最好使用第一种办法，因为第一种方法在App Store肯定没有问题，而且也比较简单；第二种方法在App Store也是没问题的，但是稍微复杂一些；第三种的话是需要冒风险的，但是如果你的结构太复杂了，导致使用前两种办法人为很难控制的话，可以尝试简单的使用第三种办法。</p>
+</li>
+</ol>
+<p>二、屏幕自适应重力感应进行旋转，实现对每个viewController的单独控制：</p>
+<ol>
+<li><p>子类化UINavigationController，增加方法</p>
+<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotate  
+{  
+    <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.topViewController</span><span class="variable">.shouldAutorotate</span>;  
+}  
+
+- (<span class="built_in">NSUInteger</span>)supportedInterfaceOrientations  
+{  
+    <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.topViewController</span><span class="variable">.supportedInterfaceOrientations</span>;  
+}  
+</code></pre></li>
+<li><p>并且设定其为程序入口，或指定为 self.window.rootViewController<br>随后添加自己的view controller，如果想禁止某个view controller的旋屏：（支持全部版本的控制）</p>
+<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotateToInterfaceOrientation:(<span class="built_in">UIInterfaceOrientation</span>)interfaceOrientation  
+{  
+    <span class="keyword">return</span> (interfaceOrientation == <span class="built_in">UIInterfaceOrientationPortrait</span>);  
+}  
+
+-(<span class="built_in">BOOL</span>)shouldAutorotate  
+{  
+    <span class="keyword">return</span> <span class="literal">NO</span>;  
+}  
+
+-(<span class="built_in">NSUInteger</span>)supportedInterfaceOrientations  
+{  
+    <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskPortrait</span>;  
+}  
+</code></pre></li>
+</ol>
+<ol>
+<li><p>如果想又开启某个view controller的全部方向旋屏支持：</p>
+<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotateToInterfaceOrientation:(<span class="built_in">UIInterfaceOrientation</span>)interfaceOrientation  
+{  
+    <span class="keyword">return</span> (interfaceOrientation != <span class="built_in">UIInterfaceOrientationPortraitUpsideDown</span>);  
+}  
+
+-(<span class="built_in">NSUInteger</span>)supportedInterfaceOrientations  
+{  
+    <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskAllButUpsideDown</span>;  
+}  
+
+-(<span class="built_in">BOOL</span>)shouldAutorotate  
+{  
+    <span class="keyword">return</span> <span class="literal">YES</span>;  
+}  
+</code></pre><p> 从而实现了对每个view controller的单独控制。</p>
+</li>
+<li><p>顺便提一下，如果整个应用所有view controller都不支持旋屏，那么干脆：</p>
+<pre><code>- (<span class="built_in">NSUInteger</span>)application:(<span class="built_in">UIApplication</span> *)application supportedInterfaceOrientationsForWindow:(<span class="built_in">UIWindow</span> *)window  
+{  
+     <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskPortrait</span>;  
+}  
+</code></pre></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cii9ubhqw00108m0jza6lv7os" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" class="article-date">
@@ -106,7 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cii9rdjuz00063x0jztlkwh6i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cii9ubhpw00068m0jbvv4nas5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
@@ -324,7 +491,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/16/UICollectionview的使用详解/" data-id="cii9rdjwd00163x0jp9ecr5fz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/16/UICollectionview的使用详解/" data-id="cii9ubhr400198m0jqxcihmd4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a></li></ul>
@@ -374,7 +541,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cii9rdjwb00133x0jv2apq0ih" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cii9ubhr100168m0jxacpid0n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a></li></ul>
@@ -457,7 +624,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cii9rdjw6000x3x0jdcl8z71g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cii9ubhqt000x8m0jzihlenit" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
@@ -521,7 +688,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/" data-id="cii9rdjv500093x0jcdpnqwpa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/" data-id="cii9ubhq100098m0jq6wjswi1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
@@ -574,7 +741,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cii9rdjvs000o3x0jivrtw92y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cii9ubhqj000o8m0jvusugeda" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
@@ -636,7 +803,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cii9rdjvk000i3x0j8sy2cx2f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cii9ubhqb000i8m0jxlqp4rry" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
@@ -682,7 +849,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cii9rdjw900103x0jrjkiqxoh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cii9ubhqz00138m0jnzqlfvc0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
@@ -766,59 +933,10 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/" data-id="cii9rdjuv00033x0jxxphi809" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/" data-id="cii9ubhpb00038m0jsf2o1a5g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="article-date">
-  <time datetime="2015-11-30T10:38:26.000Z" itemprop="datePublished">2015-11-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天真机调试的时候出现了这个错误，如下图</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg" alt="Mou icon"></p>
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：</p>
-<pre><code>Could <span class="operator">not</span> launch “iOSStrongDemo”
-<span class="built_in">process</span> launch failed: failed <span class="built_in">to</span> <span class="built_in">get</span> <span class="operator">the</span> task <span class="keyword">for</span> <span class="built_in">process</span> <span class="number">1298</span>
-</code></pre><p>错误分析:</p>
-<p>是因为我之前打包的时候，修改了Provisioning Profile。我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/16.png" alt="Mou icon"></p>
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-<p>解决方案：</p>
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cii9rdjvf000c3x0jl7i4q9r7" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
 
     </footer>
   </div>
@@ -842,7 +960,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -851,7 +969,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
+      <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
     </div>
   </div>
 
@@ -860,7 +978,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -870,6 +988,10 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
+          </li>
         
           <li>
             <a href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
@@ -885,10 +1007,6 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
         
           <li>
             <a href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/07/根据label正文内容动态计算正文的宽或高/">根据label正文内容动态计算正文的宽或高</a>
           </li>
         
       </ul>
