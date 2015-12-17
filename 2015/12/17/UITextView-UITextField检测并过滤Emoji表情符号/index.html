@@ -15,7 +15,7 @@
 <meta property="og:description" content="UITextView/UITextField检测并过滤Emoji表情符号
 本人在开发过程中遇到过这种情况，服务器端不支持Emoji表情，因此要求客户端在上传用户输入时，不能包含Emoji表情。在客户端发送请求前，判断用户输入中是否含有表情，如果含有表情，则提示用户重新输入。这个过程关键是如何判断字符串中是否含有Emoji表情。要判断是否含有Emoji表情，必须先了解什么是Emoji。
 百度百科中告">
-<meta property="og:updated_time" content="2015-12-17T08:37:10.000Z">
+<meta property="og:updated_time" content="2015-12-17T08:40:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UITextView/UITextField检测并过滤Emoji表情符号">
 <meta name="twitter:description" content="UITextView/UITextField检测并过滤Emoji表情符号
@@ -114,67 +114,74 @@
     }
     <span class="keyword">return</span> <span class="literal">YES</span>;
 }
-</code></pre><ol>
+</code></pre></li>
 <li><p>为避免当用户通过中文键盘输入中文“哈哈”后出现可选文字中选中的Emoji笑脸，最后在- (void)textFieldDidEndEditing:(UITextField *)textField方法中统一通过检查最终字符串textField/textView.text的内容，通过Emoji筛unicode编码来判断是否存在Emoji表情，如果存在则提醒用户做修改。</p>
-<p>  //在输入完成时，调用下面那个方法来判断输入的字符串是否含有表情</p>
-<ul>
-<li><p>(void)textFieldDidEndEditing:(UITextField *)textField<br>{<br>  if ([self stringContainsEmoji:textField.text]) {</p>
-<pre><code>NSLog(@<span class="string">"含有表情"</span>);
-UIAlertView *alertView = [[UIAlertView alloc] <span class="string">initWithTitle:</span>@<span class="string">"警告！"</span> <span class="string">message:</span>@<span class="string">"输入内容含有表情，请重新输入"</span> <span class="string">delegate:</span>self <span class="string">cancelButtonTitle:</span>@<span class="string">"取消"</span> <span class="string">otherButtonTitles:</span>@<span class="string">"确定"</span>,nil];
-[alertView show];
-textField.text = @<span class="string">""</span>;
-[textField becomeFirstResponder];
-</code></pre><p>  }else {</p>
-<pre><code><span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"不含有表情"</span>);</span>
-</code></pre><p>  }</p>
-<p>}</p>
-<p>/<em>
-</em>第二种方法，利用Emoji表情最终会被编码成Unicode，因此，<br><em>只要知道Emoji表情的Unicode编码的范围，
-</em>就可以判断用户是否输入了Emoji表情。<br>*/</p>
-</li>
-<li><p>(BOOL)stringContainsEmoji:(NSString <em>)string<br>{<br>  // 过滤所有表情。returnValue为NO表示不含有表情，YES表示含有表情<br>  __block BOOL returnValue = NO;<br>  [string enumerateSubstringsInRange:NSMakeRange(0, [string length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString </em>substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {</p>
-<pre><code><span class="keyword">const</span> unichar hs = [substring characterAtIndex:<span class="number">0</span>];
-<span class="comment">// surrogate pair</span>
-<span class="keyword">if</span> (<span class="number">0xd800</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0xdbff</span>) {
-    <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
-        <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
-        <span class="keyword">const</span> <span class="keyword">int</span> uc = ((hs - <span class="number">0xd800</span>) * <span class="number">0x400</span>) + (ls - <span class="number">0xdc00</span>) + <span class="number">0x10000</span>;
-        <span class="keyword">if</span> (<span class="number">0x1d000</span> &lt;= uc &amp;&amp; uc &lt;= <span class="number">0x1f77f</span>) {
-            returnValue = YES;
-        }
+<pre><code><span class="comment">//在输入完成时，调用下面那个方法来判断输入的字符串是否含有表情</span>
+- (<span class="keyword">void</span>)textFieldDidEndEditing:(UITextField *)textField
+{
+    <span class="keyword">if</span> ([self stringContainsEmoji:textField.text]) {
+        NSLog(@<span class="string">"含有表情"</span>);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@<span class="string">"警告！"</span> message:@<span class="string">"输入内容含有表情，请重新输入"</span> delegate:self cancelButtonTitle:@<span class="string">"取消"</span> otherButtonTitles:@<span class="string">"确定"</span>,nil];
+        [alertView show];
+        textField.text = @<span class="string">""</span>;
+        [textField becomeFirstResponder];
+    }<span class="keyword">else</span> {
+        NSLog(@<span class="string">"不含有表情"</span>);
     }
-} <span class="keyword">else</span> <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
-    <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
-    <span class="keyword">if</span> (ls == <span class="number">0x20e3</span>) {
-        returnValue = YES;
-    }
-} <span class="keyword">else</span> {
-    <span class="comment">// non surrogate</span>
-    <span class="keyword">if</span> (<span class="number">0x2100</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x27ff</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2B05</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2b07</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2934</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2935</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x3297</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x3299</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (hs == <span class="number">0xa9</span> || hs == <span class="number">0xae</span> || hs == <span class="number">0x303d</span> || hs == <span class="number">0x3030</span> || hs == <span class="number">0x2b55</span> || hs == <span class="number">0x2b1c</span> || hs == <span class="number">0x2b1b</span> || hs == <span class="number">0x2b50</span>) {
-        returnValue = YES;
-    }
+
 }
-</code></pre><p>  }];<br>  return returnValue;<br>}</p>
-</li>
-</ul>
-</li>
-</ol>
-</li>
+
+<span class="comment">/*
+ *第二种方法，利用Emoji表情最终会被编码成Unicode，因此，
+ *只要知道Emoji表情的Unicode编码的范围，
+ *就可以判断用户是否输入了Emoji表情。
+ */</span>
+- (BOOL)stringContainsEmoji:(NSString *)<span class="built_in">string</span>
+{
+    <span class="comment">// 过滤所有表情。returnValue为NO表示不含有表情，YES表示含有表情</span>
+    __block BOOL returnValue = NO;
+    [<span class="built_in">string</span> enumerateSubstringsInRange:NSMakeRange(<span class="number">0</span>, [<span class="built_in">string</span> length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+
+        <span class="keyword">const</span> unichar hs = [substring characterAtIndex:<span class="number">0</span>];
+        <span class="comment">// surrogate pair</span>
+        <span class="keyword">if</span> (<span class="number">0xd800</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0xdbff</span>) {
+            <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
+                <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
+                <span class="keyword">const</span> <span class="keyword">int</span> uc = ((hs - <span class="number">0xd800</span>) * <span class="number">0x400</span>) + (ls - <span class="number">0xdc00</span>) + <span class="number">0x10000</span>;
+                <span class="keyword">if</span> (<span class="number">0x1d000</span> &lt;= uc &amp;&amp; uc &lt;= <span class="number">0x1f77f</span>) {
+                    returnValue = YES;
+                }
+            }
+        } <span class="keyword">else</span> <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
+            <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
+            <span class="keyword">if</span> (ls == <span class="number">0x20e3</span>) {
+                returnValue = YES;
+            }
+        } <span class="keyword">else</span> {
+            <span class="comment">// non surrogate</span>
+            <span class="keyword">if</span> (<span class="number">0x2100</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x27ff</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2B05</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2b07</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2934</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2935</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x3297</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x3299</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (hs == <span class="number">0xa9</span> || hs == <span class="number">0xae</span> || hs == <span class="number">0x303d</span> || hs == <span class="number">0x3030</span> || hs == <span class="number">0x2b55</span> || hs == <span class="number">0x2b1c</span> || hs == <span class="number">0x2b1b</span> || hs == <span class="number">0x2b50</span>) {
+                returnValue = YES;
+            }
+        }
+    }];
+    <span class="keyword">return</span> returnValue;
+}
+</code></pre></li>
 </ol>
 <p>ps：Demo已放在云盘里，链接: <a href="http://pan.baidu.com/s/1boguLgN" target="_blank" rel="external">http://pan.baidu.com/s/1boguLgN</a> 密码: keet</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cii9zv4jr00193a0jpre3y4kl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cii9zz5sj0019570j3fn945ot" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>

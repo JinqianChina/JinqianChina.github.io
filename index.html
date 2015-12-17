@@ -109,67 +109,74 @@
     }
     <span class="keyword">return</span> <span class="literal">YES</span>;
 }
-</code></pre><ol>
+</code></pre></li>
 <li><p>为避免当用户通过中文键盘输入中文“哈哈”后出现可选文字中选中的Emoji笑脸，最后在- (void)textFieldDidEndEditing:(UITextField *)textField方法中统一通过检查最终字符串textField/textView.text的内容，通过Emoji筛unicode编码来判断是否存在Emoji表情，如果存在则提醒用户做修改。</p>
-<p>  //在输入完成时，调用下面那个方法来判断输入的字符串是否含有表情</p>
-<ul>
-<li><p>(void)textFieldDidEndEditing:(UITextField *)textField<br>{<br>  if ([self stringContainsEmoji:textField.text]) {</p>
-<pre><code>NSLog(@<span class="string">"含有表情"</span>);
-UIAlertView *alertView = [[UIAlertView alloc] <span class="string">initWithTitle:</span>@<span class="string">"警告！"</span> <span class="string">message:</span>@<span class="string">"输入内容含有表情，请重新输入"</span> <span class="string">delegate:</span>self <span class="string">cancelButtonTitle:</span>@<span class="string">"取消"</span> <span class="string">otherButtonTitles:</span>@<span class="string">"确定"</span>,nil];
-[alertView show];
-textField.text = @<span class="string">""</span>;
-[textField becomeFirstResponder];
-</code></pre><p>  }else {</p>
-<pre><code><span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"不含有表情"</span>);</span>
-</code></pre><p>  }</p>
-<p>}</p>
-<p>/<em>
-</em>第二种方法，利用Emoji表情最终会被编码成Unicode，因此，<br><em>只要知道Emoji表情的Unicode编码的范围，
-</em>就可以判断用户是否输入了Emoji表情。<br>*/</p>
-</li>
-<li><p>(BOOL)stringContainsEmoji:(NSString <em>)string<br>{<br>  // 过滤所有表情。returnValue为NO表示不含有表情，YES表示含有表情<br>  __block BOOL returnValue = NO;<br>  [string enumerateSubstringsInRange:NSMakeRange(0, [string length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString </em>substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {</p>
-<pre><code><span class="keyword">const</span> unichar hs = [substring characterAtIndex:<span class="number">0</span>];
-<span class="comment">// surrogate pair</span>
-<span class="keyword">if</span> (<span class="number">0xd800</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0xdbff</span>) {
-    <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
-        <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
-        <span class="keyword">const</span> <span class="keyword">int</span> uc = ((hs - <span class="number">0xd800</span>) * <span class="number">0x400</span>) + (ls - <span class="number">0xdc00</span>) + <span class="number">0x10000</span>;
-        <span class="keyword">if</span> (<span class="number">0x1d000</span> &lt;= uc &amp;&amp; uc &lt;= <span class="number">0x1f77f</span>) {
-            returnValue = YES;
-        }
+<pre><code><span class="comment">//在输入完成时，调用下面那个方法来判断输入的字符串是否含有表情</span>
+- (<span class="keyword">void</span>)textFieldDidEndEditing:(UITextField *)textField
+{
+    <span class="keyword">if</span> ([self stringContainsEmoji:textField.text]) {
+        NSLog(@<span class="string">"含有表情"</span>);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@<span class="string">"警告！"</span> message:@<span class="string">"输入内容含有表情，请重新输入"</span> delegate:self cancelButtonTitle:@<span class="string">"取消"</span> otherButtonTitles:@<span class="string">"确定"</span>,nil];
+        [alertView show];
+        textField.text = @<span class="string">""</span>;
+        [textField becomeFirstResponder];
+    }<span class="keyword">else</span> {
+        NSLog(@<span class="string">"不含有表情"</span>);
     }
-} <span class="keyword">else</span> <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
-    <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
-    <span class="keyword">if</span> (ls == <span class="number">0x20e3</span>) {
-        returnValue = YES;
-    }
-} <span class="keyword">else</span> {
-    <span class="comment">// non surrogate</span>
-    <span class="keyword">if</span> (<span class="number">0x2100</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x27ff</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2B05</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2b07</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2934</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2935</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x3297</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x3299</span>) {
-        returnValue = YES;
-    } <span class="keyword">else</span> <span class="keyword">if</span> (hs == <span class="number">0xa9</span> || hs == <span class="number">0xae</span> || hs == <span class="number">0x303d</span> || hs == <span class="number">0x3030</span> || hs == <span class="number">0x2b55</span> || hs == <span class="number">0x2b1c</span> || hs == <span class="number">0x2b1b</span> || hs == <span class="number">0x2b50</span>) {
-        returnValue = YES;
-    }
+
 }
-</code></pre><p>  }];<br>  return returnValue;<br>}</p>
-</li>
-</ul>
-</li>
-</ol>
-</li>
+
+<span class="comment">/*
+ *第二种方法，利用Emoji表情最终会被编码成Unicode，因此，
+ *只要知道Emoji表情的Unicode编码的范围，
+ *就可以判断用户是否输入了Emoji表情。
+ */</span>
+- (BOOL)stringContainsEmoji:(NSString *)<span class="built_in">string</span>
+{
+    <span class="comment">// 过滤所有表情。returnValue为NO表示不含有表情，YES表示含有表情</span>
+    __block BOOL returnValue = NO;
+    [<span class="built_in">string</span> enumerateSubstringsInRange:NSMakeRange(<span class="number">0</span>, [<span class="built_in">string</span> length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+
+        <span class="keyword">const</span> unichar hs = [substring characterAtIndex:<span class="number">0</span>];
+        <span class="comment">// surrogate pair</span>
+        <span class="keyword">if</span> (<span class="number">0xd800</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0xdbff</span>) {
+            <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
+                <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
+                <span class="keyword">const</span> <span class="keyword">int</span> uc = ((hs - <span class="number">0xd800</span>) * <span class="number">0x400</span>) + (ls - <span class="number">0xdc00</span>) + <span class="number">0x10000</span>;
+                <span class="keyword">if</span> (<span class="number">0x1d000</span> &lt;= uc &amp;&amp; uc &lt;= <span class="number">0x1f77f</span>) {
+                    returnValue = YES;
+                }
+            }
+        } <span class="keyword">else</span> <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
+            <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
+            <span class="keyword">if</span> (ls == <span class="number">0x20e3</span>) {
+                returnValue = YES;
+            }
+        } <span class="keyword">else</span> {
+            <span class="comment">// non surrogate</span>
+            <span class="keyword">if</span> (<span class="number">0x2100</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x27ff</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2B05</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2b07</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2934</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2935</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x3297</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x3299</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (hs == <span class="number">0xa9</span> || hs == <span class="number">0xae</span> || hs == <span class="number">0x303d</span> || hs == <span class="number">0x3030</span> || hs == <span class="number">0x2b55</span> || hs == <span class="number">0x2b1c</span> || hs == <span class="number">0x2b1b</span> || hs == <span class="number">0x2b50</span>) {
+                returnValue = YES;
+            }
+        }
+    }];
+    <span class="keyword">return</span> returnValue;
+}
+</code></pre></li>
 </ol>
 <p>ps：Demo已放在云盘里，链接: <a href="http://pan.baidu.com/s/1boguLgN" target="_blank" rel="external">http://pan.baidu.com/s/1boguLgN</a> 密码: keet</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cii9zv4jr00193a0jpre3y4kl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cii9zz5sj0019570j3fn945ot" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>
@@ -336,7 +343,7 @@ textField.text = @<span class="string">""</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cii9zv4ji00103a0j2cpmc7g6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cii9zz5sa0010570jj5u60zxm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>
@@ -389,7 +396,7 @@ textField.text = @<span class="string">""</span>;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cii9zv4il00063a0jln0nvtrq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cii9zz5rb0006570jxz7f813q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
@@ -607,7 +614,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/16/UICollectionview的使用详解/" data-id="cii9zv4jt001c3a0jckvcf8vu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/16/UICollectionview的使用详解/" data-id="cii9zz5sm001c570jatxnuxbo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a></li></ul>
@@ -657,7 +664,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cii9zv4jo00163a0jgmop17cn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cii9zz5sg0016570ji5mi5q1f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a></li></ul>
@@ -740,7 +747,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cii9zv4jg000x3a0j1zs7iue2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cii9zz5s8000x570jb8xld081" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
@@ -804,7 +811,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/" data-id="cii9zv4in00093a0j8kijv7zb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/根据label正文内容动态计算正文的宽或高/" data-id="cii9zz5re0009570j6hq6r5kf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
@@ -857,7 +864,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cii9zv4j3000o3a0j5f4osuxe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cii9zz5rv000o570j5i5lp9w5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
@@ -919,7 +926,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cii9zv4iw000i3a0j4f118gqz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cii9zz5ro000i570jgg2s6h79" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
@@ -965,7 +972,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cii9zv4jl00133a0jtxe0lha6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cii9zz5sc0013570jasuzlzmu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
