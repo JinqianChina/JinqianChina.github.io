@@ -1,433 +1,154 @@
-<!DOCTYPE html>
-<html>
 
+  <!DOCTYPE HTML>
+<html >
 <head>
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <title>Tag: UICollectionview header/footerView | Jinge&#39;blog</title>
-  <meta name="description" content="iOS探索之路" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="/css/component.css" />
-  <link rel="stylesheet" type="text/css" href="/css/screen.css" />
-  <meta name="generator" content="Jinge'blog">
-  <script src="http://static.duoshuo.com/embed.js"></script>
+  <meta charset="UTF-8">
   
-  
-  
-
-  
-
+    <title>Tag: UICollectionview header/footerView | Jinge&#39;blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Jingege">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
-<body>
-<div class="container">
-    <div class="mp-pusher" id="mp-pusher">
-        <i id="scroll-up" class="fa fa-angle-up"></i>
-        <nav id="mp-menu" class="mp-menu">
-            <div class="mp-level">
-                <a data-pjax class="back-home" style="font-size: 20px" href="/"><h2 ><i class="fa fa-home"></i>
-                        Home</h2></a>
-                <ul class="first-level">
-                    <li>
-                        <a class="fa fa-archive" href="#"><i class="fa fa-angle-left">
-                            </i>&nbsp;&nbsp;Archive</a>
-                        <div class="mp-level page-list">
-                            <h2 ><i class="fa fa-archive"></i>
-                                Archive</h2>
-                            <a class="mp-back" href="#">back</a>
-                            <form id="search-form" action="">
-                                <input type="text" class="search search-archive" placeholder="Search.."/>
-                            </form>
-                            <ul>
-                                <div class="mp-scroll">
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/">Undefined symbols for architectur referenced from问题解决</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/07/根据label正文内容动态计算正文的宽或高/">根据label正文内容动态计算正文的宽或高</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/">uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/">如何更好的限制一个UITextField/UITextView的输入字数</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/">JSONKit 在iOS9 arm7 64位下出现的问题</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/04/20/vim-编辑器常用命令/">vim 编辑器常用命令</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2015/04/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
-                                </li>
-                                
-                                <li class="search-archive-li mp-pjax">
-                                    <a href="/2014/11/27/成功搭建hexo本地博客并部署到github上/">成功搭建hexo本地博客并部署到github上</a>
-                                </li>
-                                
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="fa fa-copy" href="#"><i class="fa fa-angle-left">
-                            </i>&nbsp;&nbsp;Categories</a>
 
-                        <div class="mp-level page-list">
-                            <h2 ><i class="fa fa-copy"></i>
-                                Categories</h2>
-                            <a class="mp-back" href="#">back</a>
-                            <form id="search-form" action="">
-                                <input type="text" class="search search-category" placeholder="Search.."/>
-                            </form>
-                            <ul>
-                                <div class="mp-scroll">
-                                
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="fa fa-tags" href="#"><i class="fa fa-angle-left">
-                            </i>&nbsp;&nbsp;Tags</a>
-                        <div class="mp-level page-list">
-                            <h2 ><i class="fa fa-tags"></i>
-                                Tags</h2>
-                            <a class="mp-back" href="#">back</a>
-                            <form id="search-form" action="">
-                                <input type="text" class="search search-tag" placeholder="Search.."/>
-                            </form>
-                            <ul>
-                                <div class="mp-scroll">
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/JSONKit-iOS9-arm7/">&nbsp;&nbsp;&nbsp;JSONKit iOS9 arm7</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/UICollectionview-header-footerView/">&nbsp;&nbsp;&nbsp;UICollectionview header/footerView</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/UITextField-UITextView-过滤-Emoji表情/">&nbsp;&nbsp;&nbsp;UITextField UITextView 过滤 Emoji表情</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/Xcode7-真机调试/">&nbsp;&nbsp;&nbsp;Xcode7 真机调试</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/cocoapods/">&nbsp;&nbsp;&nbsp;cocoapods</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/hexo/">&nbsp;&nbsp;&nbsp;hexo</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/iOS-nil-NULL-Nil-NSNull/">&nbsp;&nbsp;&nbsp;iOS nil NULL Nil NSNull</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/iOS6-横屏-旋转/">&nbsp;&nbsp;&nbsp;iOS6 横屏 旋转</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/iOS8-横屏-状态栏/">&nbsp;&nbsp;&nbsp;iOS8 横屏 状态栏</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/iOS真机调试/">&nbsp;&nbsp;&nbsp;iOS真机调试</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/label-动态计算宽高/">&nbsp;&nbsp;&nbsp;label 动态计算宽高</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/shell/">&nbsp;&nbsp;&nbsp;shell</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/svn-合作开发-冲突/">&nbsp;&nbsp;&nbsp;svn 合作开发 冲突</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/textField-textView-限制字数/">&nbsp;&nbsp;&nbsp;textField textView 限制字数</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/textView-自动换行/">&nbsp;&nbsp;&nbsp;textView 自动换行</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/vim/">&nbsp;&nbsp;&nbsp;vim</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                <li class="search-tag-li mp-pjax">
-                                    <a href="/tags/zsh/">&nbsp;&nbsp;&nbsp;zsh</a>
-                                    <small>1</small>
-                                </li>
-                                
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    
-                    <li class="mp-pjax"><a class="fa fa-user" href="/about">&nbsp;&nbsp;&nbsp;About me</a></li>
-                    <li><a class="fa fa-github" href="#">&nbsp;&nbsp;&nbsp;Github</a></li>
+    <body>
+      <header>
+        <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Jinge&#39;blog" title="Jinge&#39;blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Jinge&#39;blog">Jinge&#39;blog</a></h1>
+				<h2 class="blog-motto">iOS探索之路</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
 
-                </ul>
-
-            </div>
-        </nav>
-        <div id="pjax">
-            <div class="pjax-hidden" style="display: none">
-                
-                    <a  data-pjax href="/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
-                
-                    <a  data-pjax href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
-                
-                    <a  data-pjax href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
-                
-                    <a  data-pjax href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
-                
-                    <a  data-pjax href="/2015/12/16/Undefined-symbols-for-architectur-referenced-from问题解决/">Undefined symbols for architectur referenced from问题解决</a>
-                
-                    <a  data-pjax href="/2015/12/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
-                
-                    <a  data-pjax href="/2015/12/07/根据label正文内容动态计算正文的宽或高/">根据label正文内容动态计算正文的宽或高</a>
-                
-                    <a  data-pjax href="/2015/12/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/">uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行</a>
-                
-                    <a  data-pjax href="/2015/12/04/如何更好的限制一个UITextField-UITextView的输入字数/">如何更好的限制一个UITextField/UITextView的输入字数</a>
-                
-                    <a  data-pjax href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
-                
-                    <a  data-pjax href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
-                
-                    <a  data-pjax href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
-                
-                    <a  data-pjax href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/">JSONKit 在iOS9 arm7 64位下出现的问题</a>
-                
-                    <a  data-pjax href="/2015/04/20/vim-编辑器常用命令/">vim 编辑器常用命令</a>
-                
-                    <a  data-pjax href="/2015/04/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
-                
-                    <a  data-pjax href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
-                
-                    <a  data-pjax href="/2014/11/27/成功搭建hexo本地博客并部署到github上/">成功搭建hexo本地博客并部署到github上</a>
-                
-                
-                
-                    <a data-pjax href="/tags/JSONKit-iOS9-arm7/">&nbsp;&nbsp;JSONKit iOS9 arm7</a>
-                
-                    <a data-pjax href="/tags/UICollectionview-header-footerView/">&nbsp;&nbsp;UICollectionview header/footerView</a>
-                
-                    <a data-pjax href="/tags/UITextField-UITextView-过滤-Emoji表情/">&nbsp;&nbsp;UITextField UITextView 过滤 Emoji表情</a>
-                
-                    <a data-pjax href="/tags/Xcode7-真机调试/">&nbsp;&nbsp;Xcode7 真机调试</a>
-                
-                    <a data-pjax href="/tags/cocoapods/">&nbsp;&nbsp;cocoapods</a>
-                
-                    <a data-pjax href="/tags/hexo/">&nbsp;&nbsp;hexo</a>
-                
-                    <a data-pjax href="/tags/iOS-nil-NULL-Nil-NSNull/">&nbsp;&nbsp;iOS nil NULL Nil NSNull</a>
-                
-                    <a data-pjax href="/tags/iOS6-横屏-旋转/">&nbsp;&nbsp;iOS6 横屏 旋转</a>
-                
-                    <a data-pjax href="/tags/iOS8-横屏-状态栏/">&nbsp;&nbsp;iOS8 横屏 状态栏</a>
-                
-                    <a data-pjax href="/tags/iOS真机调试/">&nbsp;&nbsp;iOS真机调试</a>
-                
-                    <a data-pjax href="/tags/label-动态计算宽高/">&nbsp;&nbsp;label 动态计算宽高</a>
-                
-                    <a data-pjax href="/tags/shell/">&nbsp;&nbsp;shell</a>
-                
-                    <a data-pjax href="/tags/svn-合作开发-冲突/">&nbsp;&nbsp;svn 合作开发 冲突</a>
-                
-                    <a data-pjax href="/tags/textField-textView-限制字数/">&nbsp;&nbsp;textField textView 限制字数</a>
-                
-                    <a data-pjax href="/tags/textView-自动换行/">&nbsp;&nbsp;textView 自动换行</a>
-                
-                    <a data-pjax href="/tags/vim/">&nbsp;&nbsp;vim</a>
-                
-                    <a data-pjax href="/tags/zsh/">&nbsp;&nbsp;zsh</a>
-                
-                <a data-pjax class="fa fa-user" href="/about">&nbsp;&nbsp;&nbsp;About me</a>
-            </div>
-            <nav class="nexus">
-                <li  style="border-left: 1px solid #c6d0da;">
-                    <a id="trigger" href="#"><i class="fa fa-bars"></i></a>
-                </li>
-                <li ><a id="nexus-back" data-pjax href="/">Jinge&#39;blog</a></li>
-                
-                <div id="nav-container">
-                    <div class="post-navbar" style="line-height: 63px;display:none">
-                        <li id="navbar-title"><a href="#">undefined</a></li>
-                        <li id="navbar-toc" style="border-left: none">
-                            <a style="padding-right: 15px">
-                                <span id="toc-content" >Introduction</span><i class="fa fa-chevron-down" ></i>
-                            </a>
-                            <div class="hidden-box">
-                                <ul id="toc"></ul>
-                            </div>
-                        </li>
-                    </div>
-                </div>
-                
-            </nav>
-
-            <div class="scroller">
-            <div class="scroller-inner">
-
-
-<!-- -->
-<!--<body class="home-template">-->
-<!---->
-  
-<main class="content" role="main">
-
-    
-    <article class="post">
-
-        <header class="post-header">
-            <div class="tag-tile">
-                
-                
-                <a data-pjax href='/tags/UICollectionview-header-footerView/'>UICollectionview header/footerView</a>
-                
-                
-                <span class="fa fa-bookmark" style="float:right;color:#f39c12"></span>
-            </div>
-            <h1 class="post-title"><a data-pjax href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
-            </h1>
-
-            <div class="post-meta">
-                Post on<span class="fa fa-clock-o"></span>
-                <time datetime="2015-12-16T09:27:22.000Z"
-                      itemprop="datePublished">2015-12-16</time>
-            </div>
-        </header>
-        <section class="post-excerpt">
-            <p>
-                
-                
-三个代理前两个的用法和tableView的很像，第三个是布局的协议。（注意：头视图尾视图都是由代理方法获得，而且需要写注册，缺少了也不行。） 注册以后，就不需要再去管理复用的问题了。这点就很简单。这个如果用好的话，会非常的简单。
-item（即cell）的布局原理（类似tableView）
-header/footer View的布局原理都是继承于UICollectionReusableView，并且必须要从dequeueReusable
-                
-            </p>
-            
-        </section>
-    </article>
-    
-    <nav class="pagination" role="pagination">
+      </header>
+      <div id="container">
         
-        <span class="page-number">Page 1 of 1</span>
-        
-    </nav>
-</main>
 
-
+<div class="archive-title" >
+  <h2 class="tag-icon">UICollectionview header/footerView</h2>
   
-<footer class="site-footer">
+</div>
+<div id="main" class="archive-part clearfix">
+  <div id="archive-page">
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2015/12/16/UICollectionview的使用详解/" title="UICollectionview的使用详解" itemprop="url">
+  
+    <h1 itemprop="name">UICollectionview的使用详解</h1>
     
-    <div class="inner">
-        <section class="copyright"><a href="/"></a> &copy; Jinge'blog 2014</section>
-        <section class="poweredby">Published with <a target="_blank" href="http://hexo.io/">Hexo   </a> and Theme by <a target="_blank" href="https://github.com/yuche/hexo-theme-kael">Kael</a></section>
-    </div>
+    <time datetime="2015-12-16T09:27:22.000Z" itemprop="datePublished">2015-12-16</time>
+  </a>
+</section>
+
+
+  </div>
+</div>
+
+      </div>
+      <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://yoursite.com" target="_blank" title="Jingege">Jingege</a>
+		
+		</p>
+</div>
 </footer>
-</div>
-</div><!-- /scroller -->
-
-</div><!-- /pusher -->
-</div><!-- /container -->
-</div>
-
-<!-- Easter eggs -->
-
-<div class="egg animated">
-    <a id="close-button" href="#">X</a>
-    <div class="block">
-        <div class="loading">
-            <span class="ball1"></span>
-            <span class="ball2"></span>
-        </div>
-    </div>
-</div>
-  
-<script src="//cdn.staticfile.org/jquery/1.11.0/jquery.min.js"></script>
-<script>
-    if (!window.jQuery) {
-        var script = document.createElement('script');
-        script.src = "/js/jquery.min.js";
-        document.body.appendChild(script);
+      <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
     }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
 </script>
-<script type="text/javascript" src="/js/lib.js"></script>
-<script type="text/javascript" src="/js/main.js"></script>
 
 
 
@@ -435,5 +156,5 @@ header/footer View的布局原理都是继承于UICollectionReusableView，并�
 
 
 
-</body>
-</html>
+    </body>
+   </html>
