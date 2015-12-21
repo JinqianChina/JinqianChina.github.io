@@ -8,11 +8,11 @@
   <meta name="description" content="今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView )webView shouldStartLoadWithRequest:(NSURLRequest )request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的reques">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS中webView加载URL需要处理特殊字符">
-<meta property="og:url" content="http://yoursite.com/2015/12/21/iOS中webView加载URL需要处理特殊字符/index.html">
+<meta property="og:url" content="http://yoursite.com/2014/12/21/iOS中webView加载URL需要处理特殊字符/index.html">
 <meta property="og:site_name" content="Jinge'blog">
 <meta property="og:description" content="今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView )webView shouldStartLoadWithRequest:(NSURLRequest )request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的reques">
 <meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/URL特殊字符1.png">
-<meta property="og:updated_time" content="2015-12-21T08:32:59.000Z">
+<meta property="og:updated_time" content="2015-12-21T08:37:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS中webView加载URL需要处理特殊字符">
 <meta name="twitter:description" content="今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView )webView shouldStartLoadWithRequest:(NSURLRequest )request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的reques">
@@ -67,8 +67,8 @@
       <div class="outer">
         <section id="main"><article id="post-iOS中webView加载URL需要处理特殊字符" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/12/21/iOS中webView加载URL需要处理特殊字符/" class="article-date">
-  <time datetime="2015-12-21T08:30:55.000Z" itemprop="datePublished">2015-12-21</time>
+    <a href="/2014/12/21/iOS中webView加载URL需要处理特殊字符/" class="article-date">
+  <time datetime="2014-12-21T08:30:55.000Z" itemprop="datePublished">2014-12-21</time>
 </a>
     
   </div>
@@ -94,7 +94,7 @@
     NSString *<span class="keyword">str1 </span>= [<span class="keyword">string </span><span class="keyword">stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; </span>   
 
 <span class="number">2</span>.字符串替换百分号转义使用编码
- NSString *<span class="keyword">str1 </span>= [<span class="keyword">string </span><span class="keyword">stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];</span>
+    NSString *<span class="keyword">str1 </span>= [<span class="keyword">string </span><span class="keyword">stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];</span>
 </code></pre><p>二、使用CFStringRef的方法：</p>
 <pre><code>url = (<span class="built_in">NSString</span> *)<span class="built_in">CFBridgingRelease</span>(<span class="built_in">CFURLCreateStringByAddingPercentEscapes</span>(k<span class="built_in">CFAllocatorDefault</span>, (<span class="built_in">CFStringRef</span>)url, <span class="literal">nil</span>, <span class="literal">nil</span>, k<span class="built_in">CFStringEncodingUTF8</span>));
 </code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/URL特殊字符1.png" alt="Mou icon"></p>
@@ -102,7 +102,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/21/iOS中webView加载URL需要处理特殊字符/" data-id="ciifpjl2f0010iy0jxp74v211" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/21/iOS中webView加载URL需要处理特殊字符/" data-id="ciifplz1p0010jt0ju6b6s29j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
@@ -113,10 +113,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2015/04/18/shell常用命令-脚本编写/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          shell常用命令&amp;脚本编写
+        
+      </div>
+    </a>
   
-    <a href="/2015/12/17/iOS开发之各种动画各种页面切面效果/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2014/12/21/mac下如何安装iterm2并使用zsh/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">iOS开发之各种动画各种页面切面效果</div>
+      <div class="article-nav-title">mac下如何安装iterm2并使用zsh</div>
     </a>
   
 </nav>
@@ -152,7 +161,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -162,10 +171,6 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
-        
-          <li>
-            <a href="/2015/12/21/iOS中webView加载URL需要处理特殊字符/">iOS中webView加载URL需要处理特殊字符</a>
-          </li>
         
           <li>
             <a href="/2015/12/17/iOS开发之各种动画各种页面切面效果/">iOS开发之各种动画各种页面切面效果</a>
@@ -181,6 +186,10 @@
         
           <li>
             <a href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
+          </li>
+        
+          <li>
+            <a href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
           </li>
         
       </ul>
