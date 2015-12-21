@@ -65,10 +65,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Xcode7-让你只需4步就可以免证书进行真机调试了！" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" class="article-date">
-  <time datetime="2015-12-03T09:28:25.000Z" itemprop="datePublished">2015-12-03</time>
+    <a href="/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" class="article-date">
+  <time datetime="2015-06-07T04:56:59.000Z" itemprop="datePublished">2015-06-07</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
+      <a class="article-title" href="/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/">uitextview 在中文后输入英文到行尾的时候，中文后的英文全部换到下一行</a>
     </h1>
   
 
@@ -87,22 +87,140 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="http://7xosy6.com1.z0.glb.clouddn.com/真机调试-1.png" alt="Mou icon"><br>这里可以看到官方说了xcode7可以让所有人都更轻松的将app运行在自己的设备上，而无需开发者帐号。好了，既然官方都说了可以不用证书进行真机调试了，那我们就直接开始吧！</p>
-<p>只需4步，你就可以免证书进行真机调试了！</p>
-<ol>
-<li>进入xcode，菜单栏选择xcode –&gt; preferences （快捷键 command + ,）在Accounts选项卡添加自己的Apple ID，下方蓝色选中部分会出现 free  free的字样则代表成功；<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/真机调试-2.png" alt="Mou icon"></li>
-<li>打开需要真机调试的项目，在TARGETS下选择General选项卡，展开Identity项，修改下面的team选项为你刚才添加的Apple ID，修改Bundle Identifier 为没有使用过的BundleID，注意：使用过的BundleID不行<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/真机调试-3.png" alt="Mou icon"></li>
-<li>把你需要真机调试的设备连上电脑，在刚才team选项的下面此时多了一个警告，点击Fix Issue，等待xcode处理完，这个警告就消失了。</li>
-<li>现在你可以进行真机调试了，运行项目会显示 Build Successed，但之后会出现如下提示（这里针对iOS9），手机安装了APP却打不开，这里需要在手机上设置一下：点击设置 -&gt; 通用 -&gt; 描述文件 -&gt; 里面有你自己的AppleID的描述文件，点击信任就可以了<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/真机调试-4.png" alt="Mou icon"></li>
-</ol>
+        <p>uitextview在中文后输入英文到行尾的时候，中文后的英文全部换到下一行，如下图所示：</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/textView排版-1.jpg" alt="Mou icon"></p>
+<p>会出现自动换行的问题，当然我们正常输入的时候是不希望看到这种情况的，所以，要去掉这种情况，我们只需在textView的代理方法- (void)textViewDidChange:(UITextView *)textView;中实现如下代码即可</p>
+<pre><code>- (<span class="keyword">void</span>)textViewDidChange:(<span class="built_in">UITextView</span> *)textView {
+        <span class="comment">//防止输入时在中文后输入英文过长直接中文和英文换行</span>
+        <span class="built_in">NSMutableParagraphStyle</span> *paragraphStyle = [[<span class="built_in">NSMutableParagraphStyle</span> alloc] init];
+        paragraphStyle<span class="variable">.lineBreakMode</span> = <span class="built_in">NSLineBreakByCharWrapping</span>;
+        <span class="built_in">NSDictionary</span> *attributes = @{    
+                                     <span class="built_in">NSFontAttributeName</span>:[<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">14</span>],
+                                     <span class="built_in">NSParagraphStyleAttributeName</span>:paragraphStyle
+                                     };
+        textView<span class="variable">.attributedText</span> = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:textView<span class="variable">.text</span> attributes:attributes];
+}
+</code></pre><p>这样处理后就会看到效果如下图所示：</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/textView排版-2.png" alt="Mou icon"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="ciifpp13d0019ke0jj5lelv9d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="ciifpq0rv000okt0jom22y0zi" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-如何更好的限制一个UITextField-UITextView的输入字数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" class="article-date">
+  <time datetime="2015-06-04T09:56:02.000Z" itemprop="datePublished">2015-06-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/">如何更好的限制一个UITextField/UITextView的输入字数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要限制一个UITextField/UITextView的输入字数，首先想到的应该是通过UITextFieldDelegate/UITextViewDelegate<br>的代理方法来限制，那么如何来更好的限制输入字数呢，下面我们来看看：</p>
+<p>TextView。幸运的是，当我们点进去UITextView.h头文件里时，会发现- (void)textViewDidChange:(UITextView *)textView;这个代理方法，我们只需要在这个方法里实现字数限制就好</p>
+<pre><code>- (void)textViewDidChange:(UITextField *)textView
+{
+    <span class="preprocessor">if</span> (textView == <span class="keyword">self.textView) </span>{
+        <span class="preprocessor">if</span> (textView<span class="preprocessor">.text</span>.length &gt; <span class="number">20</span>) {
+            textView<span class="preprocessor">.text</span> = [textView<span class="preprocessor">.text</span> <span class="keyword">substringToIndex:20];
+</span>        }
+    }
+}
+</code></pre><p>TextField。Textfield就没有那么幸运了，当我们点进去UITextField.h头文件的时候，怎么也找不到- (void)textFieldDidChange:(UITextField *)textField方法，就在我们寻觅上述回调方法而不得时，可能会发现最下面有这么个消息通知名称：</p>
+<pre><code><span class="built_in">UIKIT_EXTERN</span> <span class="built_in">NSString</span> *<span class="keyword">const</span> <span class="built_in">UITextFieldTextDidChangeNotification</span>;
+</code></pre><p>不过，监听消息还要记得解除监听，通常我还习惯把监听消息的代码统一放在一个方法中，看起来有点“大动干戈”。<br>所幸的是UITextField本身提供了相应的事件监听：</p>
+<pre><code>[textField <span class="string">addTarget:</span>self <span class="string">action:</span><span class="annotation">@selector</span>(<span class="string">textFieldDidChange:</span>) <span class="string">forControlEvents:</span>UIControlEventEditingChanged];
+</code></pre><p>这样就可以更好地限制输入长度：</p>
+<pre><code>- (void)textFieldDidChange:(UITextField <span class="variable">*)</span><span class="keyword">textField</span>
+{
+    <span class="keyword">if</span> (<span class="keyword">textField</span> == self.titleField) {
+        <span class="keyword">if</span> (<span class="keyword">textField</span>.<span class="keyword">text</span>.length &gt; <span class="number">20</span>) {
+            <span class="keyword">textField</span>.<span class="keyword">text</span> = [<span class="keyword">textField</span>.<span class="keyword">text</span> substringToIndex:<span class="number">20</span>];
+        }
+    }
+}
+</code></pre><p>这样两种方法好的原因，可以看一下详细介绍 <a href="http://blog.csdn.net/jasonblog/article/details/23771117" target="_blank" rel="external">http://blog.csdn.net/jasonblog/article/details/23771117</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="ciifpq0rn000ikt0jggrznn1k" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="article-date">
+  <time datetime="2015-05-30T10:38:26.000Z" itemprop="datePublished">2015-05-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天真机调试的时候出现了这个错误，如下图</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg" alt="Mou icon"></p>
+<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：</p>
+<pre><code>Could <span class="operator">not</span> launch “iOSStrongDemo”
+<span class="built_in">process</span> launch failed: failed <span class="built_in">to</span> <span class="built_in">get</span> <span class="operator">the</span> task <span class="keyword">for</span> <span class="built_in">process</span> <span class="number">1298</span>
+</code></pre><p>错误分析:</p>
+<p>是因为我之前打包的时候，修改了Provisioning Profile。我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/16.png" alt="Mou icon"></p>
+<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
+<p>解决方案：</p>
+<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="ciifpq0rf000ckt0jwox3h7by" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
 
     </footer>
   </div>
@@ -113,8 +231,8 @@
   
     <article id="post-纯命令行教你Cocoapods的安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/" class="article-date">
-  <time datetime="2015-12-01T08:31:41.000Z" itemprop="datePublished">2015-12-01</time>
+    <a href="/2015/05/01/纯命令行教你Cocoapods的安装和使用/" class="article-date">
+  <time datetime="2015-05-01T08:31:41.000Z" itemprop="datePublished">2015-05-01</time>
 </a>
     
   </div>
@@ -125,7 +243,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
+      <a class="article-title" href="/2015/05/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
     </h1>
   
 
@@ -183,7 +301,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/01/纯命令行教你Cocoapods的安装和使用/" data-id="ciifpp11x0003ke0jhdoqirck" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/05/01/纯命令行教你Cocoapods的安装和使用/" data-id="ciifpq0qx0003kt0jpnmddp3d" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
@@ -195,59 +313,10 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
 
 
   
-    <article id="post-报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="article-date">
-  <time datetime="2015-11-30T10:38:26.000Z" itemprop="datePublished">2015-11-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天真机调试的时候出现了这个错误，如下图</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg" alt="Mou icon"></p>
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：</p>
-<pre><code>Could <span class="operator">not</span> launch “iOSStrongDemo”
-<span class="built_in">process</span> launch failed: failed <span class="built_in">to</span> <span class="built_in">get</span> <span class="operator">the</span> task <span class="keyword">for</span> <span class="built_in">process</span> <span class="number">1298</span>
-</code></pre><p>错误分析:</p>
-<p>是因为我之前打包的时候，修改了Provisioning Profile。我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/16.png" alt="Mou icon"></p>
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-<p>解决方案：</p>
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="ciifpp127000cke0jui7c98mw" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-JSONKit-在iOS9-arm7-64位下出现的问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" class="article-date">
-  <time datetime="2015-11-30T09:50:08.000Z" itemprop="datePublished">2015-11-30</time>
+    <a href="/2015/03/30/JSONKit-在iOS9-arm7-64位下出现的问题/" class="article-date">
+  <time datetime="2015-03-30T09:50:08.000Z" itemprop="datePublished">2015-03-30</time>
 </a>
     
   </div>
@@ -258,7 +327,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/">JSONKit 在iOS9 arm7 64位下出现的问题</a>
+      <a class="article-title" href="/2015/03/30/JSONKit-在iOS9-arm7-64位下出现的问题/">JSONKit 在iOS9 arm7 64位下出现的问题</a>
     </h1>
   
 
@@ -301,7 +370,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="ciifpp11h0000ke0j7k0ea6zy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/03/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="ciifpq0qm0000kt0jty8hiqcn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a></li></ul>
@@ -313,56 +382,10 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
 
 
   
-    <article id="post-vim-编辑器常用命令" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/04/20/vim-编辑器常用命令/" class="article-date">
-  <time datetime="2015-04-20T02:00:12.000Z" itemprop="datePublished">2015-04-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/20/vim-编辑器常用命令/">vim 编辑器常用命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="vim_编辑器常用命令说明">vim 编辑器常用命令说明</h1><h3 id="启动or退出vim">启动or退出vim</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在终端输入 vimtutor+回车 进入vim 帮助文档 vimtutor </span><br><span class="line"><span class="attribute">:q! :</span> 不保存当前文档就退出</span><br><span class="line"><span class="attribute">:wq! :</span>  保存当前正在编辑的文档然后退出</span><br></pre></td></tr></table></figure>
-<h3 id="移动光标命令">移动光标命令</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">h</span> ⬅️ 向左移动一个字符</span><br><span class="line">j ⬇️ 向下移动一行</span><br><span class="line">k ⬆️ 向上移动一行</span><br><span class="line">l → 右移动一个字符</span><br><span class="line">$ 光标移动打牌行尾 <span class="regexp"></span><br><span class="line">^</span> 光标移动打牌行首   注: <span class="number">0</span> 也可以返回到行首</span><br></pre></td></tr></table></figure>
-<h3 id="插入模式or普通模式命令">插入模式or普通模式命令</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">i :</span> 从当前光标处进入插入模式</span><br><span class="line"><span class="string">I :</span> 进入插入模式，并置光标于行首</span><br><span class="line"><span class="string">a :</span> 追加模式，置光标于当前光标之后</span><br><span class="line"><span class="string">A :</span> 追加模式，置光标于行末</span><br><span class="line"><span class="string">o :</span> 在当前行之下新加一行，并进入插入模式</span><br><span class="line"><span class="string">O :</span> 在当前行之上新加一行，并进入插入模式</span><br><span class="line"><span class="string">Esc:</span>退出插入模式</span><br></pre></td></tr></table></figure>
-<h3 id="复制删除类命令">复制删除类命令</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">x :</span> 删除光标当前的字符	</span><br><span class="line"><span class="string">d$:</span> 删除光标处到改行末尾的内容</span><br><span class="line"><span class="string">dw:</span> 删除一个字</span><br><span class="line"><span class="string">dd:</span> 删除本行内容</span><br><span class="line"><span class="string">ndd:</span>删除从光标处所在行往下n行的内容</span><br><span class="line"><span class="string">cc:</span> 删除当前行并进入编辑模式</span><br><span class="line"><span class="string">p :</span> 在按dd后删除的内容暂时存在缓冲取中,p 可以将这些内容粘贴到光标所在处下面</span><br><span class="line"><span class="string">P :</span> 在按dd后删除的内容暂时存在缓冲取中,p 可以将这些内容粘贴到光标所在处上面</span><br><span class="line"><span class="string">yy:</span> 复制光标所在行</span><br><span class="line"><span class="string">nyy:</span>复制从光标处所在行往下n行的内容</span><br></pre></td></tr></table></figure>
-<h3 id="替换更改类命令">替换更改类命令</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">r : 替换当前字符</span><br><span class="line">R : 替换当前字符之后的全部内容</span><br><span class="line">cw: 删除当前字，并进入编辑模式</span><br><span class="line">c$: 擦除从当前位置至行末的内容，并进入编辑模式</span><br><span class="line">s : 删除当前字符并进入编辑模式</span><br><span class="line">S : 删除光标所在行并进入编辑模式	</span><br><span class="line"><span class="attribute">:s/old/new :</span> 将old 更改为 new </span><br><span class="line"><span class="attribute">:%s/old/new/g :</span> 将全文的old 更改为 new </span><br><span class="line"><span class="attribute">:#,#s/old/new/g :</span> 在两行内替换所有的字符串 old 為新的字符串 new </span><br><span class="line"><span class="attribute">:%s/old/new/g :</span> 在全文件內替换所有的字符串 old 為新的字符串 new</span><br><span class="line"><span class="attribute">:%s/old/new/gc :</span> 進行全文替换時詢問用戶確認每個替換需添加 c 選项</span><br></pre></td></tr></table></figure>
-<h3 id="翻页命令">翻页命令</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ctrl+f : 向下翻一页</span><br><span class="line">ctrl+b : 向上翻一页</span><br><span class="line">ctrl+d : 向下翻一页</span><br><span class="line">ctrl+u : 向下翻一页</span><br><span class="line"><span class="attribute">:行号  :</span> 跳转到指定行</span><br><span class="line">行号+G : 同样可以跳转到指定行</span><br><span class="line">ctrl + G : 显示当前行的信息</span><br><span class="line">G : 光标直接跳转到文档末尾</span><br></pre></td></tr></table></figure>
-<h3 id="保存文件类命令">保存文件类命令</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">:w  :</span>  保存正在编辑的问价</span><br><span class="line"><span class="attribute">:#,# w 文件名 :</span> 将#与#行之内的内容写到文件中</span><br><span class="line"><span class="attribute">:r 文件名 :</span> 将文件中得内容追加到正在编辑文件的光标所在行</span><br><span class="line"><span class="attribute">:行号,行号 w! &gt;&gt; 文件名 :将一个正在编辑的文件的几行追加到另一个已经存在的文件中</span></span><br><span class="line">cp 文件名1  文件名2  :将文件1 的内容移动到文件2中 (文件1.2 都存在)</span><br><span class="line">cp 文件名 ..:将文件移动到上级目录(该目录,上级目录都包含该文件) </span><br><span class="line">mv 文件名1 文件名2 : 将文件名1更改为文件名2(文件1不存在,只有文件2)</span><br></pre></td></tr></table></figure>
-<h3 id="其他命令">其他命令</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">% : 匹配当前配对的符号 如: ( ) <span class="attr_selector">[ ]</span> &#123; &#125;	 * *等等</span><br><span class="line">:! : 这样就可以执行外部命令了</span><br><span class="line"><span class="pseudo">:help</span>  : 可以查看帮助文档</span><br><span class="line"><span class="tag">command</span> + <span class="attr_selector">[ ]</span> : 分别切换到左右不同的终端界面</span><br><span class="line"><span class="tag">source</span> 文件 : 终端重新加载该文件</span><br><span class="line"><span class="tag">open</span>   :  打开文件命令</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/20/vim-编辑器常用命令/" data-id="ciifpp12n000lke0jkcxynbbo" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-shell常用命令-脚本编写" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/04/18/shell常用命令-脚本编写/" class="article-date">
-  <time datetime="2015-04-18T02:04:34.000Z" itemprop="datePublished">2015-04-18</time>
+    <a href="/2015/01/18/shell常用命令-脚本编写/" class="article-date">
+  <time datetime="2015-01-18T02:04:34.000Z" itemprop="datePublished">2015-01-18</time>
 </a>
     
   </div>
@@ -373,7 +396,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
+      <a class="article-title" href="/2015/01/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
     </h1>
   
 
@@ -500,7 +523,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/04/18/shell常用命令-脚本编写/" data-id="ciifpp12u000rke0j1zuim63i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/01/18/shell常用命令-脚本编写/" data-id="ciifpq0rz000rkt0jabo1rhto" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -512,10 +535,10 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
 
 
   
-    <article id="post-iOS中webView加载URL需要处理特殊字符" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-vim-编辑器常用命令" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/12/21/iOS中webView加载URL需要处理特殊字符/" class="article-date">
-  <time datetime="2014-12-21T08:30:55.000Z" itemprop="datePublished">2014-12-21</time>
+    <a href="/2014/12/30/vim-编辑器常用命令/" class="article-date">
+  <time datetime="2014-12-30T02:00:12.000Z" itemprop="datePublished">2014-12-30</time>
 </a>
     
   </div>
@@ -526,7 +549,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/21/iOS中webView加载URL需要处理特殊字符/">iOS中webView加载URL需要处理特殊字符</a>
+      <a class="article-title" href="/2014/12/30/vim-编辑器常用命令/">vim 编辑器常用命令</a>
     </h1>
   
 
@@ -534,25 +557,22 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView <em>)webView shouldStartLoadWithRequest:(NSURLRequest </em>)request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的request.URL是Null。一般来说我们调用webVIew的时候，只要给webVIew传一个url，在网页里面就可以显示网页信息。但是当我们传的url比较麻烦或者带文字符，带参数的时候我们需要对特殊字符进行转义。我们还可以用遍历、正则等来把特殊字符给替换掉！！</p>
-<p>有两种方法，希望可以有所帮助：</p>
-<p>一、使用NSString的方法：</p>
-<pre><code><span class="number">1</span>.字符串加百分号转义使用编码 (这个方法会把参数里面的东西转义)
-    NSString *<span class="keyword">str1 </span>= [<span class="keyword">string </span><span class="keyword">stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; </span>   
-
-<span class="number">2</span>.字符串替换百分号转义使用编码
-    NSString *<span class="keyword">str1 </span>= [<span class="keyword">string </span><span class="keyword">stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];</span>
-</code></pre><p>二、使用CFStringRef的方法：</p>
-<pre><code>url = (<span class="built_in">NSString</span> *)<span class="built_in">CFBridgingRelease</span>(<span class="built_in">CFURLCreateStringByAddingPercentEscapes</span>(k<span class="built_in">CFAllocatorDefault</span>, (<span class="built_in">CFStringRef</span>)url, <span class="literal">nil</span>, <span class="literal">nil</span>, k<span class="built_in">CFStringEncodingUTF8</span>));
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/URL特殊字符1.png" alt="Mou icon"></p>
+        <h1 id="vim_编辑器常用命令说明">vim 编辑器常用命令说明</h1><h3 id="启动or退出vim">启动or退出vim</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在终端输入 vimtutor+回车 进入vim 帮助文档 vimtutor </span><br><span class="line"><span class="attribute">:q! :</span> 不保存当前文档就退出</span><br><span class="line"><span class="attribute">:wq! :</span>  保存当前正在编辑的文档然后退出</span><br></pre></td></tr></table></figure>
+<h3 id="移动光标命令">移动光标命令</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">h</span> ⬅️ 向左移动一个字符</span><br><span class="line">j ⬇️ 向下移动一行</span><br><span class="line">k ⬆️ 向上移动一行</span><br><span class="line">l → 右移动一个字符</span><br><span class="line">$ 光标移动打牌行尾 <span class="regexp"></span><br><span class="line">^</span> 光标移动打牌行首   注: <span class="number">0</span> 也可以返回到行首</span><br></pre></td></tr></table></figure>
+<h3 id="插入模式or普通模式命令">插入模式or普通模式命令</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">i :</span> 从当前光标处进入插入模式</span><br><span class="line"><span class="string">I :</span> 进入插入模式，并置光标于行首</span><br><span class="line"><span class="string">a :</span> 追加模式，置光标于当前光标之后</span><br><span class="line"><span class="string">A :</span> 追加模式，置光标于行末</span><br><span class="line"><span class="string">o :</span> 在当前行之下新加一行，并进入插入模式</span><br><span class="line"><span class="string">O :</span> 在当前行之上新加一行，并进入插入模式</span><br><span class="line"><span class="string">Esc:</span>退出插入模式</span><br></pre></td></tr></table></figure>
+<h3 id="复制删除类命令">复制删除类命令</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">x :</span> 删除光标当前的字符	</span><br><span class="line"><span class="string">d$:</span> 删除光标处到改行末尾的内容</span><br><span class="line"><span class="string">dw:</span> 删除一个字</span><br><span class="line"><span class="string">dd:</span> 删除本行内容</span><br><span class="line"><span class="string">ndd:</span>删除从光标处所在行往下n行的内容</span><br><span class="line"><span class="string">cc:</span> 删除当前行并进入编辑模式</span><br><span class="line"><span class="string">p :</span> 在按dd后删除的内容暂时存在缓冲取中,p 可以将这些内容粘贴到光标所在处下面</span><br><span class="line"><span class="string">P :</span> 在按dd后删除的内容暂时存在缓冲取中,p 可以将这些内容粘贴到光标所在处上面</span><br><span class="line"><span class="string">yy:</span> 复制光标所在行</span><br><span class="line"><span class="string">nyy:</span>复制从光标处所在行往下n行的内容</span><br></pre></td></tr></table></figure>
+<h3 id="替换更改类命令">替换更改类命令</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">r : 替换当前字符</span><br><span class="line">R : 替换当前字符之后的全部内容</span><br><span class="line">cw: 删除当前字，并进入编辑模式</span><br><span class="line">c$: 擦除从当前位置至行末的内容，并进入编辑模式</span><br><span class="line">s : 删除当前字符并进入编辑模式</span><br><span class="line">S : 删除光标所在行并进入编辑模式	</span><br><span class="line"><span class="attribute">:s/old/new :</span> 将old 更改为 new </span><br><span class="line"><span class="attribute">:%s/old/new/g :</span> 将全文的old 更改为 new </span><br><span class="line"><span class="attribute">:#,#s/old/new/g :</span> 在两行内替换所有的字符串 old 為新的字符串 new </span><br><span class="line"><span class="attribute">:%s/old/new/g :</span> 在全文件內替换所有的字符串 old 為新的字符串 new</span><br><span class="line"><span class="attribute">:%s/old/new/gc :</span> 進行全文替换時詢問用戶確認每個替換需添加 c 選项</span><br></pre></td></tr></table></figure>
+<h3 id="翻页命令">翻页命令</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ctrl+f : 向下翻一页</span><br><span class="line">ctrl+b : 向上翻一页</span><br><span class="line">ctrl+d : 向下翻一页</span><br><span class="line">ctrl+u : 向下翻一页</span><br><span class="line"><span class="attribute">:行号  :</span> 跳转到指定行</span><br><span class="line">行号+G : 同样可以跳转到指定行</span><br><span class="line">ctrl + G : 显示当前行的信息</span><br><span class="line">G : 光标直接跳转到文档末尾</span><br></pre></td></tr></table></figure>
+<h3 id="保存文件类命令">保存文件类命令</h3><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">:w  :</span>  保存正在编辑的问价</span><br><span class="line"><span class="attribute">:#,# w 文件名 :</span> 将#与#行之内的内容写到文件中</span><br><span class="line"><span class="attribute">:r 文件名 :</span> 将文件中得内容追加到正在编辑文件的光标所在行</span><br><span class="line"><span class="attribute">:行号,行号 w! &gt;&gt; 文件名 :将一个正在编辑的文件的几行追加到另一个已经存在的文件中</span></span><br><span class="line">cp 文件名1  文件名2  :将文件1 的内容移动到文件2中 (文件1.2 都存在)</span><br><span class="line">cp 文件名 ..:将文件移动到上级目录(该目录,上级目录都包含该文件) </span><br><span class="line">mv 文件名1 文件名2 : 将文件名1更改为文件名2(文件1不存在,只有文件2)</span><br></pre></td></tr></table></figure>
+<h3 id="其他命令">其他命令</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">% : 匹配当前配对的符号 如: ( ) <span class="attr_selector">[ ]</span> &#123; &#125;	 * *等等</span><br><span class="line">:! : 这样就可以执行外部命令了</span><br><span class="line"><span class="pseudo">:help</span>  : 可以查看帮助文档</span><br><span class="line"><span class="tag">command</span> + <span class="attr_selector">[ ]</span> : 分别切换到左右不同的终端界面</span><br><span class="line"><span class="tag">source</span> 文件 : 终端重新加载该文件</span><br><span class="line"><span class="tag">open</span>   :  打开文件命令</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/21/iOS中webView加载URL需要处理特殊字符/" data-id="ciifpp1330010ke0jxiw8ldqh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/30/vim-编辑器常用命令/" data-id="ciifpq0rr000lkt0juacs0qcy" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
 
     </footer>
   </div>
@@ -606,7 +626,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="ciifpp12y000uke0jt5d7xxpg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="ciifpq0s3000ukt0j14fkeppv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/">zsh</a></li></ul>
@@ -745,7 +765,7 @@ hexo <span class="keyword">n</span> ==  hexo new
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/11/27/成功搭建hexo本地博客并部署到github上/" data-id="ciifpp12h000fke0jsh3b0wyn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/11/27/成功搭建hexo本地博客并部署到github上/" data-id="ciifpq0rj000fkt0jty7xdhq8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
@@ -790,7 +810,7 @@ hexo <span class="keyword">n</span> ==  hexo new
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -802,23 +822,23 @@ hexo <span class="keyword">n</span> ==  hexo new
       <ul>
         
           <li>
-            <a href="/2015/12/17/iOS开发之各种动画各种页面切面效果/">iOS开发之各种动画各种页面切面效果</a>
+            <a href="/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/">Xcode7:让你只需4步就可以免证书进行真机调试了！</a>
           </li>
         
           <li>
-            <a href="/2015/12/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
+            <a href="/2015/11/21/iOS中webView加载URL需要处理特殊字符/">iOS中webView加载URL需要处理特殊字符</a>
           </li>
         
           <li>
-            <a href="/2015/12/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
+            <a href="/2015/10/17/iOS开发之各种动画各种页面切面效果/">iOS开发之各种动画各种页面切面效果</a>
           </li>
         
           <li>
-            <a href="/2015/12/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
+            <a href="/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
           </li>
         
           <li>
-            <a href="/2015/12/16/UICollectionview的使用详解/">UICollectionview的使用详解</a>
+            <a href="/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
           </li>
         
       </ul>
