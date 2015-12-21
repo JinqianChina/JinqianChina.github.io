@@ -3,17 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: iOS真机调试 | Jinge&#39;blog</title>
+  <title>iOS中webView加载URL需要处理特殊字符 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/tags/iOS真机调试/index.html">
+  <meta name="description" content="今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView )webView shouldStartLoadWithRequest:(NSURLRequest )request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的reques">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中webView加载URL需要处理特殊字符">
+<meta property="og:url" content="http://yoursite.com/2015/12/21/iOS中webView加载URL需要处理特殊字符/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView )webView shouldStartLoadWithRequest:(NSURLRequest )request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的reques">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/URL特殊字符1.png">
+<meta property="og:updated_time" content="2015-12-21T08:32:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="iOS中webView加载URL需要处理特殊字符">
+<meta name="twitter:description" content="今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView )webView shouldStartLoadWithRequest:(NSURLRequest )request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的reques">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +65,65 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="archive-article-date">
-  <time datetime="2015-11-30T10:38:26.000Z" itemprop="datePublished">Nov 30</time>
+        <section id="main"><article id="post-iOS中webView加载URL需要处理特殊字符" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/12/21/iOS中webView加载URL需要处理特殊字符/" class="article-date">
+  <time datetime="2015-12-21T08:30:55.000Z" itemprop="datePublished">2015-12-21</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/11/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
+    <h1 class="article-title" itemprop="name">
+      iOS中webView加载URL需要处理特殊字符
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天在项目中遇到webView加载URL时，因为URL中有特殊字符，导致页面无法加载，而且在- (BOOL)webView:(UIWebView <em>)webView shouldStartLoadWithRequest:(NSURLRequest </em>)request navigationType:(UIWebViewNavigationType)navigationType代理方法中获取的request.URL是Null。一般来说我们调用webVIew的时候，只要给webVIew传一个url，在网页里面就可以显示网页信息。但是当我们传的url比较麻烦或者带文字符，带参数的时候我们需要对特殊字符进行转义。我们还可以用遍历、正则等来把特殊字符给替换掉！！</p>
+<p>有两种方法，希望可以有所帮助：</p>
+<p>一、使用NSString的方法：</p>
+<pre><code><span class="number">1</span>.字符串加百分号转义使用编码 (这个方法会把参数里面的东西转义)
+    NSString *<span class="keyword">str1 </span>= [<span class="keyword">string </span><span class="keyword">stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]; </span>   
+
+<span class="number">2</span>.字符串替换百分号转义使用编码
+ NSString *<span class="keyword">str1 </span>= [<span class="keyword">string </span><span class="keyword">stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];</span>
+</code></pre><p>二、使用CFStringRef的方法：</p>
+<pre><code>url = (<span class="built_in">NSString</span> *)<span class="built_in">CFBridgingRelease</span>(<span class="built_in">CFURLCreateStringByAddingPercentEscapes</span>(k<span class="built_in">CFAllocatorDefault</span>, (<span class="built_in">CFStringRef</span>)url, <span class="literal">nil</span>, <span class="literal">nil</span>, k<span class="built_in">CFStringEncodingUTF8</span>));
+</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/URL特殊字符1.png" alt="Mou icon"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/12/21/iOS中webView加载URL需要处理特殊字符/" data-id="ciifpgqan0010i90jen5suwlg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/17/iOS开发之各种动画各种页面切面效果/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS开发之各种动画各种页面切面效果</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
