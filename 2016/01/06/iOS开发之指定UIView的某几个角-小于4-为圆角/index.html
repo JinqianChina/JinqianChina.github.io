@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2014/11 | Jinge&#39;blog</title>
+  <title>iOS开发之指定UIView的某几个角(小于4)为圆角 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/archives/2014/11/index.html">
+  <meta name="description" content="在iOS开发中，我们经常会遇到View设置圆角的问题，如果需要将UIView的4个角全部都为圆角，做法相当简单，只需设置其Layer的cornerRadius属性即可（项目需要使用QuartzCore框架）。而若要指定某几个角（小于4）为圆角而别的不变时，这种方法就不好用了。
+对于后者这种情况，下面给出一种比较简单优雅的方案，就是使用UIBezierPath。
+示例代码如下：
+UIView *te">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发之指定UIView的某几个角(小于4)为圆角">
+<meta property="og:url" content="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="在iOS开发中，我们经常会遇到View设置圆角的问题，如果需要将UIView的4个角全部都为圆角，做法相当简单，只需设置其Layer的cornerRadius属性即可（项目需要使用QuartzCore框架）。而若要指定某几个角（小于4）为圆角而别的不变时，这种方法就不好用了。
+对于后者这种情况，下面给出一种比较简单优雅的方案，就是使用UIBezierPath。
+示例代码如下：
+UIView *te">
+<meta property="og:updated_time" content="2016-01-06T09:07:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="iOS开发之指定UIView的某几个角(小于4)为圆角">
+<meta name="twitter:description" content="在iOS开发中，我们经常会遇到View设置圆角的问题，如果需要将UIView的4个角全部都为圆角，做法相当简单，只需设置其Layer的cornerRadius属性即可（项目需要使用QuartzCore框架）。而若要指定某几个角（小于4）为圆角而别的不变时，这种方法就不好用了。
+对于后者这种情况，下面给出一种比较简单优雅的方案，就是使用UIBezierPath。
+示例代码如下：
+UIView *te">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +73,75 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/11/27/成功搭建hexo本地博客并部署到github上/" class="archive-article-date">
-  <time datetime="2014-11-27T08:19:20.000Z" itemprop="datePublished">Nov 27</time>
+        <section id="main"><article id="post-iOS开发之指定UIView的某几个角-小于4-为圆角" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" class="article-date">
+  <time datetime="2016-01-06T09:06:24.000Z" itemprop="datePublished">2016-01-06</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/11/27/成功搭建hexo本地博客并部署到github上/">成功搭建hexo本地博客并部署到github上</a>
+    <h1 class="article-title" itemprop="name">
+      iOS开发之指定UIView的某几个角(小于4)为圆角
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在iOS开发中，我们经常会遇到View设置圆角的问题，如果需要将UIView的4个角全部都为圆角，做法相当简单，只需设置其Layer的cornerRadius属性即可（项目需要使用QuartzCore框架）。而若要指定某几个角（小于4）为圆角而别的不变时，这种方法就不好用了。</p>
+<p>对于后者这种情况，下面给出一种比较简单优雅的方案，就是使用UIBezierPath。</p>
+<p>示例代码如下：</p>
+<pre><code><span class="built_in">UIView</span> *testView = [[<span class="built_in">UIView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">100</span>, <span class="number">10</span>, <span class="number">80</span>, <span class="number">80</span>)];
+testView<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:testView];
+
+<span class="built_in">UIBezierPath</span> *maskPath = [<span class="built_in">UIBezierPath</span> bezierPathWithRoundedRect:testView<span class="variable">.bounds</span> byRoundingCorners:<span class="built_in">UIRectCornerBottomLeft</span> | <span class="built_in">UIRectCornerBottomRight</span> cornerRadii:<span class="built_in">CGSizeMake</span>(<span class="number">10</span>, <span class="number">10</span>)];
+<span class="built_in">CAShapeLayer</span> *maskLayer = [[<span class="built_in">CAShapeLayer</span> alloc] init];
+maskLayer<span class="variable">.frame</span> = testView<span class="variable">.bounds</span>;
+maskLayer<span class="variable">.path</span> = maskPath<span class="variable">.CGPath</span>;
+testView<span class="variable">.layer</span><span class="variable">.mask</span> = maskLayer;
+</code></pre><p>其中，byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight<br>指定了需要成为圆角的角。该参数是UIRectCorner类型的，可选的值有：</p>
+<ul>
+<li>UIRectCornerTopLeft</li>
+<li>UIRectCornerTopRight</li>
+<li>UIRectCornerBottomLeft</li>
+<li>UIRectCornerBottomRight</li>
+<li>UIRectCornerAllCorners</li>
+</ul>
+<p>从名字很容易看出来代表的意思，使用“|”来组合就好了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cij2lqvj90010fd0je9ugvsu3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/23/iOS快速打企业包ipa/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS快速打企业包ipa</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
