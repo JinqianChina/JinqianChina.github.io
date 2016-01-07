@@ -65,6 +65,172 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Cookie机制以及cookie在iOS中使用介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" class="article-date">
+  <time datetime="2016-01-07T06:14:42.000Z" itemprop="datePublished">2016-01-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/">Cookie机制以及cookie在iOS中使用介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在iOS开发中遇到了cookie的问题，经过多番查找资料，终于对cookie有了一些了解，并整理了以下资料。</p>
+<p>Cookie机制：</p>
+<p>Cookie是在客户端存储服务器状态的一种机制,Web服务器可以通过Set-Cookie或者Set-Cookie2 HTTP头部设置Cookie。<br>Cookie是在浏览器访问WEB服务器的某个资源时，由WEB服务器在HTTP响应消息头中附带传送给浏览器的一个小文本文件。一旦WEB浏览器保存了某个Cookie，那么它在以后每次访问该WEB服务器时，都会在HTTP请求头中将这个Cookie回传给WEB服务器。 </p>
+<p>底层的实现原理： WEB服务器通过在HTTP响应消息中增加Set-Cookie响应头字段将Cookie信息发送给浏览器，浏览器则通过在HTTP请求消息中增加Cookie请求头字段将Cookie回传给WEB服务器。<br>一个Cookie只能标识一种信息，它至少含有一个标识该信息的名称（NAME）和设置值（VALUE）。<br>一个WEB站点可以给一个WEB浏览器发送多个Cookie，一个WEB浏览器也可以存储多个WEB站点提供的Cookie。<br>浏览器一般只允许存放300个Cookie，每个站点最多存放20个Cookie，每个Cookie的大小限制为4KB。</p>
+<p>Cookie可以分为两类，会话Cookie和持久Cookie,会话Cookie是临时Cookie,当前会话结束(浏览器退出)时Cookie会被删除。持久Cookie会存储在用户的硬盘上,浏览器退出，然后重新启动后Cookie仍然存在。会话Cookie和持久Cookie的区别在于过期时间，如果设置了Discard参数(Cookie 版本1)或者没有设置Expires(Cookie版本0)或Max-Age(Cookie版本1)设置过期时间，则此Cookie为会话Cookie<br>Cookie有两个版本,一个是版本0(Netscape Cookies)和版本1(RFC 2965),目前大多数服务器使用的Cookie 0。</p>
+<p>当然，cookie也应用到了我们iOS中，下面介绍一下iOS中的cookie：</p>
+<p>一. NSHTTPCookie</p>
+<ol>
+<li><p>在iOS中使用NSHTTPCookie类封装一条cookie,通过NSHTTPCookie的方法读取到cookie的通用属性。</p>
+<pre><code>-<span class="ruby"> (<span class="constant">NSUInteger</span>)version;
+</span>-<span class="ruby"> (<span class="constant">NSString</span> *)name;
+</span>-<span class="ruby"> (<span class="constant">NSString</span> *)value;
+</span>-<span class="ruby"> (<span class="constant">NSString</span> *)domain;
+</span>-<span class="ruby"> (<span class="constant">NSString</span> *)path;
+</span>-<span class="ruby"> (<span class="constant">BOOL</span>)isSessionOnly;等等</span>
+</code></pre></li>
+<li><p>可以通过手工赋值的方式创建Cookie,如</p>
+<pre><code>+ (<span class="keyword">id</span>)cookieWithProperties:(<span class="built_in">NSDictionary</span> *)properties;
+- (<span class="keyword">id</span>)initWithProperties:(<span class="built_in">NSDictionary</span> *)properties;
+</code></pre></li>
+<li><p>也可以从Cookie中读取到所有属性。</p>
+<pre><code><span class="bullet">- </span>(NSDictionary <span class="strong">*)properties;</span>
+</code></pre></li>
+<li><p>使用NSHTTPCookie的类方法可以将NSHTTPCookie实例与HTTP cookie header相互转换.</p>
+<pre><code>根据<span class="built_in">NSHTTPCookie</span>实例数组生成对应的HTTP cookie header
++ (<span class="built_in">NSDictionary</span> *)requestHeaderFieldsWithCookies:(<span class="built_in">NSArray</span> *)cookies;
+
+从headerFileds中读取到Cookie相关内容,生成<span class="built_in">NSHTTPCookie</span>实例对象数组。
++ (<span class="built_in">NSArray</span> *)cookiesWithResponseHeaderFields:(<span class="built_in">NSDictionary</span> *)headerFields forURL:(<span class="built_in">NSURL</span> *)theURL;
+
+该方法会忽略headerFileds中与cookie无关的字段，如果headerFileds中的cookie没有指定domain,则使用theURL的domain,如果没有指定path,则使用”/”.
+
+除非<span class="built_in">NSURLRequest</span>明确指定不使用cookie(HTTPShouldHandleCookies设为<span class="literal">NO</span>),否则URL loading system会自动为<span class="built_in">NSURLRequest</span>发送合适的存储cookie。从<span class="built_in">NSURLResponse</span>返回的cookie也会根据当前的cookie访问策略(cookie acceptance policy)接收到系统中。
+</code></pre></li>
+</ol>
+<p>二. NSHTTPCookieStorage</p>
+<ol>
+<li><p>NSHTTPCookieStorage单件类提供了管理所有NSHTTPCookie对象的接口，在OS X里,cookie是在所有程序中共享的，而在iOS中,cookie只当当前应用中有效。</p>
+<pre><code>通过sharedHTTPCookieStorage方法可获取到共享的<span class="built_in">NSHTTPCookieStorage</span>单件对象。
++ (<span class="built_in">NSHTTPCookieStorage</span> *)sharedHTTPCookieStorage；
+
+使用<span class="built_in">NSHTTPCookieStorage</span>单件对象可获取到当前存储的所有cookie
+- (<span class="built_in">NSArray</span> *)cookies
+
+或针对特定URL的cookie
+- (<span class="built_in">NSArray</span> *)cookiesForURL:(<span class="built_in">NSURL</span> *)theURL;
+
+还可以添加/删除Cookie
+– deleteCookie:
+– setCookie:
+– setCookies:forURL:mainDocumentURL:
+
+通过<span class="built_in">NSHTTPCookieStorage</span>可读取/修改cookie接收策略,默认为<span class="built_in">NSHTTPCookieAcceptPolicyAlways</span>.
+- (<span class="built_in">NSHTTPCookieAcceptPolicy</span>)cookieAcceptPolicy；
+- (<span class="keyword">void</span>)setCookieAcceptPolicy:(<span class="built_in">NSHTTPCookieAcceptPolicy</span>)aPolicy.
+
+一共有三种cookie accept policy,
+<span class="keyword">typedef</span> <span class="keyword">enum</span> {
+   <span class="built_in">NSHTTPCookieAcceptPolicyAlways</span>,
+   <span class="built_in">NSHTTPCookieAcceptPolicyNever</span>,
+   <span class="built_in">NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain</span>
+} <span class="built_in">NSHTTPCookieAcceptPolicy</span>;
+
+<span class="built_in">NSHTTPCookieAcceptPolicyAlways</span>:接收所有cookie,默认策略.
+<span class="built_in">NSHTTPCookieAcceptPolicyNever</span>: 拒绝所有cookie
+<span class="built_in">NSHTTPCookieAcceptPolicyOnlyFromMainDocumentDomain</span>:只接收main document domain中的cookie.
+</code></pre></li>
+<li><p>相关通知Notification</p>
+<pre><code><span class="built_in">NSHTTPCookieManagerCookiesChangedNotification</span>
+当<span class="built_in">NSHTTPCookieStorage</span>实例中的cookies变化时发出此通知。
+<span class="built_in">NSHTTPCookieManagerAcceptPolicyChangedNotification</span>
+当<span class="built_in">NSHTTPCookieStorage</span>实例的cookie acceptance policy变化时发出此通知。
+</code></pre></li>
+</ol>
+<p>三. cookie的使用</p>
+<p>当你利用一个URL请求时，NSURLRequest都会帮你主动记录下来你访问的站点设置的cookie（因为NSHTTPCookieStorage可读取/修改cookie接收策略,默认为NSHTTPCookieAcceptPolicyAlways.当然你也可以给它设置为NSHTTPCookieAcceptPolicyNever: 拒绝所有cookie），而且很负责任的，当你下次再访问这个站点时，NSURLRequest会拿着上次保存下来了的cookie继续去请求。这规律同样适用于 ASIHTTPRequest。所以当你做一些基于认证的网络请求时，cookie不失为一个完美的解决方案。</p>
+<ol>
+<li><p>怎么查看cookie？</p>
+<pre><code><span class="built_in">NSHTTPCookieStorage</span> *cookieJar = [<span class="built_in">NSHTTPCookieStorage</span> sharedHTTPCookieStorage];
+<span class="keyword">for</span> (<span class="built_in">NSHTTPCookie</span> *cookie <span class="keyword">in</span> [cookieJar cookies]) {
+       <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, cookie);
+}
+这样就列出了所有已保存的cookie,如果当前为空怎么办呢？随便请求一个url喽。
+<span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:
+[<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://blog.cnrainbird.com"</span>] cachePolicy:<span class="built_in">NSURLRequestReloadIgnoringLocalAndRemoteCacheData</span>    timeoutInterval:<span class="number">3</span>];
+[<span class="built_in">NSURLConnection</span> sendSynchronousRequest:request 
+                      returningResponse:<span class="literal">nil</span> 
+                                     error:<span class="literal">nil</span>]; 
+
+<span class="built_in">NSHTTPCookieStorage</span> *cookieJar = [<span class="built_in">NSHTTPCookieStorage</span> sharedHTTPCookieStorage];
+<span class="keyword">for</span> (<span class="built_in">NSHTTPCookie</span> *cookie <span class="keyword">in</span> [cookieJar cookies]) {
+    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, cookie);
+}
+
+是不是得到了类似:
+&lt;<span class="built_in">NSHTTPCookie</span> version:<span class="number">0</span> name:<span class="string">"PHPSESSID"</span> value:<span class="string">"evf5rcboo8th1dnl53fs4ukmt2"</span> expiresDate:(null) created:<span class="number">2012</span>-<span class="number">03</span>-<span class="number">13</span> <span class="number">14</span>:<span class="number">28</span>:<span class="number">13</span> +<span class="number">0000</span> (<span class="number">3.53342e+08</span>) sessionOnly:<span class="literal">TRUE</span> domain:<span class="string">"blog.cnrainbird.com"</span> path:<span class="string">"/"</span> isSecure:<span class="literal">FALSE</span>&gt;
+的东东？这就是cookie啦
+</code></pre></li>
+<li><p>怎么清空cookie？</p>
+<pre><code><span class="built_in">NSHTTPCookieStorage</span> *cookieJar = [<span class="built_in">NSHTTPCookieStorage</span> sharedHTTPCookieStorage];
+<span class="built_in">NSArray</span> *_tmpArray = [<span class="built_in">NSArray</span> arrayWithArray:[cookieJar cookies]];
+<span class="keyword">for</span> (<span class="keyword">id</span> obj <span class="keyword">in</span> _tmpArray) {
+    [cookieJar deleteCookie:obj];
+}
+这样cookie就消失的一干二净了。
+</code></pre></li>
+<li><p>会查看cookie了，也会清空cookie了，怎么设置指定的cookie呢？</p>
+<pre><code>NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+[cookieProperties <span class="string">setObject:</span>@<span class="string">"username"</span> <span class="string">forKey:</span>NSHTTPCookieName];
+[cookieProperties <span class="string">setObject:</span>@<span class="string">"rainbird"</span> <span class="string">forKey:</span>NSHTTPCookieValue];
+[cookieProperties <span class="string">setObject:</span>@<span class="string">"cnrainbird.com"</span> <span class="string">forKey:</span>NSHTTPCookieDomain];
+[cookieProperties <span class="string">setObject:</span>@<span class="string">"cnrainbird.com"</span> <span class="string">forKey:</span>NSHTTPCookieOriginURL];
+[cookieProperties <span class="string">setObject:</span>@<span class="string">"/"</span> <span class="string">forKey:</span>NSHTTPCookiePath];
+[cookieProperties <span class="string">setObject:</span>@<span class="string">"0"</span> <span class="string">forKey:</span>NSHTTPCookieVersion];
+
+NSHTTPCookie *cookie = [NSHTTPCookie <span class="string">cookieWithProperties:</span>cookieProperties];
+[[NSHTTPCookieStorage sharedHTTPCookieStorage] <span class="string">setCookie:</span>cookie];
+
+这样就可以了。输入一下，是不是得到了下面这样的结果：
+
+&lt;NSHTTPCookie <span class="string">version:</span><span class="number">0</span> <span class="string">name:</span><span class="string">"username"</span> <span class="string">value:</span><span class="string">"rainbird"</span> <span class="string">expiresDate:</span>(<span class="literal">null</span>) crea
+</code></pre></li>
+</ol>
+<p>参考资料：</p>
+<p><a href="http://blog.csdn.net/chun799/article/details/17206907" target="_blank" rel="external">http://blog.csdn.net/chun799/article/details/17206907</a>  iOS中Cookie介绍</p>
+<p><a href="http://blog.csdn.net/majiakun1/article/details/38140359" target="_blank" rel="external">http://blog.csdn.net/majiakun1/article/details/38140359</a> Cookie的使用</p>
+<p><a href="http://www.jianshu.com/p/65094611980c" target="_blank" rel="external">http://www.jianshu.com/p/65094611980c</a> iOS平台下cookie的使用</p>
+<p><a href="http://blog.sina.com.cn/s/blog_884e78b20101htpx.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_884e78b20101htpx.html</a> cookie 原理与在IOS中使用的注意点</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cij3v56t50000so0joaumyjwa" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS开发之指定UIView的某几个角-小于4-为圆角" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" class="article-date">
@@ -113,7 +279,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cij2ls03q0010fy0jbg4lggya" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cij3v56uq0010so0jghudmpsi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a></li></ul>
@@ -170,7 +336,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cij2ls03m000xfy0jp9di9q94" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cij3v56um000xso0jxc467yih" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a></li></ul>
@@ -216,7 +382,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cij2ls044001ffy0jd3vgkpdv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cij3v56v3001fso0joxmqsgu3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
@@ -265,7 +431,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cij2ls03v0016fy0j8z4xm543" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cij3v56uu0016so0jziwg8c2f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
@@ -355,7 +521,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cij2ls03t0013fy0jgovofhio" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cij3v56us0013so0j2zn4kspp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a></li></ul>
@@ -478,7 +644,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cij2ls048001lfy0jly5csooo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cij3v56v7001lso0j1klolgz3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>
@@ -645,7 +811,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cij2ls040001cfy0jnbk10cgp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cij3v56v0001cso0jhsr42uhp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>
@@ -698,7 +864,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cij2ls02o0006fy0jgqkr5zw1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cij3v56tp0006so0jymf02wiz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
@@ -916,60 +1082,10 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/UICollectionview的使用详解/" data-id="cij2ls04b001ofy0jcw7q88mw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/16/UICollectionview的使用详解/" data-id="cij3v56v9001oso0jsovhfc3i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Undefined-symbols-for-architectur-referenced-from问题解决" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" class="article-date">
-  <time datetime="2015-08-16T05:52:22.000Z" itemprop="datePublished">2015-08-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/">Undefined symbols for architectur referenced from问题解决</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>多个人共同操作同一个项目或拷贝项目时，经常会出现类似这样的问题：<br>Undefined symbols for architecture x86_64:<br>“_OBJC<em>CLASS</em>$_xxx文件名”, referenced from:<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错svn冲突误删报错.png" alt="Mou icon"><br>今天我就遇到了这个问题，当我从svn上update服务器上的改动后再commit本地的修改，出现了冲突，打不开工程，当我删除冲突后打开工程，就出现上述错误（是误删出了错）。删除冲突操作如下图：<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错5.png" alt="Mou icon"></p>
-<p>下面给我的解决办法，在报错这里我们可以看到，是因为缺少了两个XXX.o文件</p>
-<ol>
-<li><p>先打开svn，找到工程的配置文件，选中project.pbxproj，然后revert，这里是把你之前解决冲突时删除的操作恢复了。如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错2.png" alt="Mou icon"></p>
-</li>
-<li><p>这里你之前添加到工程里的文件会被恢复，文件还在（因为之前你已经commit了），只是没有添加到工程中，这时打开之前文件添加的位置，点击add files，如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错3.png" alt="Mou icon"></p>
-</li>
-<li><p>会出现一个窗口，在这个窗口中，灰色不能点击的文件均为已经添加到工程里的文件，这时你会看到你之前添加的文件，它们是正常文件颜色，可以点击，选中它们添加到工程即可，如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错4.png" alt="Mou icon"></p>
-</li>
-<li><p>最后，运行项目即可</p>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cij2ls046001ify0jzp2d3ca4" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a></li></ul>
 
     </footer>
   </div>
@@ -993,7 +1109,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1002,7 +1118,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a>
     </div>
   </div>
 
@@ -1011,7 +1127,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1021,6 +1137,10 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/">Cookie机制以及cookie在iOS中使用介绍</a>
+          </li>
         
           <li>
             <a href="/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/">iOS开发之指定UIView的某几个角(小于4)为圆角</a>
@@ -1036,10 +1156,6 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
         
           <li>
             <a href="/2015/11/21/iOS中webView加载URL需要处理特殊字符/">iOS中webView加载URL需要处理特殊字符</a>
-          </li>
-        
-          <li>
-            <a href="/2015/10/17/iOS开发之各种动画各种页面切面效果/">iOS开发之各种动画各种页面切面效果</a>
           </li>
         
       </ul>
