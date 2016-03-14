@@ -101,38 +101,37 @@
 {
     <span class="keyword">return</span> num1 * num2;
 };
-</code></pre></li>
-</ol>
-<p>其中，定义了一个名字为aBlock的blocks对象，并携带了相关信息：</p>
-<p>　　1. aBlock 有两个形式参数，分别为int类型；</p>
-<p>　　2. aBlock 的返回值为int 类型；</p>
-<p>　　3. 等式右边就是blocks的具体实现；</p>
-<p>　　4. ^ 带边blocks声明和实现的标示（关键字）；</p>
-<p>当然，你可以定义其他形式的block：无返回值，无形式参数等；</p>
-<pre><code><span class="keyword">void</span> (^bBlock)() = ^()
-   {
-       <span class="keyword">int</span> a = <span class="number">10</span>;
-       <span class="built_in">printf</span>(num = %d,a);
-   };
+<span class="comment">//其中，定义了一个名字为aBlock的blocks对象，并携带了相关信息：</span>
+
+　　<span class="number">1.</span> aBlock 有两个形式参数，分别为<span class="keyword">int</span>类型；
+
+　　<span class="number">2.</span> aBlock 的返回值为<span class="keyword">int</span> 类型；
+
+　　<span class="number">3.</span> 等式右边就是blocks的具体实现；
+
+　　<span class="number">4.</span> ^ 带边blocks声明和实现的标示（关键字）；
+
+<span class="comment">//当然，你可以定义其他形式的block：无返回值，无形式参数等；</span>
+
+<span class="keyword">void</span> (^bBlock)() = ^()
+{
+    <span class="keyword">int</span> a = <span class="number">10</span>;
+    <span class="built_in">printf</span>(num = %d,a);
+};
 </code></pre><ol>
 <li><p>blocks 访问权限</p>
-<pre><code><span class="comment">//1.blocks可以访问局部变量，但是不能修改。</span>
-<span class="built_in">int</span> a = <span class="number">10</span>;
-<span class="built_in">int</span> (^dBlock)(<span class="built_in">int</span>) = ^(<span class="built_in">int</span> <span class="built_in">num</span>)
-{
-    a++;<span class="comment">//not work！</span>
-    <span class="keyword">return</span> <span class="built_in">num</span> * a;
-};
-<span class="comment">//此处不能修改的原因是在编译期间确定的，编译器编译的时候把a的值复制到block作为一个新变量（假设是a‘ = 10），此时a'和a是没有关系的。</span>
-
-<span class="comment">//2.这个地方就是函数中的值传递。如果要修改就要加关键字：__block或者static</span>
- __block <span class="built_in">int</span> a = <span class="number">7</span>;
- <span class="built_in">int</span> (^dBlock)(<span class="built_in">int</span>) = ^(<span class="built_in">int</span> <span class="built_in">num</span>)
- {
-     a++;<span class="comment">// work！</span>
-     <span class="keyword">return</span> <span class="built_in">num</span> * a;
- };
-</code></pre></li>
+<p>  //1.blocks可以访问局部变量，但是不能修改。<br>  int a = 10;<br>  int (^dBlock)(int) = ^(int num)<br>  {</p>
+<pre><code><span class="literal">a</span>++<span class="comment">;//not work！</span>
+<span class="keyword">return</span> num * <span class="literal">a</span><span class="comment">;</span>
+</code></pre><p>  };<br>  //此处不能修改的原因是在编译期间确定的，编译器编译的时候把a的值复制到block作为一个新变量（假设是a‘ = 10），此时a’和a是没有关系的。</p>
+<p>  //2.这个地方就是函数中的值传递。如果要修改就要加关键字：<strong>block或者static
+   </strong>block int a = 7;<br>   int (^dBlock)(int) = ^(int num)<br>   {</p>
+<pre><code><span class="literal">a</span>++<span class="comment">;// work！</span>
+<span class="keyword">return</span> num * <span class="literal">a</span><span class="comment">;</span>
+</code></pre><p>   };</p>
+</li>
+</ol>
+</li>
 <li><p>block的调用</p>
 <pre><code><span class="comment">//1.block调用就像调用函数一样。e.g：</span>
 <span class="keyword">int</span> c = aBlock(<span class="number">10</span>,<span class="number">10</span>);
@@ -321,7 +320,7 @@ NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cilrc4lkj0016l10jj8vqdnoe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cilrc6o8y0016li0jis8ln2xs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-block/">iOS block</a></li></ul>
@@ -497,7 +496,7 @@ NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cilrc4ll5001ul10jcddy9yw1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cilrc6o9l001uli0jgm6dvy0s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单例-GCD/">单例 GCD</a></li></ul>
@@ -663,7 +662,7 @@ NSHTTPCookie *cookie = [NSHTTPCookie <span class="string">cookieWithProperties:<
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cilrc4lis0000l10j4awcuy8g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cilrc6o770000li0jqfr1wa5i" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a></li></ul>
@@ -723,7 +722,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cilrc4lk90010l10jpbkdhk7s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cilrc6o8s0010li0j08hw274c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a></li></ul>
@@ -780,7 +779,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cilrc4lk6000xl10jl19r7h74" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cilrc6o8p000xli0j0nz2jpbp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a></li></ul>
@@ -826,7 +825,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cilrc4lkv001il10j3ynmo7r6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cilrc6o9c001ili0j6b078219" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
@@ -875,7 +874,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cilrc4lkm0019l10jl4nl8kdr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cilrc6o920019li0jqz9l5tp1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
@@ -965,7 +964,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cilrc4lkg0013l10jw443xi8x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cilrc6o8u0013li0jyu2syt8q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a></li></ul>
@@ -1088,7 +1087,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cilrc4lky001ol10j0snrtioa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cilrc6o9g001oli0jivci9lq6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>
@@ -1255,7 +1254,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cilrc4lks001fl10jsr9qsoop" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cilrc6o99001fli0j3wgp0lkw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>

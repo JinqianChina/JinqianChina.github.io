@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Jinge'blog">
 <meta property="og:description" content="苹果自从iOS4.0开始推出block，方便开发者使用，现代ios应用的开发，不使用GCD和block，效率会降低很多。在编程过程中，blocks被Obj-C看成是对象，它封装了一段代码，这段代码可以在任何时候执行。Blocks可以作为函数参数或者函数的返回值，而其本身又可以带输入参数或返回值。它和传统的函数指针很类似，但是有区别：blocks是inline的，并且它对局部变量是只读的。
 下面来看">
-<meta property="og:updated_time" content="2016-03-14T01:50:45.000Z">
+<meta property="og:updated_time" content="2016-03-14T01:57:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发之block使用详解">
 <meta name="twitter:description" content="苹果自从iOS4.0开始推出block，方便开发者使用，现代ios应用的开发，不使用GCD和block，效率会降低很多。在编程过程中，blocks被Obj-C看成是对象，它封装了一段代码，这段代码可以在任何时候执行。Blocks可以作为函数参数或者函数的返回值，而其本身又可以带输入参数或返回值。它和传统的函数指针很类似，但是有区别：blocks是inline的，并且它对局部变量是只读的。
@@ -103,38 +103,37 @@
 {
     <span class="keyword">return</span> num1 * num2;
 };
-</code></pre></li>
-</ol>
-<p>其中，定义了一个名字为aBlock的blocks对象，并携带了相关信息：</p>
-<p>　　1. aBlock 有两个形式参数，分别为int类型；</p>
-<p>　　2. aBlock 的返回值为int 类型；</p>
-<p>　　3. 等式右边就是blocks的具体实现；</p>
-<p>　　4. ^ 带边blocks声明和实现的标示（关键字）；</p>
-<p>当然，你可以定义其他形式的block：无返回值，无形式参数等；</p>
-<pre><code><span class="keyword">void</span> (^bBlock)() = ^()
-   {
-       <span class="keyword">int</span> a = <span class="number">10</span>;
-       <span class="built_in">printf</span>(num = %d,a);
-   };
+<span class="comment">//其中，定义了一个名字为aBlock的blocks对象，并携带了相关信息：</span>
+
+　　<span class="number">1.</span> aBlock 有两个形式参数，分别为<span class="keyword">int</span>类型；
+
+　　<span class="number">2.</span> aBlock 的返回值为<span class="keyword">int</span> 类型；
+
+　　<span class="number">3.</span> 等式右边就是blocks的具体实现；
+
+　　<span class="number">4.</span> ^ 带边blocks声明和实现的标示（关键字）；
+
+<span class="comment">//当然，你可以定义其他形式的block：无返回值，无形式参数等；</span>
+
+<span class="keyword">void</span> (^bBlock)() = ^()
+{
+    <span class="keyword">int</span> a = <span class="number">10</span>;
+    <span class="built_in">printf</span>(num = %d,a);
+};
 </code></pre><ol>
 <li><p>blocks 访问权限</p>
-<pre><code><span class="comment">//1.blocks可以访问局部变量，但是不能修改。</span>
-<span class="built_in">int</span> a = <span class="number">10</span>;
-<span class="built_in">int</span> (^dBlock)(<span class="built_in">int</span>) = ^(<span class="built_in">int</span> <span class="built_in">num</span>)
-{
-    a++;<span class="comment">//not work！</span>
-    <span class="keyword">return</span> <span class="built_in">num</span> * a;
-};
-<span class="comment">//此处不能修改的原因是在编译期间确定的，编译器编译的时候把a的值复制到block作为一个新变量（假设是a‘ = 10），此时a'和a是没有关系的。</span>
-
-<span class="comment">//2.这个地方就是函数中的值传递。如果要修改就要加关键字：__block或者static</span>
- __block <span class="built_in">int</span> a = <span class="number">7</span>;
- <span class="built_in">int</span> (^dBlock)(<span class="built_in">int</span>) = ^(<span class="built_in">int</span> <span class="built_in">num</span>)
- {
-     a++;<span class="comment">// work！</span>
-     <span class="keyword">return</span> <span class="built_in">num</span> * a;
- };
-</code></pre></li>
+<p>  //1.blocks可以访问局部变量，但是不能修改。<br>  int a = 10;<br>  int (^dBlock)(int) = ^(int num)<br>  {</p>
+<pre><code><span class="literal">a</span>++<span class="comment">;//not work！</span>
+<span class="keyword">return</span> num * <span class="literal">a</span><span class="comment">;</span>
+</code></pre><p>  };<br>  //此处不能修改的原因是在编译期间确定的，编译器编译的时候把a的值复制到block作为一个新变量（假设是a‘ = 10），此时a’和a是没有关系的。</p>
+<p>  //2.这个地方就是函数中的值传递。如果要修改就要加关键字：<strong>block或者static
+   </strong>block int a = 7;<br>   int (^dBlock)(int) = ^(int num)<br>   {</p>
+<pre><code><span class="literal">a</span>++<span class="comment">;// work！</span>
+<span class="keyword">return</span> num * <span class="literal">a</span><span class="comment">;</span>
+</code></pre><p>   };</p>
+</li>
+</ol>
+</li>
 <li><p>block的调用</p>
 <pre><code><span class="comment">//1.block调用就像调用函数一样。e.g：</span>
 <span class="keyword">int</span> c = aBlock(<span class="number">10</span>,<span class="number">10</span>);
@@ -323,7 +322,7 @@ NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cilrc4lkj0016l10jj8vqdnoe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cilrc6o8y0016li0jis8ln2xs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-block/">iOS block</a></li></ul>
