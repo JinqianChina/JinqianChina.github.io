@@ -3,32 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案） | Jinge&#39;blog</title>
+  <title>Tag: iOS 宏定义 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天真机调试的时候出现了这个错误，如下图
-
-这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：
-Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for">
-<meta property="og:type" content="article">
-<meta property="og:title" content="报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）">
-<meta property="og:url" content="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/index.html">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jinge'blog">
+<meta property="og:url" content="http://yoursite.com/tags/iOS-宏定义/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="今天真机调试的时候出现了这个错误，如下图
-
-这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：
-Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/16.png">
-<meta property="og:updated_time" content="2015-12-21T08:44:13.000Z">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）">
-<meta name="twitter:description" content="今天真机调试的时候出现了这个错误，如下图
-
-这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：
-Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for">
+<meta name="twitter:title" content="Jinge'blog">
+<meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -78,74 +63,39 @@ process launch failed: failed to get the task for">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="article-date">
-  <time datetime="2015-05-30T10:38:26.000Z" itemprop="datePublished">2015-05-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/03/14/iOS宏定义的使用与规范/" class="archive-article-date">
+  <time datetime="2016-03-14T02:10:25.000Z" itemprop="datePublished">Mar 14</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/03/14/iOS宏定义的使用与规范/">iOS宏定义的使用与规范</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天真机调试的时候出现了这个错误，如下图</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg" alt="Mou icon"></p>
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：</p>
-<pre><code>Could <span class="operator">not</span> launch “iOSStrongDemo”
-<span class="built_in">process</span> launch failed: failed <span class="built_in">to</span> <span class="built_in">get</span> <span class="operator">the</span> task <span class="keyword">for</span> <span class="built_in">process</span> <span class="number">1298</span>
-</code></pre><p>错误分析:</p>
-<p>是因为我之前打包的时候，修改了Provisioning Profile。我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/16.png" alt="Mou icon"></p>
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-<p>解决方案：</p>
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cilrctf6k000cp80jeed5ce9u" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          如何更好的限制一个UITextField/UITextView的输入字数
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/05/01/纯命令行教你Cocoapods的安装和使用/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">纯命令行教你Cocoapods的安装和使用</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
+  
+  
+    </div></section>
+  
 </section>
         
           <aside id="sidebar">

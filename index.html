@@ -65,6 +65,210 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS宏定义的使用与规范" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/14/iOS宏定义的使用与规范/" class="article-date">
+  <time datetime="2016-03-14T02:10:25.000Z" itemprop="datePublished">2016-03-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/14/iOS宏定义的使用与规范/">iOS宏定义的使用与规范</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>宏定义在很多方面都会使用，例如定义高度、判断iOS系统、工具类，还有诸如文件路径、服务端api接口文档。为了对宏能够快速定位和了解其功能，我们最好在定义的时候将其放入特定的头文件中，下面我抛砖引玉，对一些常用的宏进行分类、分文件定义，希望对大家有所帮助。</p>
+<p>1.定义尺寸类的宏</p>
+<pre><code>DimensMacros.h
+
+<span class="comment">//状态栏高度</span>
+<span class="preprocessor">#<span class="keyword">define</span> STATUS_BAR_HEIGHT <span class="number">20</span></span>
+<span class="comment">//NavBar高度</span>
+<span class="preprocessor">#<span class="keyword">define</span> NAVIGATION_BAR_HEIGHT <span class="number">44</span></span>
+<span class="comment">//状态栏 ＋ 导航栏 高度</span>
+<span class="preprocessor">#<span class="keyword">define</span> STATUS_AND_NAVIGATION_HEIGHT ((STATUS_BAR_HEIGHT) + (NAVIGATION_BAR_HEIGHT))</span>
+
+<span class="comment">//屏幕 rect</span>
+<span class="preprocessor">#<span class="keyword">define</span> SCREEN_RECT ([UIScreen mainScreen].bounds)</span>
+
+<span class="preprocessor">#<span class="keyword">define</span> SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)</span>
+
+<span class="preprocessor">#<span class="keyword">define</span> SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)</span>
+
+<span class="preprocessor">#<span class="keyword">define</span> CONTENT_HEIGHT (SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT - STATUS_BAR_HEIGHT)</span>
+
+<span class="comment">//屏幕分辨率</span>
+<span class="preprocessor">#<span class="keyword">define</span> SCREEN_RESOLUTION (SCREEN_WIDTH * SCREEN_HEIGHT * ([UIScreen mainScreen].scale))</span>
+
+
+<span class="comment">//广告栏高度</span>
+<span class="preprocessor">#<span class="keyword">define</span> BANNER_HEIGHT <span class="number">215</span></span>
+
+<span class="preprocessor">#<span class="keyword">define</span> STYLEPAGE_HEIGHT <span class="number">21</span></span>
+
+<span class="preprocessor">#<span class="keyword">define</span> SMALLTV_HEIGHT <span class="number">77</span></span>
+
+<span class="preprocessor">#<span class="keyword">define</span> SMALLTV_WIDTH <span class="number">110</span></span>
+
+<span class="preprocessor">#<span class="keyword">define</span> FOLLOW_HEIGHT <span class="number">220</span></span>
+
+<span class="preprocessor">#<span class="keyword">define</span> SUBCHANNEL_HEIGHT <span class="number">62</span></span>
+</code></pre><p>2.定义沙盒目录文件的宏</p>
+<pre><code>PathMacros<span class="class">.h</span>
+
+<span class="comment">//文件目录</span>
+<span class="hexcolor">#def</span>ine kPathTemp                   <span class="function"><span class="title">NSTemporaryDirectory</span><span class="params">()</span></span>
+<span class="hexcolor">#def</span>ine kPathDocument               [<span class="function"><span class="title">NSSearchPathForDirectoriesInDomains</span><span class="params">(NSDocumentDirectory, NSUserDomainMask, YES)</span></span> objectAtIndex:<span class="number">0</span>]
+<span class="hexcolor">#def</span>ine kPathCache                  [<span class="function"><span class="title">NSSearchPathForDirectoriesInDomains</span><span class="params">(NSCachesDirectory, NSUserDomainMask, YES)</span></span> objectAtIndex:<span class="number">0</span>]
+<span class="hexcolor">#def</span>ine kPathSearch                 [kPathDocument stringByAppendingPathComponent:@<span class="string">"Search.plist"</span>]
+
+<span class="hexcolor">#def</span>ine kPathMagazine               [kPathDocument stringByAppendingPathComponent:@<span class="string">"Magazine"</span>]
+<span class="hexcolor">#def</span>ine kPathDownloadedMgzs         [kPathMagazine stringByAppendingPathComponent:@<span class="string">"DownloadedMgz.plist"</span>]
+<span class="hexcolor">#def</span>ine kPathDownloadURLs           [kPathMagazine stringByAppendingPathComponent:@<span class="string">"DownloadURLs.plist"</span>]
+<span class="hexcolor">#def</span>ine kPathOperation              [kPathMagazine stringByAppendingPathComponent:@<span class="string">"Operation.plist"</span>]
+
+<span class="hexcolor">#def</span>ine kPathSplashScreen           [kPathCache stringByAppendingPathComponent:@<span class="string">"splashScreen"</span>]
+#endif
+</code></pre><p>3.工具类的宏</p>
+<pre><code>UtilsMacros.h
+
+<span class="comment">//Log utils marco</span>
+
+<span class="preprocessor">#<span class="keyword">define</span> ALog(fmt, ...) NSLog((@<span class="string">"%s [Line %d] "</span> fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);</span>
+
+<span class="preprocessor">#<span class="keyword">ifdef</span> DEBUG</span>
+<span class="preprocessor">#<span class="keyword">define</span> DLog(fmt, ...) NSLog((@<span class="string">"%s [Line %d] "</span> fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);</span>
+<span class="preprocessor">#<span class="keyword">else</span></span>
+<span class="preprocessor">#<span class="keyword">define</span> DLog(...)</span>
+<span class="preprocessor">#<span class="keyword">endif</span></span>
+
+<span class="preprocessor">#<span class="keyword">ifdef</span> DEBUG</span>
+<span class="preprocessor">#<span class="keyword">define</span> ULog(...)</span>
+<span class="comment">//#define ULog(fmt, ...)  { UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%s\n [Line %d] ", __PRETTY_FUNCTION__, __LINE__] message:[NSString stringWithFormat:fmt, ##__VA_ARGS__]  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]; [alert show]; }</span>
+<span class="preprocessor">#<span class="keyword">else</span></span>
+<span class="preprocessor">#<span class="keyword">define</span> ULog(...)</span>
+<span class="preprocessor">#<span class="keyword">endif</span></span>
+
+
+<span class="comment">//System version utils</span>
+
+<span class="preprocessor">#<span class="keyword">define</span> SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)</span>
+<span class="preprocessor">#<span class="keyword">define</span> SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)</span>
+<span class="preprocessor">#<span class="keyword">define</span> SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)</span>
+<span class="preprocessor">#<span class="keyword">define</span> SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)</span>
+<span class="preprocessor">#<span class="keyword">define</span> SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)</span>
+
+
+<span class="comment">// 获取RGB颜色</span>
+<span class="preprocessor">#<span class="keyword">define</span> RGBA(r,g,b,a) [UIColor colorWithRed:r/<span class="number">255.0f</span> green:g/<span class="number">255.0f</span> blue:b/<span class="number">255.0f</span> alpha:a]</span>
+<span class="preprocessor">#<span class="keyword">define</span> RGB(r,g,b) RGBA(r,g,b,<span class="number">1.0f</span>)</span>
+
+
+<span class="preprocessor">#<span class="keyword">define</span> IsPortrait ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)</span>
+
+
+<span class="preprocessor">#<span class="keyword">define</span> IsNilOrNull(_ref)   (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]))</span>
+
+
+<span class="comment">//角度转弧度</span>
+<span class="preprocessor">#<span class="keyword">define</span> DEGREES_TO_RADIANS(d) (d * M_PI / <span class="number">180</span>)</span>
+
+<span class="comment">//大于等于7.0的ios版本</span>
+<span class="preprocessor">#<span class="keyword">define</span> iOS7_OR_LATER SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@<span class="string">"7.0"</span>)</span>
+
+<span class="comment">//大于等于8.0的ios版本</span>
+<span class="preprocessor">#<span class="keyword">define</span> iOS8_OR_LATER SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@<span class="string">"8.0"</span>)</span>
+
+<span class="comment">//iOS6时，导航VC中view的起始高度</span>
+<span class="preprocessor">#<span class="keyword">define</span> YH_HEIGHT (iOS7_OR_LATER ? <span class="number">64</span>:<span class="number">0</span>)</span>
+
+<span class="comment">//获取系统时间戳</span>
+<span class="preprocessor">#<span class="keyword">define</span> getCurentTime [NSString stringWithFormat:@<span class="string">"%ld"</span>, (long)[[NSDate date] timeIntervalSince1970]]</span>
+</code></pre><p>4.通知Notification相关的宏</p>
+<pre><code>NotificationMacros<span class="class">.h</span>
+<span class="comment">//系统Notification定义</span>
+
+<span class="hexcolor">#def</span>ine TNCancelFavoriteProductNotification     @<span class="string">"TNCancelFavoriteProductNotification"</span>      <span class="comment">//取消收藏时</span>
+<span class="hexcolor">#def</span>ine TNMarkFavoriteProductNotification       @<span class="string">"TNMarkFavoriteProductNotification"</span>        <span class="comment">//标记收藏时</span>
+
+<span class="hexcolor">#def</span>ine kNotficationDownloadProgressChanged     @<span class="string">"kNotficationDownloadProgressChanged"</span>      <span class="comment">//下载进度变化</span>
+<span class="hexcolor">#def</span>ine kNotificationPauseDownload              @<span class="string">"kNotificationPauseDownload"</span>               <span class="comment">//暂停下载</span>
+<span class="hexcolor">#def</span>ine kNotificationStartDownload              @<span class="string">"kNotificationStartDownload"</span>               <span class="comment">//开始下载</span>
+
+<span class="hexcolor">#def</span>ine kNotificationDownloadSuccess            @<span class="string">"kNotificationDownloadSuccess"</span>             <span class="comment">//下载成功</span>
+<span class="hexcolor">#def</span>ine kNotificationDownloadFailed             @<span class="string">"kNotificationDownloadFailed"</span>              <span class="comment">//下载失败</span>
+<span class="hexcolor">#def</span>ine kNotificationDownloadNewMagazine        @<span class="string">"kNotificationDownloadNewMagazine"</span>
+</code></pre><p>服务端API接口的宏</p>
+<pre><code>APIStringMacros<span class="class">.h</span>
+<span class="comment">//////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span class="comment">//接口名称相关</span>
+
+<span class="id">#ifdef</span> DEBUG
+<span class="comment">//Debug状态下的测试API</span>
+<span class="hexcolor">#def</span>ine API_BASE_URL_STRING     @<span class="string">"http://boys.test.companydomain.com/api/"</span>
+
+<span class="id">#else</span>
+<span class="comment">//Release状态下的线上API</span>
+<span class="hexcolor">#def</span>ine API_BASE_URL_STRING     @<span class="string">"http://www.companydomain.com/api/"</span>
+
+<span class="id">#endif</span>
+
+<span class="comment">//接口</span>
+<span class="hexcolor">#def</span>ine GET_CONTENT_DETAIL      @<span class="string">"channel/getContentDetail"</span> <span class="comment">//获取内容详情(含上一个和下一个)</span>
+
+<span class="hexcolor">#def</span>ine GET_COMMENT_LIST        @<span class="string">"comment/getCommentList"</span>   <span class="comment">//获取评论列表</span>
+
+<span class="hexcolor">#def</span>ine COMMENT_LOGIN           @<span class="string">"comment/login"</span>            <span class="comment">//获取评论列表</span>
+
+<span class="hexcolor">#def</span>ine COMMENT_PUBLISH         @<span class="string">"comment/publish"</span>          <span class="comment">//发布评论</span>
+
+<span class="hexcolor">#def</span>ine COMMENT_DELETE          @<span class="string">"comment/delComment"</span>       <span class="comment">//删除评论</span>
+
+<span class="hexcolor">#def</span>ine LOGINOUT                @<span class="string">"common/logout"</span>            <span class="comment">//登出</span>
+</code></pre><p>还有很多其他类型的宏，此处不一一列举</p>
+<p>创建一个import所有宏相关的文件Macros.h</p>
+<pre><code>Macros<span class="class">.h</span>
+<span class="id">#import</span> <span class="string">"UtilsMacros.h"</span>
+<span class="id">#import</span> <span class="string">"APIStringMacros.h"</span>
+<span class="id">#import</span> <span class="string">"DimensMacros.h"</span>
+<span class="id">#import</span> <span class="string">"NotificationMacros.h"</span>
+<span class="id">#import</span> <span class="string">"SharePlatformMacros.h"</span>
+<span class="id">#import</span> <span class="string">"StringMacros.h"</span>
+<span class="id">#import</span> <span class="string">"UserBehaviorMacros.h"</span>
+<span class="id">#import</span> <span class="string">"PathMacros.h"</span>
+</code></pre><p>在xcode项目的pch文件中，导入Macros.h文件</p>
+<pre><code>XcodeProjectName-Prefix<span class="class">.pch</span>
+<span class="id">#ifdef</span> __OBJC__
+    <span class="id">#import</span> &lt;UIKit/UIKit.h&gt;
+    <span class="id">#import</span> &lt;Foundation/Foundation.h&gt;
+    <span class="id">#import</span> <span class="string">"Macros.h"</span>
+#endif
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/14/iOS宏定义的使用与规范/" data-id="cilrctf7f0019p80j4vsrr1h4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS开发之block使用详解" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/03/14/iOS开发之block使用详解/" class="article-date">
@@ -325,7 +529,7 @@ NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cilrcdvrc0016mg0jg325prxz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cilrctf7d0016p80jbqfawrdh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-block/">iOS block</a></li></ul>
@@ -501,7 +705,7 @@ NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cilrcdvrz001umg0jwhhqv29o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cilrctf80001xp80jgij3aonb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单例-GCD/">单例 GCD</a></li></ul>
@@ -667,7 +871,7 @@ NSHTTPCookie *cookie = [NSHTTPCookie <span class="string">cookieWithProperties:<
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cilrcdvpj0000mg0j9h35gabq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cilrctf5n0000p80jwuc8ob4n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a></li></ul>
@@ -727,7 +931,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cilrcdvr70010mg0jvelx2uj6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cilrctf790010p80jjojjar0j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a></li></ul>
@@ -784,7 +988,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cilrcdvr4000xmg0jxs95j5mz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cilrctf76000xp80jnnp4w3n8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a></li></ul>
@@ -830,7 +1034,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cilrcdvrq001img0jz6620xop" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cilrctf7q001lp80jsxq3dv8j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
@@ -879,7 +1083,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cilrcdvrg0019mg0j5sa8qtpg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cilrctf7i001cp80j01byj36a" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
@@ -969,7 +1173,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cilrcdvra0013mg0j5ugc0npy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cilrctf7b0013p80jexlg82ix" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a></li></ul>
@@ -1092,177 +1296,10 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cilrcdvrv001omg0jza7izhy2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cilrctf7v001rp80jldiuuq96" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS6的单个控制器横竖屏显示以及旋转屏控制技巧" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" class="article-date">
-  <time datetime="2015-09-17T06:00:33.000Z" itemprop="datePublished">2015-09-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/">iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、在应用中从竖屏模式强制转换为横屏模式</p>
-<ol>
-<li><p>第一种方法：通过模态弹出视图的方式，使得特定ViewController坚持特定的interfaceOrientation<br>（1）iOS6之后提供了这样一个方法，可以让你的Controller倔强的坚持某个特定的interfaceOrientation:</p>
-<pre><code>- (UIInterfaceOrientation)<span class="function">preferredInterfaceOrientationForPresentation     <span class="title">NS_AVAILABLE_IOS</span><span class="params">(<span class="number">6</span>_0)</span>
-</span>{
-    <span class="keyword">return</span> UIInterfaceOrientationLandscapeRight;<span class="comment">//左下右上显示</span>
-
-    这里有<span class="number">5</span>种供选择，具体什么方向显示，自己可以试一下
-    <span class="comment">//UIInterfaceOrientationUnknown           </span>
-    <span class="comment">//UIInterfaceOrientationPortrait          </span>
-    <span class="comment">//UIInterfaceOrientationPortraitUpsideDown</span>
-    <span class="comment">//UIInterfaceOrientationLandscapeLeft     </span>
-    <span class="comment">//UIInterfaceOrientationLandscapeRight    </span>
-}
-</code></pre><p>（2）当然，使用这个方法是有前提的，就是当前ViewController是通过全屏的Presentation（模态视图）方式展现出来的。而且需要设置下面方法返回值为NO，这样控制器就不会再进行旋转，而是以你设定方向显示。</p>
-<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotate <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">6</span>_0)
-{
-    <span class="keyword">return</span> <span class="literal">NO</span>;
-}
-</code></pre></li>
-<li><p>第二种方法：通过人为的办法改变view.transform的属性。<br>具体办法：</p>
-<p> view.transform一般是View的旋转，拉伸移动等属性，类似view.layer.transform，区别在于View.transform是二维的，也就是使用仿射的办法通常就是带有前缀CGAffineTransform的类（可以到API文档里面搜索这个前缀的所有类），而view.layer.transform可以在3D模式下面的变化，通常使用的都是前缀为CATransform3D的类。</p>
-<p> 这里要记住一点，当你改变过一个view.transform属性或者view.layer.transform的时候需要恢复默认状态的话，记得先把他们重置可以使用view.transform = CGAffineTransformIdentity，或者view.layer.transform = CATransform3DIdentity，假设你一直不断的改变一个view.transform的属性，而每次改变之前没有重置的话，你会发现后来的改变和你想要的发生变化了，不是你真正想要的结果。</p>
-<p> 好了，上面介绍了旋转的属性，接下来就是关键了。官方提供了一个办法就是查看当前电池条的状态UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;通过这个办法，你可以知道当前屏幕的电池条的显示方向，而且你还可以强制设置他的显示方向，通过设置这个属性就OK了，可以选择是否动画改变电池条方向。有了这两个那我们就可以任意的改变我们想要的显示方式了。</p>
-<pre><code>(<span class="number">1</span>)获取当前电池条的方向<span class="built_in">UIInterfaceOrientation</span> orientation = [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.statusBarOrientation</span>
-
-(<span class="number">2</span>)获取当前屏幕的大小<span class="built_in">CGRect</span> frame = [<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.applicationFrame</span>;
-
-(<span class="number">3</span>)设置我们的View的中心点
-
-    <span class="built_in">CGPoint</span> center = <span class="built_in">CGPointMake</span>(frame<span class="variable">.origin</span><span class="variable">.x</span> + ceil(frame<span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>), frame<span class="variable">.origin</span><span class="variable">.y</span> + ceil(frame<span class="variable">.size</span><span class="variable">.height</span>/<span class="number">2</span>));
-
-(<span class="number">4</span>)根据当前电池条的方向，获取需要旋转的角度的大小。通常
-
-- (<span class="built_in">CGAffineTransform</span>)getARotation {
-    <span class="keyword">if</span> (orientation == <span class="built_in">UIInterfaceOrientationLandscapeLeft</span>) {
-            <span class="keyword">return</span> <span class="built_in">CGAffineTransformMakeRotation</span>(M_PI*<span class="number">1.5</span>);
-        } <span class="keyword">else</span> <span class="keyword">if</span> (orientation == <span class="built_in">UIInterfaceOrientationLandscapeRight</span>) {
-            <span class="keyword">return</span> <span class="built_in">CGAffineTransformMakeRotation</span>(M_PI/<span class="number">2</span>);
-        } <span class="keyword">else</span> <span class="keyword">if</span> (orientation == <span class="built_in">UIInterfaceOrientationPortraitUpsideDown</span>) {
-            <span class="keyword">return</span> <span class="built_in">CGAffineTransformMakeRotation</span>(-M_PI);
-        } <span class="keyword">else</span> {
-            <span class="keyword">return</span> <span class="built_in">CGAffineTransformIdentity</span>;
-        }
-}
-
-(<span class="number">5</span>)可以动画的改变我们view的显示方式了
-[[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarOrientation:<span class="built_in">UIDeviceOrientationLandscapeRight</span> animated:<span class="literal">YES</span>];
-
-<span class="built_in">CGFloat</span> duration = [<span class="built_in">UIApplication</span> sharedApplication]<span class="variable">.statusBarOrientationAnimationDuration</span>;（获取当前电池条动画改变的时间）
-[<span class="built_in">UIView</span> beginAnimations:<span class="literal">nil</span> context:<span class="literal">nil</span>];
-[<span class="built_in">UIView</span> setAnimationDuration:duration];
-
-<span class="comment">//在这里设置view.transform需要匹配的旋转角度的大小就可以了。</span>
-<span class="comment">//把（4）中返回的rotation赋给self.view.transform</span>
-<span class="keyword">self</span><span class="variable">.view</span><span class="variable">.transform</span> = [<span class="keyword">self</span> getARotation];
-
-[<span class="built_in">UIView</span> commitAnimations];
-</code></pre></li>
-</ol>
-<ol>
-<li><p>第三种方法：通过setOrientation:的办法强制性的旋转到一个特定的方向。</p>
-<p><strong>注意：Apple在3.0以后都不支持这个办法了，这个办法已经成为了私有的了，但是要跳过App Stroe的审核，需要一点巧妙的办法。</strong></p>
-<pre><code>    不要直接调用<span class="attr_selector">[[UIDevice currentDevice]</span> <span class="tag">setOrientation</span>: <span class="tag">UIInterfaceOrientationLandscapeRight</span>]这样的办法来强制性的横屏，这样导致你的程序是很难通过<span class="tag">App</span> <span class="tag">Store</span>审核的。但是你可以选择使用<span class="tag">performSelector</span>的办法来调用它。具体就几行代码如下：
-
-<span class="comment">//强制横屏</span>
-    <span class="tag">if</span> ([[UIDevice currentDevice] <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setOrientation</span>:)]) {
-        <span class="attr_selector">[[UIDevice currentDevice]</span> <span class="tag">performSelector</span>:@<span class="tag">selector</span>(<span class="attribute">setOrientation</span>:)
-                                       <span class="tag">withObject</span>:(id)<span class="tag">UIInterfaceOrientationLandscapeRight</span>];
-    }
-</code></pre></li>
-<li><p>总结：如果第一种办法可以满足你需要的话，最好使用第一种办法，因为第一种方法在App Store肯定没有问题，而且也比较简单；第二种方法在App Store也是没问题的，但是稍微复杂一些；第三种的话是需要冒风险的，但是如果你的结构太复杂了，导致使用前两种办法人为很难控制的话，可以尝试简单的使用第三种办法。</p>
-</li>
-</ol>
-<p>二、屏幕自适应重力感应进行旋转，实现对每个viewController的单独控制：</p>
-<ol>
-<li><p>子类化UINavigationController，增加方法</p>
-<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotate  
-{  
-    <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.topViewController</span><span class="variable">.shouldAutorotate</span>;  
-}  
-
-- (<span class="built_in">NSUInteger</span>)supportedInterfaceOrientations  
-{  
-    <span class="keyword">return</span> <span class="keyword">self</span><span class="variable">.topViewController</span><span class="variable">.supportedInterfaceOrientations</span>;  
-}  
-</code></pre></li>
-<li><p>并且设定其为程序入口，或指定为 self.window.rootViewController<br>随后添加自己的view controller，如果想禁止某个view controller的旋屏：（支持全部版本的控制）</p>
-<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotateToInterfaceOrientation:(<span class="built_in">UIInterfaceOrientation</span>)interfaceOrientation  
-{  
-    <span class="keyword">return</span> (interfaceOrientation == <span class="built_in">UIInterfaceOrientationPortrait</span>);  
-}  
-
--(<span class="built_in">BOOL</span>)shouldAutorotate  
-{  
-    <span class="keyword">return</span> <span class="literal">NO</span>;  
-}  
-
--(<span class="built_in">NSUInteger</span>)supportedInterfaceOrientations  
-{  
-    <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskPortrait</span>;  
-}  
-</code></pre></li>
-</ol>
-<ol>
-<li><p>如果想又开启某个view controller的全部方向旋屏支持：</p>
-<pre><code>- (<span class="built_in">BOOL</span>)shouldAutorotateToInterfaceOrientation:(<span class="built_in">UIInterfaceOrientation</span>)interfaceOrientation  
-{  
-    <span class="keyword">return</span> (interfaceOrientation != <span class="built_in">UIInterfaceOrientationPortraitUpsideDown</span>);  
-}  
-
--(<span class="built_in">NSUInteger</span>)supportedInterfaceOrientations  
-{  
-    <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskAllButUpsideDown</span>;  
-}  
-
--(<span class="built_in">BOOL</span>)shouldAutorotate  
-{  
-    <span class="keyword">return</span> <span class="literal">YES</span>;  
-}  
-</code></pre><p> 从而实现了对每个view controller的单独控制。</p>
-</li>
-<li><p>顺便提一下，如果整个应用所有view controller都不支持旋屏，那么干脆：</p>
-<pre><code>- (<span class="built_in">NSUInteger</span>)application:(<span class="built_in">UIApplication</span> *)application supportedInterfaceOrientationsForWindow:(<span class="built_in">UIWindow</span> *)window  
-{  
-     <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskPortrait</span>;  
-}  
-</code></pre></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cilrcdvrm001fmg0j81r750no" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>
 
     </footer>
   </div>
@@ -1286,7 +1323,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1295,7 +1332,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
     </div>
   </div>
 
@@ -1304,7 +1341,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1314,6 +1351,10 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/03/14/iOS宏定义的使用与规范/">iOS宏定义的使用与规范</a>
+          </li>
         
           <li>
             <a href="/2016/03/14/iOS开发之block使用详解/">iOS开发之block使用详解</a>
@@ -1329,10 +1370,6 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
         
           <li>
             <a href="/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/">iOS开发之指定UIView的某几个角(小于4)为圆角</a>
-          </li>
-        
-          <li>
-            <a href="/2015/12/23/iOS快速打企业包ipa/">iOS快速打企业包ipa</a>
           </li>
         
       </ul>
