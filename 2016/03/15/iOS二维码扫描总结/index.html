@@ -3,17 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/1 | Jinge&#39;blog</title>
+  <title>iOS二维码扫描总结 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/archives/2015/01/index.html">
+  <meta name="description" content="在 iOS7 以前，在iOS中实现二维码和条形码扫描，我们所知的有两大开源组件ZBar与ZXing. 这两大组件我们都有用过，这里总结下各自的缺点：
+
+ZBar ZBar在扫描的灵敏度上，和内存的使用上相对于ZXing上都是较优的，但是对于 “圆角二维码” 的扫描确很困难。
+
+ZXing ZXing 是 Google Code上的一个开源的条形码扫描库，是用java设计的，连Google Glas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS二维码扫描总结">
+<meta property="og:url" content="http://yoursite.com/2016/03/15/iOS二维码扫描总结/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="在 iOS7 以前，在iOS中实现二维码和条形码扫描，我们所知的有两大开源组件ZBar与ZXing. 这两大组件我们都有用过，这里总结下各自的缺点：
+
+ZBar ZBar在扫描的灵敏度上，和内存的使用上相对于ZXing上都是较优的，但是对于 “圆角二维码” 的扫描确很困难。
+
+ZXing ZXing 是 Google Code上的一个开源的条形码扫描库，是用java设计的，连Google Glas">
+<meta property="og:updated_time" content="2016-03-15T01:20:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="iOS二维码扫描总结">
+<meta name="twitter:description" content="在 iOS7 以前，在iOS中实现二维码和条形码扫描，我们所知的有两大开源组件ZBar与ZXing. 这两大组件我们都有用过，这里总结下各自的缺点：
+
+ZBar ZBar在扫描的灵敏度上，和内存的使用上相对于ZXing上都是较优的，但是对于 “圆角二维码” 的扫描确很困难。
+
+ZXing ZXing 是 Google Code上的一个开源的条形码扫描库，是用java设计的，连Google Glas">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +76,65 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/01/18/shell常用命令-脚本编写/" class="archive-article-date">
-  <time datetime="2015-01-18T02:04:34.000Z" itemprop="datePublished">Jan 18</time>
+        <section id="main"><article id="post-iOS二维码扫描总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/15/iOS二维码扫描总结/" class="article-date">
+  <time datetime="2016-03-15T01:19:18.000Z" itemprop="datePublished">2016-03-15</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/01/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
+    <h1 class="article-title" itemprop="name">
+      iOS二维码扫描总结
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在 iOS7 以前，在iOS中实现二维码和条形码扫描，我们所知的有两大开源组件ZBar与ZXing. 这两大组件我们都有用过，这里总结下各自的缺点：</p>
+<ol>
+<li><p>ZBar<br> ZBar在扫描的灵敏度上，和内存的使用上相对于ZXing上都是较优的，但是对于 “圆角二维码” 的扫描确很困难。</p>
+</li>
+<li><p>ZXing<br> ZXing 是 Google Code上的一个开源的条形码扫描库，是用java设计的，连Google Glass 都在使用的。但有人为了追求更高效率以及可移植性，出现了c++ port. Github上的Objectivc-C port，其实就是用OC代码封装了一下而已，而且已经停止维护。这样效率非常低，在instrument下面可以看到CPU和内存疯涨，在内存小的机器上很容易崩溃。</p>
+</li>
+<li><p>AVFoundation<br> AVFoundation无论在扫描灵敏度和性能上来说都是最优的，所以毫无疑问我们应该切换到AVFoundation，需要兼容iOS 6或之前的版本可以用zbar或zxing代替。</p>
+</li>
+</ol>
+<p>原生二维码扫描具体怎么使用系统框架AVFoundation来实现，下面本人收藏的简书文章，写的灰常清楚</p>
+<p><a href="http://www.jianshu.com/p/6b7d54b3f88b" target="_blank" rel="external">http://www.jianshu.com/p/6b7d54b3f88b</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/15/iOS二维码扫描总结/" data-id="cilsqfelt001cf50jkbm294nj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/14/iOS宏定义的使用与规范/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS宏定义的使用与规范</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
