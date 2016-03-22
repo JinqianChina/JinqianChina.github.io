@@ -3,38 +3,33 @@
 <head>
   <meta charset="utf-8">
   
-  <title>iOS开发之各种动画各种页面切面效果 | Jinge&#39;blog</title>
+  <title>iOS开发中webView与JS交互的使用 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天项目有个需求需要用到动画，就在网上搜了一下，搜到一篇博客，把系统的一些动画封装、分类了，而且还有Demo，用起来比较方便，在此为博主点个赞。
-
-
-用CATransition实现动画的封装方法如下:
-#pragma CATransition动画实现
-#define  DURATION 0.25
- - (void) transitionWithType:(NSString *) type With">
+  <meta name="description" content="UIWebView是iOS sdk中一个最常用的控件。是内置的浏览器控件，我们可以用它来浏览网页、打开文档等等，UIWebView能够加载html/htm、pdf、docx、txt等格式的文件。系统自带的Safari浏览器就是通过UIWebView实现的。下面我的一起来开开如何简单使用webView。
+下面直接上代码：
+搭建页面
+- (void)viewDidLoad
+{
+    [super v">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS开发之各种动画各种页面切面效果">
-<meta property="og:url" content="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/index.html">
+<meta property="og:title" content="iOS开发中webView与JS交互的使用">
+<meta property="og:url" content="http://yoursite.com/2016/03/22/iOS开发中webView与JS交互的使用/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="今天项目有个需求需要用到动画，就在网上搜了一下，搜到一篇博客，把系统的一些动画封装、分类了，而且还有Demo，用起来比较方便，在此为博主点个赞。
-
-
-用CATransition实现动画的封装方法如下:
-#pragma CATransition动画实现
-#define  DURATION 0.25
- - (void) transitionWithType:(NSString *) type With">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/CA动画1.PNG">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/CA动画2.PNG">
-<meta property="og:updated_time" content="2015-12-21T08:46:04.000Z">
+<meta property="og:description" content="UIWebView是iOS sdk中一个最常用的控件。是内置的浏览器控件，我们可以用它来浏览网页、打开文档等等，UIWebView能够加载html/htm、pdf、docx、txt等格式的文件。系统自带的Safari浏览器就是通过UIWebView实现的。下面我的一起来开开如何简单使用webView。
+下面直接上代码：
+搭建页面
+- (void)viewDidLoad
+{
+    [super v">
+<meta property="og:updated_time" content="2016-03-22T08:25:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS开发之各种动画各种页面切面效果">
-<meta name="twitter:description" content="今天项目有个需求需要用到动画，就在网上搜了一下，搜到一篇博客，把系统的一些动画封装、分类了，而且还有Demo，用起来比较方便，在此为博主点个赞。
-
-
-用CATransition实现动画的封装方法如下:
-#pragma CATransition动画实现
-#define  DURATION 0.25
- - (void) transitionWithType:(NSString *) type With">
+<meta name="twitter:title" content="iOS开发中webView与JS交互的使用">
+<meta name="twitter:description" content="UIWebView是iOS sdk中一个最常用的控件。是内置的浏览器控件，我们可以用它来浏览网页、打开文档等等，UIWebView能够加载html/htm、pdf、docx、txt等格式的文件。系统自带的Safari浏览器就是通过UIWebView实现的。下面我的一起来开开如何简单使用webView。
+下面直接上代码：
+搭建页面
+- (void)viewDidLoad
+{
+    [super v">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -84,10 +79,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-iOS开发之各种动画各种页面切面效果" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-iOS开发中webView与JS交互的使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/10/17/iOS开发之各种动画各种页面切面效果/" class="article-date">
-  <time datetime="2015-10-17T09:30:46.000Z" itemprop="datePublished">2015-10-17</time>
+    <a href="/2016/03/22/iOS开发中webView与JS交互的使用/" class="article-date">
+  <time datetime="2016-03-22T08:24:26.000Z" itemprop="datePublished">2016-03-22</time>
 </a>
     
   </div>
@@ -98,7 +93,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      iOS开发之各种动画各种页面切面效果
+      iOS开发中webView与JS交互的使用
     </h1>
   
 
@@ -106,66 +101,124 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天项目有个需求需要用到动画，就在网上搜了一下，搜到一篇博客，把系统的一些动画封装、分类了，而且还有Demo，用起来比较方便，在此为博主点个赞。<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/CA动画1.PNG" alt="Mou icon"></p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/CA动画2.PNG" alt="Mou icon"></p>
+        <p>UIWebView是iOS sdk中一个最常用的控件。是内置的浏览器控件，我们可以用它来浏览网页、打开文档等等，UIWebView能够加载html/htm、pdf、docx、txt等格式的文件。系统自带的Safari浏览器就是通过UIWebView实现的。下面我的一起来开开如何简单使用webView。</p>
+<p>下面直接上代码：</p>
+<p>搭建页面</p>
+<pre><code>- (<span class="keyword">void</span>)viewDidLoad
+{
+    [<span class="keyword">super</span> viewDidLoad];
+    <span class="keyword">self</span><span class="variable">.url</span> = <span class="string">@"https://www.baidu.com/"</span>;
+    <span class="built_in">NSURLRequest</span> *urlRequest = [<span class="built_in">NSURLRequest</span> requestWithURL:[<span class="built_in">NSURL</span> URLWithString:<span class="keyword">self</span><span class="variable">.url</span>]];
+       [<span class="keyword">self</span><span class="variable">.webView</span> loadRequest:urlRequest];
+}
+</code></pre><p>返回按钮点击事件</p>
+<pre><code><span class="tag">-</span> (void)<span class="tag">goBack</span>
+{
+    <span class="tag">if</span> ([self.webView canGoBack])
+    {
+        <span class="attr_selector">[self.webView goBack]</span>;<span class="comment">//当有H5二级页面在本控制器上加载出现时，调这个</span>
+    }<span class="tag">else</span> {
+        <span class="comment">//当前控制器pop/dismiss返回上一级控制器</span>
+    }
+}
+</code></pre><p>webview的三个代理方法：</p>
+<pre><code><span class="comment">//利用URL来调用我们iOSnative的操作</span>
+-(<span class="built_in">BOOL</span>)webView:(<span class="built_in">UIWebView</span> *)webView shouldStartLoadWithRequest:(<span class="built_in">NSURLRequest</span> *)request navigationType:(<span class="built_in">UIWebViewNavigationType</span>)navigationType
+{
+    <span class="built_in">NSString</span> *url = request<span class="variable">.URL</span><span class="variable">.absoluteString</span>;
+    <span class="comment">//拦截URL跳转</span>
+    <span class="keyword">if</span> ([url hasPrefix:<span class="string">@"事先规定好的协议URL"</span>])
+    {        
+        <span class="comment">//在这里进行跳转</span>
+        <span class="keyword">return</span> <span class="literal">NO</span>;
+    }
+    <span class="built_in">NSString</span> *pattern = <span class="literal">nil</span>;
+    <span class="built_in">NSRange</span> r;
+    <span class="comment">//拦截URL跳转</span>
+    pattern = <span class="string">@"事先规定好的协议URL"</span>;
+    r = [url rangeOfString:pattern options:<span class="built_in">NSRegularExpressionSearch</span>];
+    <span class="keyword">if</span> (r<span class="variable">.location</span> != <span class="built_in">NSNotFound</span>) {  
+        <span class="comment">//在这里进行跳转      </span>
+        <span class="keyword">return</span> <span class="literal">NO</span>;
+    }
+    <span class="comment">//调用父类的方法</span>
+    <span class="keyword">return</span>  [<span class="keyword">super</span> webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+
+}
+
+-(<span class="keyword">void</span>)webViewDidStartLoad:(<span class="built_in">UIWebView</span> *)webView
+{
+    <span class="comment">//开始加载</span>
+}
+
+<span class="comment">//iOS调用JS的方法</span>
+- (<span class="keyword">void</span>)webViewDidFinishLoad:(<span class="built_in">UIWebView</span> *)webView
+{
+    <span class="comment">//加载结束</span>
+    [<span class="keyword">super</span> webViewDidFinishLoad:webView];
+    <span class="comment">//    NSString *docStr=[webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.textContent"];//获取web页面内容信息，此处获取的是个json字符串</span>
+
+    <span class="comment">//    NSString *docStr=[webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"alert(1);"]];//显示并获取一个弹窗</span>
+
+    <span class="comment">//    NSString *docStr=[webView stringByEvaluatingJavaScriptFromString:@"document.location.href"];//获取当前页面的url</span>
+
+    <span class="comment">//    NSString *docStr=[webView stringByEvaluatingJavaScriptFromString:@"document.title"];//获取当前页面的title</span>
+
+    <span class="comment">//    NSString *docStr=[webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByName('q')[0].value='http://www.cnblogs.com/Twisted-Fate/p/Mr.林';"];//修改当前页面的元素的值</span>
+
+    <span class="comment">//    NSString *docStr=[webView stringByEvaluatingJavaScriptFromString:@"document.forms[0].submit();"];//表单提交</span>
+
+    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;
+    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^{
+    [webView stringByEvaluatingJavaScriptFromString:<span class="string">@"var script = document.createElement('script');"</span>
+     <span class="string">"script.type = 'text/javascript';"</span>
+     <span class="string">"script.text = \"function myFunction() { "</span>
+     <span class="string">"var field = document.getElementsByName('q')[0];"</span>
+     <span class="string">"field.value='http://www.cnblogs.com/Twisted-Fate/p/Mr.林';"</span>
+     <span class="string">"document.forms[0].submit();"</span>
+     <span class="string">"}\";"</span>
+     <span class="string">"document.getElementsByTagName('head')[0].appendChild(script);"</span>];
+    });
+    <span class="built_in">NSString</span> *docStr=[webView stringByEvaluatingJavaScriptFromString:<span class="string">@"myFunction();"</span>];
+
+    <span class="built_in">NSLog</span>(<span class="string">@"------&gt;%@"</span>,docStr);
+}
+</code></pre><p>WebView自带的属性是不可以改变网页中字体大小颜色这些需求的，笔者给出几种解决方案如下:</p>
 <ol>
-<li><p>用CATransition实现动画的封装方法如下:</p>
-<pre><code><span class="preprocessor">#pragma CATransition动画实现</span>
-<span class="preprocessor">#define  DURATION 0.25</span>
- - (<span class="keyword">void</span>) transitionWithType:(<span class="built_in">NSString</span> *) type WithSubtype:(<span class="built_in">NSString</span> *) subtype     ForView : (<span class="built_in">UIView</span> *) view
- {    
-     <span class="comment">//创建CATransition对象</span>
-      <span class="built_in">CATransition</span> *animation = [<span class="built_in">CATransition</span> animation];
+<li><p>第一种方式：在WebView的代理方法webViewDidFinishLoad中：</p>
+<pre><code>字体大小： <span class="matrix">[webView stringByEvaluatingJavaScriptFromString:@<span class="string">"document.getElementsByTagName('</span>body<span class="string">')[0].style.webkitTextSizeAdjust= '</span><span class="number">12</span>%<span class="string">'"</span>]</span>;
 
-      <span class="comment">//设置运动时间</span>
-      animation<span class="variable">.duration</span> = DURATION;
+字体颜色：<span class="matrix">[webView stringByEvaluatingJavaScriptFromString:@<span class="string">"document.getElementsByTagName('</span>body<span class="string">')[0].style.webkitTextFillColor= '</span>green<span class="string">'"</span>]</span>;
 
-     <span class="comment">//设置运动type</span>
-     animation<span class="variable">.type</span> = type;
-     <span class="keyword">if</span> (subtype != <span class="literal">nil</span>) { 
-        <span class="comment">//设置子类</span>
-         animation<span class="variable">.subtype</span> = subtype;
-     }     
-       <span class="comment">//设置运动速度    </span>
-       animation<span class="variable">.timingFunction</span> = <span class="built_in">UIViewAnimationOptionCurveEaseInOut</span>;
-    [view<span class="variable">.layer</span> addAnimation:animation forKey:<span class="string">@"animation"</span>];
-  }
+背景颜色：<span class="matrix">[webView stringByEvaluatingJavaScriptFromString:@<span class="string">"document.getElementsByTagName('</span>body<span class="string">')[0].style.background='</span>#F6F7F3<span class="string">'"</span>]</span>;
 </code></pre></li>
-<li><p>代码说明：</p>
-<pre><code>CATransition常用的属性如下：
-
-duration:设置动画时间
-
-<span class="keyword">type</span>:稍后下面会详细的介绍运动类型
-
-subtype:和<span class="keyword">type</span>匹配使用，指定运动的方向，下面也会详细介绍
-
-timingFunction ：动画的运动轨迹，用于变化起点和终点之间的插值计算,形象点说它决定了动画运行的节奏,比如是
-
-均匀变化(相同时间变化量相同)还是先快后慢,先慢后快还是先慢再快再慢.
-
-<span class="comment">*  动画的开始与结束的快慢,有五个预置分别为(下同):</span>
-
-<span class="comment">*  kCAMediaTimingFunctionLinear            线性,即匀速</span>
-
-<span class="comment">*  kCAMediaTimingFunctionEaseIn            先慢后快</span>
-
-<span class="comment">*  kCAMediaTimingFunctionEaseOut           先快后慢</span>
-
-<span class="comment">*  kCAMediaTimingFunctionEaseInEaseOut     先慢后快再慢</span>
-
-<span class="comment">*  kCAMediaTimingFunctionDefault           实际效果是动画中间比较快.</span>
+<li><p>第二种方式：在下面可以通过改变margin大小来改变webview文字距离边距大小，13代表字体大小，self.strBookTips是要被操作的字符串。</p>
+<pre><code>NSString *BookStr = [NSString stringWithFormat:@"<span class="tag">&lt;<span class="title">html</span>&gt;</span> \n"
+                      "<span class="tag">&lt;<span class="title">head</span>&gt;</span> \n"
+                      "<span class="tag">&lt;<span class="title">style</span> <span class="attribute">type</span>=<span class="value">\"text</span>/<span class="attribute">css</span>\"&gt;</span><span class="css"> \<span class="tag">n</span>"
+                      "<span class="tag">body</span> <span class="rules">{<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">10</span></span></span>;<span class="rule"><span class="attribute">font-size</span>:<span class="value"> %d</span></span>;}</span>\<span class="tag">n</span>"
+                      "</span><span class="tag">&lt;/<span class="title">style</span>&gt;</span> \n"
+                      "<span class="tag">&lt;/<span class="title">head</span>&gt;</span> \n"
+                      "<span class="tag">&lt;<span class="title">body</span>&gt;</span>%@<span class="tag">&lt;/<span class="title">body</span>&gt;</span> \n"
+                      "<span class="tag">&lt;/<span class="title">html</span>&gt;</span>",13,self.strBookTips];
+[self.webView loadHTMLString:BookStr baseURL:nil];
+</code></pre></li>
+<li><p>第三种方式，这种缺少了改变背景颜色</p>
+<pre><code><span class="built_in">NSString</span> * formatString = <span class="string">@"&lt;span style=\"font-size:13px;color:#7E7C8A\"&gt;%@&lt;/span&gt;"</span>;
+<span class="built_in">NSString</span> * htmlString = [<span class="built_in">NSString</span> stringWithFormat:formatString,<span class="keyword">self</span><span class="variable">.strBookTips</span>];
+[<span class="keyword">self</span><span class="variable">.webView</span> loadHTMLString:BookStr baseURL:<span class="literal">nil</span>];
 </code></pre></li>
 </ol>
-<p>原博主写的很详细，这里我就不写了，原文请看<a href="http://www.tuicool.com/articles/Znq2i2" target="_blank" rel="external">http://www.tuicool.com/articles/Znq2i2</a> Demo下载地址：<a href="https://github.com/lizelu/CATransitionDemo.git" target="_blank" rel="external">https://github.com/lizelu/CATransitionDemo.git</a></p>
+<p><a href="http://www.cnblogs.com/gcb999/p/3178728.html" target="_blank" rel="external">http://www.cnblogs.com/gcb999/p/3178728.html</a></p>
+<p><a href="http://www.kwstu.com/ArticleView/guandebao_20139618222689" target="_blank" rel="external">http://www.kwstu.com/ArticleView/guandebao_20139618222689</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cim35p2m80013fc0jpj7nyuer" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/22/iOS开发中webView与JS交互的使用/" data-id="cim35p2mf0019fc0jvuj1jfj9" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a></li></ul>
 
     </footer>
   </div>
@@ -173,19 +226,10 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
     
 <nav id="article-nav">
   
-    <a href="/2015/11/21/iOS中webView加载URL需要处理特殊字符/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          iOS中webView加载URL需要处理特殊字符
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/03/22/UIViewController中各方法调用顺序详解/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">UITextView/UITextField检测并过滤Emoji表情符号</div>
+      <div class="article-nav-title">UIViewController中各方法调用顺序详解</div>
     </a>
   
 </nav>
