@@ -3,17 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2016/1 | Jinge&#39;blog</title>
+  <title>UIViewController中各方法调用顺序详解 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/archives/2016/01/index.html">
+  <meta name="description" content="UIViewController中loadView, viewDidLoad, viewWillUnload, viewDidUnload, viewWillAppear, viewDidAppear, viewWillLayoutSubviews，viewDidLayoutSubviews，viewWillDisappear, viewDidDisappear方法，按照调用顺序说明如下
+
+ini">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIViewController中各方法调用顺序详解">
+<meta property="og:url" content="http://yoursite.com/2016/03/22/UIViewController中各方法调用顺序详解/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="UIViewController中loadView, viewDidLoad, viewWillUnload, viewDidUnload, viewWillAppear, viewDidAppear, viewWillLayoutSubviews，viewDidLayoutSubviews，viewWillDisappear, viewDidDisappear方法，按照调用顺序说明如下
+
+ini">
+<meta property="og:updated_time" content="2016-03-22T07:48:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="UIViewController中各方法调用顺序详解">
+<meta name="twitter:description" content="UIViewController中loadView, viewDidLoad, viewWillUnload, viewDidUnload, viewWillAppear, viewDidAppear, viewWillLayoutSubviews，viewDidLayoutSubviews，viewWillDisappear, viewDidDisappear方法，按照调用顺序说明如下
+
+ini">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,58 +70,104 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" class="archive-article-date">
-  <time datetime="2016-01-07T06:14:42.000Z" itemprop="datePublished">Jan 7</time>
+        <section id="main"><article id="post-UIViewController中各方法调用顺序详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/22/UIViewController中各方法调用顺序详解/" class="article-date">
+  <time datetime="2016-03-22T07:47:12.000Z" itemprop="datePublished">2016-03-22</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/">Cookie机制以及cookie在iOS中使用介绍</a>
+    <h1 class="article-title" itemprop="name">
+      UIViewController中各方法调用顺序详解
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" class="archive-article-date">
-  <time datetime="2016-01-06T09:06:24.000Z" itemprop="datePublished">Jan 6</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/">iOS开发之指定UIView的某几个角(小于4)为圆角</a>
-    </h1>
-  
+        <p>UIViewController中loadView, viewDidLoad, viewWillUnload, viewDidUnload, viewWillAppear, viewDidAppear, viewWillLayoutSubviews，viewDidLayoutSubviews，viewWillDisappear, viewDidDisappear方法，按照调用顺序说明如下</p>
+<ol>
+<li>initWithNibName:bundle:</li>
+</ol>
+<p>初始化UIViewController，执行关键数据初始化操作，注意这里不要做view相关操作，view在loadView方法中才初始化，这时loadView还未调用。如果使用StoryBoard进行视图管理，程序不会直接初始化一个UIViewController，StoryBoard会自动初始化或在segue被触发时自动初始化，因此方法initWithNibName:bundle:不会被调用。如果在代码里面使用instantiateViewControllerWithIdentifier:方法显示初始化一个UIViewController，则initWithCoder方法会被调用。</p>
+<p>如果是通过调用initWithNibName:bundle指定nib文件名初始化的话，ViewController会根据此nib来创建View。如果name参数为nil，则ViewController会通过以下两个步骤找到与其关联的nib：<br>1）如果ViewController的类名以“Controller”结尾，例如ViewController的类名是MyViewController，则查找是否存在MyView.nib；<br>2）找跟ViewController类名一样的文件，例如MyViewController，则查找是否存在MyViewController.nib</p>
+<ol>
+<li>loadView</li>
+</ol>
+<p>当访问UIViewController的view属性时，view如果此时是nil，那么VC会自动调用loadView方法来初始化一个UIView并赋值给view属性。此方法用在初始化关键view，需要注意的是，在view初始化之前，不能先调用view的getter方法，否则将导致死循环（除非先调用了[supper<br> loadView];）。</p>
+<p>-(void)loadView{<br>    NSLog(@”loadView”);<br>    //错误，将导致死循环，因此此时view=nil，VC会再次调用loadView来初始化view<br>    self.view.backgroundColor = [UIColor greenColor];<br>}</p>
+<p>-(void)loadView{<br>    NSLog(@”loadView”);<br>    //正确，先初始化view<br>    self.view = [[MyView alloc] init];<br>    self.view.backgroundColor = [UIColor greenColor];<br>}</p>
+<p>如果没有重载loadView方法，则UIViewController会从nib或StoryBoard中查找默认的loadView，默认的loadView会返回一个空白的UIView对象。</p>
+<ol>
+<li>viewDidLoad</li>
+</ol>
+<p>当VC的view对象载入内存后调用，用于对view进行额外的初始化操作</p>
+<ol>
+<li>viewWillAppear</li>
+</ol>
+<p>在view即将添加到视图层级中(显示给用户)且任意显示动画切换之前调用(这个时候supperView还是nil)。这个方法中完成任何与视图显示相关的任务，例如改变视图方向、状态栏方向、视图显示样式等</p>
+<ol>
+<li>viewDidAppear</li>
+</ol>
+<p>在view被添加到视图层级中，显示动画切换之后调用(这时view已经添加到supperView中)。在这个方法中执行视图显示相关附件任务，如果重载了这个方法，必须在方法中调用[supper<br> viewDidAppear];</p>
+<ol>
+<li>viewWillLayoutSubviews</li>
+</ol>
+<p>view即将布局其Subviews。比如view的bounds改变了(例如状态栏从不显示到显示，视图方向变化)，要调整Subviews的位置，在调整之前要做的一些工作就可以在该方法中实现。</p>
+<ol>
+<li>viewDidLayoutSubviews</li>
+</ol>
+<p>view已经布局其Subviews。比如view的bounds改变了(例如状态栏从不显示到显示，视图方向变化)，已经调整Subviews的位置，在调整完成之后要做的一些工作就可以在该方法中实现。</p>
+<ol>
+<li>viewWillDisappear</li>
+</ol>
+<p>view即将从superView中移除且移除动画切换之前，此时还没有调用removeFromSuperview。</p>
+<ol>
+<li>viewDidDisappear</li>
+</ol>
+<p>view从superView中移除，移除动画切换之后调用，此时已调用removeFromSuperview。</p>
+<ol>
+<li>viewWillUnload</li>
+</ol>
+<p>在VC的view对象从内存中释放之前调用，可以在view被释放前做一些资源清理操作。在iOS6.0开始就废弃了，该方法不再会调用</p>
+<ol>
+<li>viewDidUnload</li>
+</ol>
+<p>在VC的view对象从内存中释放之后调用，可以在view被释放后做一些view相关的引用清理操作，此时view为nil。在iOS6.0开始就废弃了，该方法不再会调用</p>
+<p>当一个视图被移除屏幕并且销毁的时候的执行顺序，这个顺序差不多和上面的相反<br>1、viewWillDisappear            视图将被从屏幕上移除之前执行<br>2、viewDidDisappear             视图已经被从屏幕上移除，用户看不到这个视图了<br>3、dealloc                      视图被销毁，此处需要对你在init和viewDidLoad中创建的对象进行释放 </p>
 
-    </header>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/22/UIViewController中各方法调用顺序详解/" data-id="cim34dnkr001ucw0jrarc5ykc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/22/UITableView使用中的一些刁专问题总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">UITableView使用中的一些刁专问题总结</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
