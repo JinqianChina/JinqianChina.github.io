@@ -65,6 +65,98 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-UITableView使用中的一些刁专问题总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/22/UITableView使用中的一些刁专问题总结/" class="article-date">
+  <time datetime="2016-03-22T07:23:46.000Z" itemprop="datePublished">2016-03-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/22/UITableView使用中的一些刁专问题总结/">UITableView使用中的一些刁专问题总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>tableview中cell的系统分隔线问题（分隔线顶满或者缩短）</p>
+<pre><code><span class="comment">//tableview代理方法，设置系统cell的分隔线</span>
+<span class="tag">-</span>(void)<span class="tag">tableView</span>:(UITableView *)<span class="tag">tableView</span> <span class="tag">willDisplayCell</span>:(UITableViewCell *)<span class="tag">cell</span> <span class="tag">forRowAtIndexPath</span>:(NSIndexPath *)<span class="tag">indexPath</span>
+{
+    <span class="tag">if</span> (<span class="number">0</span> == indexPath.section) {
+        <span class="tag">if</span> (<span class="number">0</span> == indexPath.row) {
+            <span class="comment">//cell分隔线缩短50</span>
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsMake(0, 50, 0, 0)]</span>;
+            }
+        }<span class="tag">else</span> {
+            <span class="comment">//cell分割线顶满（分隔线加长）</span>
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsZero]</span>;
+            }
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setLayoutMargins</span>:)]) {
+                <span class="attr_selector">[cell setLayoutMargins:UIEdgeInsetsZero]</span>;
+            }
+        }
+    }<span class="tag">else</span> <span class="tag">if</span> (<span class="number">1</span> == indexPath.section) {
+        <span class="tag">if</span> (<span class="number">0</span> == indexPath.row) {
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsZero]</span>;
+            }
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setLayoutMargins</span>:)]) {
+                <span class="attr_selector">[cell setLayoutMargins:UIEdgeInsetsZero]</span>;
+            }
+        }
+    }<span class="tag">else</span> <span class="tag">if</span> (<span class="number">2</span> == indexPath.section){
+        <span class="tag">if</span> (<span class="number">0</span> == indexPath.row) {
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsMake(0, 50, 0, 0)]</span>;
+            }
+        }
+    }
+}
+</code></pre></li>
+<li><p>tableview下面出现多余的cell（有分割线影响界面）</p>
+<pre><code><span class="comment">//隐藏多余cell</span>
+-(<span class="keyword">void</span>)setExtraCellLineHidden: (<span class="built_in">UITableView</span> *)tableView
+{
+    <span class="built_in">UIView</span> *view = [<span class="built_in">UIView</span> new];
+    view<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> clearColor];
+    [tableView setTableFooterView:view];
+}
+</code></pre><p> 例如：<br> 你要隐藏某个UITableView里面多余的cell<br> UITableView *tabelDemo = [[UITableView alloc] init];<br> [self.view addSubview:tabelDemo];<br> 然后直接调用就可以了<br> [self setExtraCellLineHidden:tabelDemo];</p>
+</li>
+<li><p>tableview的第一个cell的高度多出的一部分（原因我猜有可能是因为系统自动布局计算了状态栏的高度）</p>
+<p> //去掉tableview的第一个cell的高度多出的一部分<br> self.edgesForExtendedLayout = UIRectEdgeNone;(这里self指当前控制器，只需要在viewDidl<br> Load调用)</p>
+<p> 效果图：<br> <img src="http://7xosy6.com1.z0.glb.clouddn.com/21.PNG" alt="Mou icon"></p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/22.PNG" alt="Mou icon"></p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/22/UITableView使用中的一些刁专问题总结/" data-id="cim33kg0z001xjm0j7yq14s0w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView/">tableView</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS二维码扫描总结" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/03/15/iOS二维码扫描总结/" class="article-date">
@@ -102,7 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/15/iOS二维码扫描总结/" data-id="cilsqfelt001cf50jkbm294nj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/15/iOS二维码扫描总结/" data-id="cim33kg0i001cjm0jaxcebg84" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a></li></ul>
@@ -306,7 +398,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/14/iOS宏定义的使用与规范/" data-id="cilsqfelq0019f50j7d01oi9h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/14/iOS宏定义的使用与规范/" data-id="cim33kg0f0019jm0jsehi1rh8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a></li></ul>
@@ -578,7 +670,7 @@ NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cilsqfelm0016f50jptqdjyh9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cim33kg0b0016jm0jr17jgvb0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-block/">iOS block</a></li></ul>
@@ -754,7 +846,7 @@ NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cilsqfemh0020f50j3q4cvpkt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cim33kg130023jm0j7vrpojbi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单例-GCD/">单例 GCD</a></li></ul>
@@ -920,7 +1012,7 @@ NSHTTPCookie *cookie = [NSHTTPCookie <span class="string">cookieWithProperties:<
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cilsqfejt0000f50j0o46hf5y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cim33kfyk0000jm0j7rzo9aek" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a></li></ul>
@@ -980,7 +1072,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cilsqfelh0010f50jz4n0r6p6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cim33kg080010jm0j1tcj8eqn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a></li></ul>
@@ -1037,7 +1129,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cilsqfele000xf50j9933yn1z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cim33kg06000xjm0jhdmspxim" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a></li></ul>
@@ -1083,7 +1175,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cilsqfem5001of50jgapb7bco" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cim33kg0s001ojm0jtnvb6gwa" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
@@ -1132,100 +1224,10 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cilsqfelx001ff50jwwsct5nr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cim33kg0l001fjm0jpfafpy3j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iOS开发之各种动画各种页面切面效果" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/10/17/iOS开发之各种动画各种页面切面效果/" class="article-date">
-  <time datetime="2015-10-17T09:30:46.000Z" itemprop="datePublished">2015-10-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/17/iOS开发之各种动画各种页面切面效果/">iOS开发之各种动画各种页面切面效果</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天项目有个需求需要用到动画，就在网上搜了一下，搜到一篇博客，把系统的一些动画封装、分类了，而且还有Demo，用起来比较方便，在此为博主点个赞。<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/CA动画1.PNG" alt="Mou icon"></p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/CA动画2.PNG" alt="Mou icon"></p>
-<ol>
-<li><p>用CATransition实现动画的封装方法如下:</p>
-<pre><code><span class="preprocessor">#pragma CATransition动画实现</span>
-<span class="preprocessor">#define  DURATION 0.25</span>
- - (<span class="keyword">void</span>) transitionWithType:(<span class="built_in">NSString</span> *) type WithSubtype:(<span class="built_in">NSString</span> *) subtype     ForView : (<span class="built_in">UIView</span> *) view
- {    
-     <span class="comment">//创建CATransition对象</span>
-      <span class="built_in">CATransition</span> *animation = [<span class="built_in">CATransition</span> animation];
-
-      <span class="comment">//设置运动时间</span>
-      animation<span class="variable">.duration</span> = DURATION;
-
-     <span class="comment">//设置运动type</span>
-     animation<span class="variable">.type</span> = type;
-     <span class="keyword">if</span> (subtype != <span class="literal">nil</span>) { 
-        <span class="comment">//设置子类</span>
-         animation<span class="variable">.subtype</span> = subtype;
-     }     
-       <span class="comment">//设置运动速度    </span>
-       animation<span class="variable">.timingFunction</span> = <span class="built_in">UIViewAnimationOptionCurveEaseInOut</span>;
-    [view<span class="variable">.layer</span> addAnimation:animation forKey:<span class="string">@"animation"</span>];
-  }
-</code></pre></li>
-<li><p>代码说明：</p>
-<pre><code>CATransition常用的属性如下：
-
-duration:设置动画时间
-
-<span class="keyword">type</span>:稍后下面会详细的介绍运动类型
-
-subtype:和<span class="keyword">type</span>匹配使用，指定运动的方向，下面也会详细介绍
-
-timingFunction ：动画的运动轨迹，用于变化起点和终点之间的插值计算,形象点说它决定了动画运行的节奏,比如是
-
-均匀变化(相同时间变化量相同)还是先快后慢,先慢后快还是先慢再快再慢.
-
-<span class="comment">*  动画的开始与结束的快慢,有五个预置分别为(下同):</span>
-
-<span class="comment">*  kCAMediaTimingFunctionLinear            线性,即匀速</span>
-
-<span class="comment">*  kCAMediaTimingFunctionEaseIn            先慢后快</span>
-
-<span class="comment">*  kCAMediaTimingFunctionEaseOut           先快后慢</span>
-
-<span class="comment">*  kCAMediaTimingFunctionEaseInEaseOut     先慢后快再慢</span>
-
-<span class="comment">*  kCAMediaTimingFunctionDefault           实际效果是动画中间比较快.</span>
-</code></pre></li>
-</ol>
-<p>原博主写的很详细，这里我就不写了，原文请看<a href="http://www.tuicool.com/articles/Znq2i2" target="_blank" rel="external">http://www.tuicool.com/articles/Znq2i2</a> Demo下载地址：<a href="https://github.com/lizelu/CATransitionDemo.git" target="_blank" rel="external">https://github.com/lizelu/CATransitionDemo.git</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cilsqfelk0013f50j329z9bsv" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a></li></ul>
 
     </footer>
   </div>
@@ -1249,7 +1251,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1258,7 +1260,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
     </div>
   </div>
 
@@ -1267,7 +1269,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1277,6 +1279,10 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/03/22/UITableView使用中的一些刁专问题总结/">UITableView使用中的一些刁专问题总结</a>
+          </li>
         
           <li>
             <a href="/2016/03/15/iOS二维码扫描总结/">iOS二维码扫描总结</a>
@@ -1292,10 +1298,6 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
         
           <li>
             <a href="/2016/02/19/Objective-c单例模式的几种写法有什么不同/">Objective-c单例模式的几种写法有什么不同</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/">Cookie机制以及cookie在iOS中使用介绍</a>
           </li>
         
       </ul>

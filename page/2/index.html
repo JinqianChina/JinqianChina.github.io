@@ -65,6 +65,96 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS开发之各种动画各种页面切面效果" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/17/iOS开发之各种动画各种页面切面效果/" class="article-date">
+  <time datetime="2015-10-17T09:30:46.000Z" itemprop="datePublished">2015-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/17/iOS开发之各种动画各种页面切面效果/">iOS开发之各种动画各种页面切面效果</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天项目有个需求需要用到动画，就在网上搜了一下，搜到一篇博客，把系统的一些动画封装、分类了，而且还有Demo，用起来比较方便，在此为博主点个赞。<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/CA动画1.PNG" alt="Mou icon"></p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/CA动画2.PNG" alt="Mou icon"></p>
+<ol>
+<li><p>用CATransition实现动画的封装方法如下:</p>
+<pre><code><span class="preprocessor">#pragma CATransition动画实现</span>
+<span class="preprocessor">#define  DURATION 0.25</span>
+ - (<span class="keyword">void</span>) transitionWithType:(<span class="built_in">NSString</span> *) type WithSubtype:(<span class="built_in">NSString</span> *) subtype     ForView : (<span class="built_in">UIView</span> *) view
+ {    
+     <span class="comment">//创建CATransition对象</span>
+      <span class="built_in">CATransition</span> *animation = [<span class="built_in">CATransition</span> animation];
+
+      <span class="comment">//设置运动时间</span>
+      animation<span class="variable">.duration</span> = DURATION;
+
+     <span class="comment">//设置运动type</span>
+     animation<span class="variable">.type</span> = type;
+     <span class="keyword">if</span> (subtype != <span class="literal">nil</span>) { 
+        <span class="comment">//设置子类</span>
+         animation<span class="variable">.subtype</span> = subtype;
+     }     
+       <span class="comment">//设置运动速度    </span>
+       animation<span class="variable">.timingFunction</span> = <span class="built_in">UIViewAnimationOptionCurveEaseInOut</span>;
+    [view<span class="variable">.layer</span> addAnimation:animation forKey:<span class="string">@"animation"</span>];
+  }
+</code></pre></li>
+<li><p>代码说明：</p>
+<pre><code>CATransition常用的属性如下：
+
+duration:设置动画时间
+
+<span class="keyword">type</span>:稍后下面会详细的介绍运动类型
+
+subtype:和<span class="keyword">type</span>匹配使用，指定运动的方向，下面也会详细介绍
+
+timingFunction ：动画的运动轨迹，用于变化起点和终点之间的插值计算,形象点说它决定了动画运行的节奏,比如是
+
+均匀变化(相同时间变化量相同)还是先快后慢,先慢后快还是先慢再快再慢.
+
+<span class="comment">*  动画的开始与结束的快慢,有五个预置分别为(下同):</span>
+
+<span class="comment">*  kCAMediaTimingFunctionLinear            线性,即匀速</span>
+
+<span class="comment">*  kCAMediaTimingFunctionEaseIn            先慢后快</span>
+
+<span class="comment">*  kCAMediaTimingFunctionEaseOut           先快后慢</span>
+
+<span class="comment">*  kCAMediaTimingFunctionEaseInEaseOut     先慢后快再慢</span>
+
+<span class="comment">*  kCAMediaTimingFunctionDefault           实际效果是动画中间比较快.</span>
+</code></pre></li>
+</ol>
+<p>原博主写的很详细，这里我就不写了，原文请看<a href="http://www.tuicool.com/articles/Znq2i2" target="_blank" rel="external">http://www.tuicool.com/articles/Znq2i2</a> Demo下载地址：<a href="https://github.com/lizelu/CATransitionDemo.git" target="_blank" rel="external">https://github.com/lizelu/CATransitionDemo.git</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cim33kg0a0013jm0jkcj913tr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-UITextView-UITextField检测并过滤Emoji表情符号" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" class="article-date">
@@ -176,7 +266,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cilsqfema001uf50jknqbtads" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cim33kg0x001ujm0jpvpyb0r3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>
@@ -343,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cilsqfem2001lf50jdtff0il3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cim33kg0p001ljm0jdc31xc1v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>
@@ -396,7 +486,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cilsqfeke0006f50jv163uu72" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cim33kfz80006jm0jem8ey8l9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
@@ -614,7 +704,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/UICollectionview的使用详解/" data-id="cilsqfemd001xf50j9j0uz3ov" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/16/UICollectionview的使用详解/" data-id="cim33kg110020jm0jq6jqti52" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a></li></ul>
@@ -664,7 +754,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cilsqfem8001rf50jgwyz2fkl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cim33kg0v001rjm0jzw7rc0zs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a></li></ul>
@@ -747,7 +837,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cilsqfem0001if50j5yjhihb8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cim33kg0n001ijm0jatozhmvd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
@@ -811,7 +901,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cilsqfekh0009f50j6suggwue" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cim33kfzg0009jm0jjhqsqjuz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
@@ -864,7 +954,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cilsqfel1000of50j5ujl5h60" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cim33kfzw000ojm0jd5g1nvrj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
@@ -926,59 +1016,10 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cilsqfekt000if50jn8hw7r74" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cim33kfzq000ijm0j8trcsxv4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="article-date">
-  <time datetime="2015-05-30T10:38:26.000Z" itemprop="datePublished">2015-05-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/">报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天真机调试的时候出现了这个错误，如下图</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg" alt="Mou icon"></p>
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：</p>
-<pre><code>Could <span class="operator">not</span> launch “iOSStrongDemo”
-<span class="built_in">process</span> launch failed: failed <span class="built_in">to</span> <span class="built_in">get</span> <span class="operator">the</span> task <span class="keyword">for</span> <span class="built_in">process</span> <span class="number">1298</span>
-</code></pre><p>错误分析:</p>
-<p>是因为我之前打包的时候，修改了Provisioning Profile。我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/16.png" alt="Mou icon"></p>
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-<p>解决方案：</p>
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cilsqfekm000cf50j5ckx75so" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
 
     </footer>
   </div>
@@ -1002,7 +1043,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1011,7 +1052,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
     </div>
   </div>
 
@@ -1020,7 +1061,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1030,6 +1071,10 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/03/22/UITableView使用中的一些刁专问题总结/">UITableView使用中的一些刁专问题总结</a>
+          </li>
         
           <li>
             <a href="/2016/03/15/iOS二维码扫描总结/">iOS二维码扫描总结</a>
@@ -1045,10 +1090,6 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
         
           <li>
             <a href="/2016/02/19/Objective-c单例模式的几种写法有什么不同/">Objective-c单例模式的几种写法有什么不同</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/">Cookie机制以及cookie在iOS中使用介绍</a>
           </li>
         
       </ul>

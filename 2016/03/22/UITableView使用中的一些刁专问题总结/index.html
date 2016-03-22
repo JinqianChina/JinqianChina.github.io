@@ -3,17 +3,32 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2014/12 | Jinge&#39;blog</title>
+  <title>UITableView使用中的一些刁专问题总结 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/archives/2014/12/index.html">
+  <meta name="description" content="tableview中cell的系统分隔线问题（分隔线顶满或者缩短）
+//tableview代理方法，设置系统cell的分隔线
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UITableView使用中的一些刁专问题总结">
+<meta property="og:url" content="http://yoursite.com/2016/03/22/UITableView使用中的一些刁专问题总结/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="tableview中cell的系统分隔线问题（分隔线顶满或者缩短）
+//tableview代理方法，设置系统cell的分隔线
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/21.PNG">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/22.PNG">
+<meta property="og:updated_time" content="2016-03-22T07:24:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="UITableView使用中的一些刁专问题总结">
+<meta name="twitter:description" content="tableview中cell的系统分隔线问题（分隔线顶满或者缩短）
+//tableview代理方法，设置系统cell的分隔线
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,58 +78,108 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/12/30/vim-编辑器常用命令/" class="archive-article-date">
-  <time datetime="2014-12-30T02:00:12.000Z" itemprop="datePublished">Dec 30</time>
+        <section id="main"><article id="post-UITableView使用中的一些刁专问题总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/22/UITableView使用中的一些刁专问题总结/" class="article-date">
+  <time datetime="2016-03-22T07:23:46.000Z" itemprop="datePublished">2016-03-22</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/12/30/vim-编辑器常用命令/">vim 编辑器常用命令</a>
+    <h1 class="article-title" itemprop="name">
+      UITableView使用中的一些刁专问题总结
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/12/21/mac下如何安装iterm2并使用zsh/" class="archive-article-date">
-  <time datetime="2014-12-21T03:51:59.000Z" itemprop="datePublished">Dec 21</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
-    </h1>
-  
+        <ol>
+<li><p>tableview中cell的系统分隔线问题（分隔线顶满或者缩短）</p>
+<pre><code><span class="comment">//tableview代理方法，设置系统cell的分隔线</span>
+<span class="tag">-</span>(void)<span class="tag">tableView</span>:(UITableView *)<span class="tag">tableView</span> <span class="tag">willDisplayCell</span>:(UITableViewCell *)<span class="tag">cell</span> <span class="tag">forRowAtIndexPath</span>:(NSIndexPath *)<span class="tag">indexPath</span>
+{
+    <span class="tag">if</span> (<span class="number">0</span> == indexPath.section) {
+        <span class="tag">if</span> (<span class="number">0</span> == indexPath.row) {
+            <span class="comment">//cell分隔线缩短50</span>
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsMake(0, 50, 0, 0)]</span>;
+            }
+        }<span class="tag">else</span> {
+            <span class="comment">//cell分割线顶满（分隔线加长）</span>
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsZero]</span>;
+            }
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setLayoutMargins</span>:)]) {
+                <span class="attr_selector">[cell setLayoutMargins:UIEdgeInsetsZero]</span>;
+            }
+        }
+    }<span class="tag">else</span> <span class="tag">if</span> (<span class="number">1</span> == indexPath.section) {
+        <span class="tag">if</span> (<span class="number">0</span> == indexPath.row) {
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsZero]</span>;
+            }
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setLayoutMargins</span>:)]) {
+                <span class="attr_selector">[cell setLayoutMargins:UIEdgeInsetsZero]</span>;
+            }
+        }
+    }<span class="tag">else</span> <span class="tag">if</span> (<span class="number">2</span> == indexPath.section){
+        <span class="tag">if</span> (<span class="number">0</span> == indexPath.row) {
+            <span class="tag">if</span> ([cell <span class="attribute">respondsToSelector</span>:<span class="variable">@selector</span>(<span class="attribute">setSeparatorInset</span>:)]) {
+                <span class="attr_selector">[cell setSeparatorInset:UIEdgeInsetsMake(0, 50, 0, 0)]</span>;
+            }
+        }
+    }
+}
+</code></pre></li>
+<li><p>tableview下面出现多余的cell（有分割线影响界面）</p>
+<pre><code><span class="comment">//隐藏多余cell</span>
+-(<span class="keyword">void</span>)setExtraCellLineHidden: (<span class="built_in">UITableView</span> *)tableView
+{
+    <span class="built_in">UIView</span> *view = [<span class="built_in">UIView</span> new];
+    view<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> clearColor];
+    [tableView setTableFooterView:view];
+}
+</code></pre><p> 例如：<br> 你要隐藏某个UITableView里面多余的cell<br> UITableView *tabelDemo = [[UITableView alloc] init];<br> [self.view addSubview:tabelDemo];<br> 然后直接调用就可以了<br> [self setExtraCellLineHidden:tabelDemo];</p>
+</li>
+<li><p>tableview的第一个cell的高度多出的一部分（原因我猜有可能是因为系统自动布局计算了状态栏的高度）</p>
+<p> //去掉tableview的第一个cell的高度多出的一部分<br> self.edgesForExtendedLayout = UIRectEdgeNone;(这里self指当前控制器，只需要在viewDidl<br> Load调用)</p>
+<p> 效果图：<br> <img src="http://7xosy6.com1.z0.glb.clouddn.com/21.PNG" alt="Mou icon"></p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/22.PNG" alt="Mou icon"></p>
+</li>
+</ol>
 
-    </header>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/22/UITableView使用中的一些刁专问题总结/" data-id="cim33kg0z001xjm0j7yq14s0w" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView/">tableView</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/03/15/iOS二维码扫描总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS二维码扫描总结</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
