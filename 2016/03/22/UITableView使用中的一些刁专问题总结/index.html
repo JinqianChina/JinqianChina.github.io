@@ -21,7 +21,7 @@
     if (0">
 <meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/21.PNG">
 <meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/22.PNG">
-<meta property="og:updated_time" content="2016-03-22T07:24:36.000Z">
+<meta property="og:updated_time" content="2016-03-23T02:31:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UITableView使用中的一些刁专问题总结">
 <meta name="twitter:description" content="tableview中cell的系统分隔线问题（分隔线顶满或者缩短）
@@ -148,8 +148,8 @@
 }
 </code></pre><p> 例如：<br> 你要隐藏某个UITableView里面多余的cell<br> UITableView *tabelDemo = [[UITableView alloc] init];<br> [self.view addSubview:tabelDemo];<br> 然后直接调用就可以了<br> [self setExtraCellLineHidden:tabelDemo];</p>
 </li>
-<li><p>tableview的第一个cell的高度多出的一部分（原因我猜有可能是因为系统自动布局计算了状态栏的高度）</p>
-<p> //去掉tableview的第一个cell的高度多出的一部分<br> self.edgesForExtendedLayout = UIRectEdgeNone;(这里self指当前控制器，只需要在viewDidl<br> Load调用)</p>
+<li><p>tableview顶部空出的一部分高度（原因我猜有可能是因为系统自动布局计算了状态栏的高度）</p>
+<p> //去掉tableview顶部高度多出的一部分<br> self.edgesForExtendedLayout = UIRectEdgeNone;(这里self指当前控制器，只需要在viewDidl<br> Load调用)</p>
 <p> 效果图：<br> <img src="http://7xosy6.com1.z0.glb.clouddn.com/21.PNG" alt="Mou icon"></p>
 <p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/22.PNG" alt="Mou icon"></p>
 </li>
@@ -158,7 +158,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/22/UITableView使用中的一些刁专问题总结/" data-id="cim35p2n50023fc0jiaio5kr4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/22/UITableView使用中的一些刁专问题总结/" data-id="cim48ijgx0023z90jf5rcl7an" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView/">tableView</a></li></ul>
