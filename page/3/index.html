@@ -65,6 +65,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Undefined-symbols-for-architectur-referenced-from问题解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" class="article-date">
+  <time datetime="2015-08-16T05:52:22.000Z" itemprop="datePublished">2015-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/">Undefined symbols for architectur referenced from问题解决</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>多个人共同操作同一个项目或拷贝项目时，经常会出现类似这样的问题：<br>Undefined symbols for architecture x86_64:<br>“_OBJC<em>CLASS</em>$_xxx文件名”, referenced from:<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错svn冲突误删报错.png" alt="Mou icon"><br>今天我就遇到了这个问题，当我从svn上update服务器上的改动后再commit本地的修改，出现了冲突，打不开工程，当我删除冲突后打开工程，就出现上述错误（是误删出了错）。删除冲突操作如下图：<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错5.png" alt="Mou icon"></p>
+<p>下面给我的解决办法，在报错这里我们可以看到，是因为缺少了两个XXX.o文件</p>
+<ol>
+<li><p>先打开svn，找到工程的配置文件，选中project.pbxproj，然后revert，这里是把你之前解决冲突时删除的操作恢复了。如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错2.png" alt="Mou icon"></p>
+</li>
+<li><p>这里你之前添加到工程里的文件会被恢复，文件还在（因为之前你已经commit了），只是没有添加到工程中，这时打开之前文件添加的位置，点击add files，如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错3.png" alt="Mou icon"></p>
+</li>
+<li><p>会出现一个窗口，在这个窗口中，灰色不能点击的文件均为已经添加到工程里的文件，这时你会看到你之前添加的文件，它们是正常文件颜色，可以点击，选中它们添加到工程即可，如图<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/svn报错4.png" alt="Mou icon"></p>
+</li>
+<li><p>最后，运行项目即可</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cimrq8jsz0021hk0jp8wht351" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" class="article-date">
@@ -136,7 +186,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cimrq20x0001rfc0jfek5yno5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cimrq8jsr001shk0jk451d086" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
@@ -200,7 +250,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cimrq20vk000cfc0jyjhbj8wy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cimrq8jrb000chk0jfv1gh87h" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
@@ -253,7 +303,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cimrq20w0000rfc0j6c7r1h9r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cimrq8jrt000shk0jqt9pv8af" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
@@ -315,7 +365,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cimrq20vs000lfc0j9jdfwhg4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cimrq8jrl000mhk0jfec1tca9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
@@ -364,7 +414,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cimrq20vm000ffc0jxhpu090z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cimrq8jrd000fhk0j40e0rgn1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
@@ -448,7 +498,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/01/纯命令行教你Cocoapods的安装和使用/" data-id="cimrq20v10003fc0jnvsrkkam" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/05/01/纯命令行教你Cocoapods的安装和使用/" data-id="cimrq8jqm0003hk0jd4lbmplt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
@@ -517,7 +567,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/03/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cimrq20xp002ifc0j8b44c2ra" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/03/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cimrq8jti002jhk0jjhrk0gfh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a></li></ul>
@@ -670,7 +720,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/01/18/shell常用命令-脚本编写/" data-id="cimrq20w7000xfc0jga60utnn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/01/18/shell常用命令-脚本编写/" data-id="cimrq8jrz000yhk0j9sm0euxz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -716,67 +766,10 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/30/vim-编辑器常用命令/" data-id="cimrq20vv000ofc0jwiv00gur" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/30/vim-编辑器常用命令/" data-id="cimrq8jrp000phk0jf3ze4f2s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-mac下如何安装iterm2并使用zsh" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/12/21/mac下如何安装iterm2并使用zsh/" class="article-date">
-  <time datetime="2014-12-21T03:51:59.000Z" itemprop="datePublished">2014-12-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/12/21/mac下如何安装iterm2并使用zsh/">mac下如何安装iterm2并使用zsh</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、安装iTerm2</p>
-<pre><code><span class="number">1.</span> 下载iTer<span class="title">m2</span>，建议去官网下载，网址：http:<span class="comment">//www.iterm2.com/，也可以在下面分享云盘里取压缩包</span>
-<span class="number">2.</span> 把iTer<span class="title">m2</span>移动到应用程序文件夹中
-<span class="number">3.</span> 双击iTer<span class="title">m2</span>来启动iter<span class="title">m2</span>,并在dock中保留
-</code></pre><p>二、安装zsh</p>
-<pre><code><span class="number">1</span>. 下载oh-<span class="keyword">my</span>-zsh，这里分享一个云盘文件，里面有iterm2、oh-<span class="keyword">my</span>-zsh以及下面所需要的dotfiles
-   链接: http:<span class="regexp">//pan</span>.baidu.com/<span class="regexp">s/1eQyj02Y 密码: 5tca
-2. 移动oh-my-zsh到根目录下  
-   mv oh-my-zsh ~/.oh-my-zsh
-3. 下载dotfiles，可以执行下面命令下载，也可以直接在上面分享云盘里取 
-   git clone http:/</span><span class="regexp">/github.com/dorayo</span><span class="regexp">/dotfiles.git
-4. 移动dotfiles到根目录下 
-   mv dotfiles ~/dotfiles</span>
-<span class="number">5</span>. 切到dotfiles文件夹下 
-   cd ~<span class="regexp">/dotfiles
-6. 执行install.sh  
-   ./install</span>.sh
-<span class="number">7</span>. chsh -<span class="keyword">s</span> /bin/zsh
-<span class="number">8</span>. 关闭并重新打开iTerm2就OK了
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="cimrq20wa0010fc0jm17tfxgs" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/">zsh</a></li></ul>
 
     </footer>
   </div>
@@ -818,7 +811,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -828,6 +821,10 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/">将字符串切割成数组&amp;将数组元素拼接成字符串</a>
+          </li>
         
           <li>
             <a href="/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/">tableview刷新某个区域（section）或者某一行（row）</a>
@@ -843,10 +840,6 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
         
           <li>
             <a href="/2016/03/22/UIViewController中各方法调用顺序详解/">UIViewController中各方法调用顺序详解</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/22/UITableView使用中的一些刁专问题总结/">UITableView使用中的一些刁专问题总结</a>
           </li>
         
       </ul>
