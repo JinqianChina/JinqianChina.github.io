@@ -65,6 +65,89 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" class="article-date">
+  <time datetime="2015-07-07T05:45:45.000Z" itemprop="datePublished">2015-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/">iOS中nil 、NULL、 Nil 、NSNull，你真的了解吗？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天突然间对nil和NULL产生了疑问，就在网上查了一下相关的问题，看完之后终于有了清晰的认识，跟我一样有疑问的童鞋们可以看看。</p>
+<ol>
+<li><p>nil，定义一个空的实例，指向OC中对象的空指针。</p>
+<pre><code>示例代码：
+<span class="built_in">NSString</span> *someString = <span class="literal">nil</span>;
+<span class="built_in">NSURL</span> *someURL = <span class="literal">nil</span>;
+<span class="keyword">id</span> someObject = <span class="literal">nil</span>;
+<span class="keyword">if</span> (anotherObject == <span class="literal">nil</span>) <span class="comment">// do something</span>
+
+用法讲解：
+　当对某个对象release 的同时最好把他们赋值为<span class="literal">nil</span>，这样可以确保安全性，如果不赋值<span class="literal">nil</span>，可能导致程序
+ 崩溃.
+　　    <span class="built_in">NSArray</span> * array = [<span class="built_in">NSArray</span> arrayWithObjects:<span class="string">@"test"</span>,<span class="string">@"test1"</span> ,<span class="literal">nil</span>];
+　　    [array release];
+　　    
+　　    <span class="keyword">if</span> (array)
+　　    {
+　　　　　　<span class="comment">//仅仅对数组release，并没有赋值为nil，在程序某个地方如果继续对数组操作，程序直接崩溃</span>
+　　        <span class="built_in">NSString</span> * string = [array objectAtIndex:<span class="number">0</span>];
+　　        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,string);
+　　    }
+</code></pre></li>
+<li><p>NULL，NULL可以用在C语言的各种指针上。</p>
+<pre><code><span class="preprocessor">#define __DARWIN_NULL </span>
+<span class="preprocessor">#define__DARWIN_NULLConstants</span>
+示例代码：
+<span class="keyword">int</span> *pointerToInt = <span class="literal">NULL</span>;　　　　
+<span class="keyword">char</span> *pointerToChar = <span class="literal">NULL</span>;　　
+<span class="keyword">struct</span> TreeNode *rootNode = <span class="literal">NULL</span>;
+
+用法讲解：
+  在Objective-C里，<span class="literal">nil</span>对象被设计来跟<span class="literal">NULL</span>空指针关联的。他们的区别就是<span class="literal">nil</span>是一个对象，而<span class="literal">NULL</span>只是一个
+  值。而且我们对于<span class="literal">nil</span>调用方法，不会产生crash或者抛出异常。
+</code></pre></li>
+<li><p>Nil，定义一个空的类</p>
+<pre><code>示例代码：　　
+<span class="keyword">Class</span> someClass = <span class="keyword">Nil</span>;　
+<span class="keyword">Class</span> anotherClass = [NSString <span class="keyword">class</span>];
+</code></pre></li>
+<li><p>NSNull，NSNull是一个类，它定义了一个单例对象用于表示集合对象的空值</p>
+<pre><code>集合对象无法包含<span class="literal">nil</span>作为其具体值，如<span class="built_in">NSArray</span>、<span class="built_in">NSSet</span>和<span class="built_in">NSDictionary</span>。相应地，<span class="literal">nil</span>值用一个特定的对象
+<span class="built_in">NSNull</span>来表示。<span class="built_in">NSNull</span>提供了一个单一实例用于表示对象属性中的的<span class="literal">nil</span>值。默认的实现方法中，
+dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将        <span class="built_in">NSNull</span>和<span class="literal">nil</span>相互转换，因此您的对象不需要进行<span class="built_in">NSNull</span>的测试操作。
+</code></pre></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cimrq20x0001rfc0jfek5yno5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-根据label正文内容动态计算正文的宽或高" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/07/07/根据label正文内容动态计算正文的宽或高/" class="article-date">
@@ -117,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cimcurwzv000cul0jzooak8if" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cimrq20vk000cfc0jyjhbj8wy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
@@ -170,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cimcurx09000rul0jgp1mndlb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cimrq20w0000rfc0j6c7r1h9r" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
@@ -232,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cimcurx03000lul0jevodlezc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cimrq20vs000lfc0j9jdfwhg4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
@@ -281,7 +364,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cimcurwzx000ful0jq7oysfs9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cimrq20vm000ffc0jxhpu090z" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
@@ -365,7 +448,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/01/纯命令行教你Cocoapods的安装和使用/" data-id="cimcurwzc0003ul0j2d5betn2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/05/01/纯命令行教你Cocoapods的安装和使用/" data-id="cimrq20v10003fc0jnvsrkkam" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
@@ -434,7 +517,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/03/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cimcurx23002ful0jucujs0tk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/03/30/JSONKit-在iOS9-arm7-64位下出现的问题/" data-id="cimrq20xp002ifc0j8b44c2ra" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a></li></ul>
@@ -587,7 +670,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/01/18/shell常用命令-脚本编写/" data-id="cimcurx0g000uul0j0j3fqexc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/01/18/shell常用命令-脚本编写/" data-id="cimrq20w7000xfc0jga60utnn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
@@ -633,7 +716,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/30/vim-编辑器常用命令/" data-id="cimcurx06000oul0j0k6v29cj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/30/vim-编辑器常用命令/" data-id="cimrq20vv000ofc0jwiv00gur" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/">vim</a></li></ul>
@@ -690,7 +773,7 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="cimcurx0j000xul0j7237qobs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/12/21/mac下如何安装iterm2并使用zsh/" data-id="cimrq20wa0010fc0jm17tfxgs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zsh/">zsh</a></li></ul>
@@ -702,148 +785,9 @@ chmod <span class="keyword">u</span>+x findLarger200M.<span class="keyword">sh</
 
 
   
-    <article id="post-成功搭建hexo本地博客并部署到github上" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/11/27/成功搭建hexo本地博客并部署到github上/" class="article-date">
-  <time datetime="2014-11-27T08:19:20.000Z" itemprop="datePublished">2014-11-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/27/成功搭建hexo本地博客并部署到github上/">成功搭建hexo本地博客并部署到github上</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、搭建hexo本地博客</p>
-<ol>
-<li><p>首先是安装Brew。好多人说Mac OS X上自带有brew，但是我今天试了N多遍，都是cannot find brew（我的系统是OS X Yosemite 10.10.5），于是只能安装brew了。 </p>
-<pre><code>打开<span class="constant">Iterm</span>，输入以下安装命令：
-curl -<span class="constant">LsSf</span> <span class="symbol">http:</span>/<span class="regexp">/github.com/mxcl</span><span class="regexp">/homebrew/tarball</span><span class="regexp">/master | sudo tar xvz -C/usr</span><span class="regexp">/local --strip 1
-安装brew成功后如图1所示： 
-当brew安装成功后，就可以随意安装自己想要的软件了，例如wget，命令如下：
-sudo brew install wget  
-卸载的话，命令如下：
-sudo brew uninstall wget
-查看安装软件的话，命令如下：
-sudo brew search /apache</span>*<span class="regexp">/
-注意/apache</span>*<span class="regexp">/是使用的正则表达式，用/</span>分割。
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/1.png" alt="Mou icon"><br>图 1</p>
-</li>
-<li><p>安装好brew后，就是安装git和Node.js</p>
-<pre><code>git安装命令如下：
-sudo brew install git 
-安装成功如图<span class="number">2</span>所示：
-<span class="keyword">Node</span>.<span class="identifier"></span><span class="title">js</span>安装命令如下：
-sudo brew install -g <span class="keyword">node</span><span class="identifier"></span><span class="title"></span>
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/2.png" alt="Mou icon"><br>图 2</p>
-</li>
-<li><p>git和Node.js都安装成功后，安装hexo</p>
-<pre><code>安装hexo的命令如下：
-sudo npm install hexo -g
-成功后如图<span class="number">3</span>和<span class="number">4</span>所示：
-注意：以上命令以sudo开头一定不要忘记加sudo，这是实践中的经验
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/3.png" alt="Mou icon"><br>图 3<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/4.png" alt="Mou icon"><br>图 4</p>
-</li>
-<li><p>创建hexo文件夹。hexo安装成功后，，在你喜爱的文件夹下（如: Desktop/hexo )，执行如下命令：</p>
-<pre><code>创建hexo文件夹:
-hexo init +文件夹名字例如：hexo
-安装依赖包:
-npm <span class="keyword">install</span>
-这两步成功后如图<span class="number">5</span>所示：
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/5.png" alt="Mou icon"><br>图 5</p>
-</li>
-<li><p>启动本地服务。现在我们已经搭建起本地的hexo博客了，执行以下命令(在 H:\hexo )，然后到浏览器输入 localhost:4000 看看。</p>
-<pre><code>hexo generate
-成功后如图<span class="number">6</span>所示：
-hexo server
-成功后如图<span class="number">7</span>所示：
-hexo博客如图<span class="number">8</span>所示：
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/6.png" alt="Mou icon"><br>图 6<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/7.png" alt="Mou icon"><br>图 7<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/8.png" alt="Mou icon"><br>图 8 好了，至此，本地博客已经搭建起来了，只是本地哦。别人是看不到了</p>
-</li>
-</ol>
-<p>一、部署到github上</p>
-<ol>
-<li><p>注册Github帐号。</p>
-<pre><code>创建repository
-登录github后，将鼠标点击github右上角“+”号，在下拉菜单上，选择“New repository”项，将跳到如下页面，        填写库名称，勾选“Initialize this repository <span class="operator">with</span> <span class="operator">a</span> README”，点击“<span class="built_in">create</span> repository”，即可完        成创建库。
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/9.png" alt="Mou icon"></p>
-</li>
-<li><p>部署</p>
-<pre><code>编辑 _config<span class="class">.yml</span> (在 H:\hexo 下)。你在部署时，要把下面的 zippera 都换成你的账号名。
-
-deploy:
-  type: git
-  repository: https:<span class="comment">//github.com/JinqianChina/JinqianChina.github.io.git</span>
-  branch: master
-
-这里需要注意：https:<span class="comment">//方式可能会出现，部署文件到github和每次更新文件到github时都需要输入github用户 名和密码的情况，这个情况不是一定出现，我在部署的时候遇到了，网上搜了没有找到解决的方式，于是我采用SSH-key方式，ssh 的介绍和设置方法请看 官方教程&lt;https://help.github.com/articles/generating-ssh-keys/&gt; ，不用担心，很简单。</span>
-设置好SSH-key后， _config<span class="class">.yml</span> 配置文件应该为：
-deploy:
-  type: git
-  repository: git@github<span class="class">.com</span>:JinqianChina/JinqianChina<span class="class">.github</span><span class="class">.io</span><span class="class">.git</span>
-  branch: master
-
-执行下列指令即可完成部署。
-
-hexo generate
-hexo deploy
-如果提示：ERROR Deployer not found: git
-执行以下以下命令：npm install hexo-deployer-git --save
-</code></pre><p><img src="http://7xosy6.com1.z0.glb.clouddn.com/10.png" alt="Mou icon"></p>
-<pre><code>完成之后再执行：
-hexo <span class="keyword">generate</span>
-hexo deploy
-
-记住：每次修改本地文件后，需要 hexo <span class="keyword">generate</span> 才能保存，hexo deploy 才能部署到github。每次使用命令 时，都要在 ~\hexo 目录下。
-Okay,我们的博客已经完全搭建起来了，在浏览器访问 JinqianChina.github.io 就能看到你的成就了！
-还有一点，有一些用户在hexo deploy之后会有提示验证邮箱
-那么我们要输入我们在git上验证的邮箱
-再次hexo deploy
-就发布上去了。
-就可以看到我们就成就了。。。
-
-tips
-
-hexo现在支持更加简单的命令格式了，比如：
-
-hexo <span class="keyword">g</span> ==  hexo <span class="keyword">generate</span>
-
-hexo <span class="keyword">d</span> ==  hexo deploy
-
-hexo s ==  hexo server
-
-hexo <span class="keyword">n</span> ==  hexo new
-</code></pre></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/11/27/成功搭建hexo本地博客并部署到github上/" data-id="cimcurwzz000iul0jtvhd40ds" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -856,7 +800,7 @@ hexo <span class="keyword">n</span> ==  hexo new
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -865,7 +809,7 @@ hexo <span class="keyword">n</span> ==  hexo new
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
     </div>
   </div>
 
@@ -874,7 +818,7 @@ hexo <span class="keyword">n</span> ==  hexo new
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -884,6 +828,10 @@ hexo <span class="keyword">n</span> ==  hexo new
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/">tableview刷新某个区域（section）或者某一行（row）</a>
+          </li>
         
           <li>
             <a href="/2016/03/25/正则表达式在iOS中的应用总结/">正则表达式在iOS中的应用总结</a>
@@ -899,10 +847,6 @@ hexo <span class="keyword">n</span> ==  hexo new
         
           <li>
             <a href="/2016/03/22/UITableView使用中的一些刁专问题总结/">UITableView使用中的一些刁专问题总结</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/15/iOS二维码扫描总结/">iOS二维码扫描总结</a>
           </li>
         
       </ul>
