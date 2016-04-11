@@ -5,19 +5,19 @@
   
   <title>Objective-c单例模式的几种写法有什么不同 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="自从设计模式出现以后，关于单例模式的争执就一直存在。我们很多时候需要一个全局的东西，保证全局仅有一份即可，这个时候单例是最佳的选择，但在多线程的环境下也需要做好线程保护。    在iOS下的UIApplication和NSFileManager就是很不错的例子——我们总有时候需要用到单例模式。不过写起代码来还是值得推敲一下：最简单的例子如下，假设我们有一个testClass的类需要实现单例：
-+">
+  <meta name="description" content="#Objective-c单例模式详解
+单例模式出现以后，关于它的争执就一直存在。在开发项目中，有很多时候我们需要一个全局的对象，而且要保证全局有且仅有一份即可。没错，单例在这个时候就是最佳的选择，但是需要注意的是：在多线程的环境下也需要做好线程保护。其实系统已经有很多单例存在，例如UIApplication、NSNotification、NSFileManager等等就是很不错的例子——我们总有时">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Objective-c单例模式的几种写法有什么不同">
 <meta property="og:url" content="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="自从设计模式出现以后，关于单例模式的争执就一直存在。我们很多时候需要一个全局的东西，保证全局仅有一份即可，这个时候单例是最佳的选择，但在多线程的环境下也需要做好线程保护。    在iOS下的UIApplication和NSFileManager就是很不错的例子——我们总有时候需要用到单例模式。不过写起代码来还是值得推敲一下：最简单的例子如下，假设我们有一个testClass的类需要实现单例：
-+">
-<meta property="og:updated_time" content="2016-02-19T08:37:31.000Z">
+<meta property="og:description" content="#Objective-c单例模式详解
+单例模式出现以后，关于它的争执就一直存在。在开发项目中，有很多时候我们需要一个全局的对象，而且要保证全局有且仅有一份即可。没错，单例在这个时候就是最佳的选择，但是需要注意的是：在多线程的环境下也需要做好线程保护。其实系统已经有很多单例存在，例如UIApplication、NSNotification、NSFileManager等等就是很不错的例子——我们总有时">
+<meta property="og:updated_time" content="2016-04-11T08:09:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-c单例模式的几种写法有什么不同">
-<meta name="twitter:description" content="自从设计模式出现以后，关于单例模式的争执就一直存在。我们很多时候需要一个全局的东西，保证全局仅有一份即可，这个时候单例是最佳的选择，但在多线程的环境下也需要做好线程保护。    在iOS下的UIApplication和NSFileManager就是很不错的例子——我们总有时候需要用到单例模式。不过写起代码来还是值得推敲一下：最简单的例子如下，假设我们有一个testClass的类需要实现单例：
-+">
+<meta name="twitter:description" content="#Objective-c单例模式详解
+单例模式出现以后，关于它的争执就一直存在。在开发项目中，有很多时候我们需要一个全局的对象，而且要保证全局有且仅有一份即可。没错，单例在这个时候就是最佳的选择，但是需要注意的是：在多线程的环境下也需要做好线程保护。其实系统已经有很多单例存在，例如UIApplication、NSNotification、NSFileManager等等就是很不错的例子——我们总有时">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -89,7 +89,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>自从设计模式出现以后，关于单例模式的争执就一直存在。我们很多时候需要一个全局的东西，保证全局仅有一份即可，这个时候单例是最佳的选择，但在多线程的环境下也需要做好线程保护。<br>    在iOS下的UIApplication和NSFileManager就是很不错的例子——我们总有时候需要用到单例模式。不过写起代码来还是值得推敲一下：<br>最简单的例子如下，假设我们有一个testClass的类需要实现单例：</p>
+        <p>#Objective-c单例模式详解</p>
+<p>单例模式出现以后，关于它的争执就一直存在。在开发项目中，有很多时候我们需要一个全局的对象，而且要保证全局有且仅有一份即可。没错，单例在这个时候就是最佳的选择，但是需要注意的是：在多线程的环境下也需要做好线程保护。其实系统已经有很多单例存在，例如UIApplication、NSNotification、NSFileManager等等就是很不错的例子——我们总有时候需要用到单例模式，不过写起代码来还是需要考虑考虑。</p>
+<ol>
+<li><p>我们先来看一个最简单的单例，假设我们有一个testClass的类需要实现单例：</p>
 <pre><code>+ (<span class="keyword">id</span>)sharedInstance {  
     <span class="keyword">static</span> testClass *sharedInstance = <span class="literal">nil</span>;  
     <span class="keyword">if</span> (!sharedInstance) {  
@@ -97,7 +100,8 @@
     }  
     <span class="keyword">return</span> sharedInstance;  
 }  
-</code></pre><p>当然，你一眼就会发现，这里根本没有考虑线程安全的问题，让我们加上线程锁。</p>
+</code></pre></li>
+<li><p>熟悉单例的童鞋一眼就能看出，这里根本没有考虑线程安全的问题，需要加上线程锁。</p>
 <pre><code>+ (<span class="keyword">id</span>)sharedInstance {  
     <span class="keyword">static</span> testClass *sharedInstance = <span class="literal">nil</span>;  
     <span class="keyword">@synchronized</span>(<span class="keyword">self</span>) {  
@@ -107,71 +111,86 @@
     }  
     <span class="keyword">return</span> sharedInstance;  
 }  
-</code></pre><p>这是很常见的写法，如果继续下去，还需要重载retainCount，retain，等等方法，这个苹果的官方文档有论述到，甚至还有例子。不过，在GCD推出后，有个dispatch_once的方法，可以是单例的实现更加容易，dispatch_once的函数原型如下：</p>
+</code></pre></li>
+<li><p>这是很常见的写法。不过，在GCD推出后，有个dispatch_once方法，可以使单例的实现更加容易，dispatch_once的函数原型如下：</p>
 <pre><code><span class="keyword">void</span> <span class="built_in">dispatch_once</span>(<span class="built_in">dispatch_once_t</span> *predicate, dispatch_block_t block);  
-</code></pre><p>我们可以看到这个函数接收一个dispatch_once_t的参数，还有一个块参数。对于一个给定的predicate来说，该函数会保证相关的块必定会执行，而且只执行一次，最重要的是——这个方法是完全线程安全的。需要注意的是，对于只需要执行一次的块来说，传入的predicate必须是完全相同的，所以predicate常常会用static或者global来修饰。</p>
+</code></pre><p> 我们可以看到这个函数接收一个dispatch_once_t的参数，还有一个块参数。对于一个给定的predicate    来说，该函数会保证相关的块必定会执行，而且只执行一次，最重要的是——这个方法是完全线程安全的。需要    注意的是，对于只需要执行一次的块来说，传入的predicate必须是完全相同的，所以predicate常常会用    static或者global来修饰。</p>
 <pre><code>+ (<span class="keyword">id</span>)sharedInstance {  
     <span class="keyword">static</span> testClass *sharedInstance = <span class="literal">nil</span>;  
     <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> once;  
     <span class="built_in">dispatch_once</span>(&amp;once, ^{  
         sharedInstance = [[<span class="keyword">self</span> alloc] init];  
     });  
-
     <span class="keyword">return</span> sharedInstance;  
 }  
-</code></pre><p>这样写的好处很明显：代码简单清晰，而且做到了线程安全。另外，dispatch_once很高效，没有实现重量级的同步机制，这样实现的效率也很高。</p>
-<p>下面看看严谨的用法：</p>
-<p>一般情况下，可能我们写的单例模式是这样的：</p>
-<pre><code><span class="preprocessor">#import &lt;foundation foundation.h=<span class="string">""</span>&gt;</span>
+</code></pre></li>
+<li><p>我们知道，创建对象的步骤分为申请内存(alloc)、初始化(init)这两个步骤，我们要确保对象的唯一性，因此在第一步这个阶段我们就要拦截它。当我们调用alloc方法时，OC内部会调用allocWithZone这个方法来申请内存，我们重写这个方法，然后在这个方法中调用shareInstance方法返回单例对象，这样就可以达到我们的目的。拷贝对象也是同样的原理，重写copyWithZone方法，然后在这个方法中调用shareInstance方法返回单例对象。</p>
+</li>
+</ol>
+<p>下面来看看两组例子：</p>
+<p>一般写法：</p>
+<pre><code><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span>
 
-<span class="constant">@interface</span> <span class="built_in">Singleton</span> : NSObject
+<span class="class"><span class="keyword">@interface</span> <span class="title">SingleClass</span> : <span class="title">NSObject</span></span>
 
-+(instancetype) shareInstance <span class="comment">;</span>
++(instancetype) shareInstance ;
 
-<span class="constant">@end</span>
+<span class="keyword">@end</span>
 
-<span class="preprocessor">#import <span class="string">"Singleton.h"</span></span>
 
-<span class="constant">@implementation</span> <span class="built_in">Singleton</span>
+<span class="preprocessor">#import <span class="title">"SingleClass.h"</span></span>
 
-<span class="keyword">static</span> <span class="built_in">Singleton</span>* _instance = nil<span class="comment">;</span>
+<span class="class"><span class="keyword">@implementation</span> <span class="title">SingleClass</span></span>
+
+<span class="keyword">static</span> SingleClass *_sharedInstance = <span class="literal">nil</span>;
 
 +(instancetype) shareInstance
 {
-    <span class="keyword">static</span> dispatch_once_t onceToken <span class="comment">;</span>
-    dispatch_once(&amp;onceToken, ^{
-        _instance = [[self alloc] init] <span class="comment">;</span>
-    }) <span class="comment">;</span>
+    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken ;
+    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^{
+        _sharedInstance = [[<span class="keyword">self</span> alloc] init] ;
+    }) ;
 
-    <span class="keyword">return</span> _instance <span class="comment">;</span>
+    <span class="keyword">return</span> _sharedInstance ;
 }
 
-<span class="constant">@end</span>&lt;/foundation&gt;
-</code></pre><p>具体使用:</p>
-<pre><code><span class="preprocessor">#import &lt;foundation foundation.h=<span class="string">""</span>&gt;</span>
-<span class="preprocessor">#import <span class="string">"Singleton.h"</span></span>
+<span class="keyword">@end</span>
+</code></pre><p>具体使用，ViewController:</p>
+<pre><code><span class="preprocessor">#import <span class="title">"ViewController.h"</span></span>
+<span class="preprocessor">#import <span class="title">"SingleClass.h"</span></span>
 
-<span class="built_in">int</span> main(<span class="built_in">int</span> argc, <span class="keyword">const</span> char * argv[]) {
-    <span class="constant">@autoreleasepool</span> {
+<span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()</span>
 
-        <span class="built_in">Singleton</span>* obj1 = [<span class="built_in">Singleton</span> shareInstance] <span class="comment">;</span>
-        NSLog(@<span class="string">"obj1 = %@."</span>, obj1) <span class="comment">;</span>
+<span class="keyword">@end</span>
 
-        <span class="built_in">Singleton</span>* obj2 = [<span class="built_in">Singleton</span> shareInstance] <span class="comment">;</span>
-        NSLog(@<span class="string">"obj2 = %@."</span>, obj2) <span class="comment">;</span>
+<span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span>
 
-        //
-        <span class="built_in">Singleton</span>* obj3 = [[<span class="built_in">Singleton</span> alloc] init] <span class="comment">;</span>
-        NSLog(@<span class="string">"obj3 = %@."</span>, obj3) <span class="comment">;</span>
-    }
-    <span class="keyword">return</span> <span class="number">0</span><span class="comment">;</span>
-}&lt;/foundation&gt;
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+    <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span>
+
+    <span class="built_in">NSLog</span>(<span class="string">@"开始《《《"</span>);
+    SingleClass *obj1 = [SingleClass shareInstance] ;
+    <span class="built_in">NSLog</span>(<span class="string">@"obj1 = %@."</span>, obj1) ;
+
+    SingleClass *obj2 = [SingleClass shareInstance] ;
+    <span class="built_in">NSLog</span>(<span class="string">@"obj2 = %@."</span>, obj2) ;
+
+    SingleClass *obj3 = [[SingleClass alloc] init] ;
+    <span class="built_in">NSLog</span>(<span class="string">@"obj3 = %@."</span>, obj3) ;
+
+    <span class="built_in">NSLog</span>(<span class="string">@"结束》》》"</span>);
+}
+
+<span class="keyword">@end</span>
 </code></pre><p>输出结果为 :</p>
-<pre><code><span class="number">2014-12-15</span> <span class="number">16:06:28.34</span>4 ObjcSingleton[<span class="number">8847:303</span>] obj1 = &lt;singleton: <span class="number">0x1001086</span>e0=""&gt;.
-<span class="number">2014-12-15</span> <span class="number">16:06:28.34</span>6 ObjcSingleton[<span class="number">8847:303</span>] obj2 = &lt;singleton: <span class="number">0x1001086</span>e0=""&gt;.
-<span class="number">2014-12-15</span> <span class="number">16:06:28.34</span>6 ObjcSingleton[<span class="number">8847:303</span>] obj3 = &lt;singleton: <span class="number">0x100103940</span>=""&gt;.&lt;/singleton:&gt;&lt;/singleton:&gt;&lt;/singleton:&gt;
-</code></pre><p>可以看到，当我们调用shareInstance方法时获取到的对象是相同的，但是当我们通过alloc和init来构造对象的时候，得到的对象却是不一样的。<br>那么问题就来了，我们通过不同的途径得到不同的对象，显然是不行的。我们必须要确保对象的唯一性，所以我们就需要封锁用户通过alloc和init以及copy来构造对象这条道路。</p>
-<p>我们知道，创建对象的步骤分为申请内存(alloc)、初始化(init)这两个步骤，我们要确保对象的唯一性，因此在第一步这个阶段我们就要拦截它。当我们调用alloc方法时，oc内部会调用allocWithZone这个方法来申请内存，我们覆写这个方法，然后在这个方法中调用shareInstance方法返回单例对象，这样就可以达到我们的目的。拷贝对象也是同样的原理，覆写copyWithZone方法，然后在这个方法中调用shareInstance方法返回单例对象。看代码吧：</p>
+<pre><code><span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">49</span>:<span class="number">29.494</span> aotulayoutDemo[<span class="number">7267</span>:<span class="number">202275</span>] 开始《《《
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">49</span>:<span class="number">29.495</span> aotulayoutDemo[<span class="number">7267</span>:<span class="number">202275</span>] obj1 = &lt;SingleClass: <span class="number">0x7f901142d660</span>&gt;.
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">49</span>:<span class="number">29.495</span> aotulayoutDemo[<span class="number">7267</span>:<span class="number">202275</span>] obj2 = &lt;SingleClass: <span class="number">0x7f901142d660</span>&gt;.
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">49</span>:<span class="number">29.495</span> aotulayoutDemo[<span class="number">7267</span>:<span class="number">202275</span>] obj3 = &lt;SingleClass: <span class="number">0x7f901160e3a0</span>&gt;.
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">49</span>:<span class="number">29.495</span> aotulayoutDemo[<span class="number">7267</span>:<span class="number">202275</span>] 结束》》》
+</code></pre><p>在这里可以看到，当我们调用shareInstance方法时获取到的对象是相同的，但是当我们通过alloc和init来构造对象的时候，得到的对象却是不一样的。我们通过不同的途径得到不同的对象，显然是不行的。我们必须要确保对象的唯一性，所以我们就需要封锁用户通过alloc和init以及copy来构造对象这条道路。</p>
+<p>下面来看看严谨的写法：</p>
 <pre><code><span class="preprocessor">#import <span class="title">"Singleton.h"</span></span>
 
 <span class="class"><span class="keyword">@implementation</span> <span class="title">Singleton</span></span>
@@ -199,39 +218,50 @@
 }
 
 <span class="keyword">@end</span>
-</code></pre><p>再看看效果如何:<br>main : </p>
-<pre><code><span class="preprocessor">#import &lt;foundation foundation.h=<span class="string">""</span>&gt;</span>
-<span class="preprocessor">#import <span class="string">"Singleton.h"</span></span>
+</code></pre><p>再看看效果如何，ViewController:</p>
+<pre><code><span class="preprocessor">#import <span class="title">"ViewController.h"</span></span>
+<span class="preprocessor">#import <span class="title">"SingleClass.h"</span></span>
 
-<span class="built_in">int</span> main(<span class="built_in">int</span> argc, <span class="keyword">const</span> char * argv[]) {
-    <span class="constant">@autoreleasepool</span> {
+<span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()</span>
 
-        <span class="built_in">Singleton</span>* obj1 = [<span class="built_in">Singleton</span> shareInstance] <span class="comment">;</span>
-        NSLog(@<span class="string">"obj1 = %@."</span>, obj1) <span class="comment">;</span>
+<span class="keyword">@end</span>
 
-        <span class="built_in">Singleton</span>* obj2 = [<span class="built_in">Singleton</span> shareInstance] <span class="comment">;</span>
-        NSLog(@<span class="string">"obj2 = %@."</span>, obj2) <span class="comment">;</span>
+<span class="class"><span class="keyword">@implementation</span> <span class="title">ViewController</span></span>
 
-        //
-        <span class="built_in">Singleton</span>* obj3 = [[<span class="built_in">Singleton</span> alloc] init] <span class="comment">;</span>
-        NSLog(@<span class="string">"obj3 = %@."</span>, obj3) <span class="comment">;</span>
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+    <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span>
 
-        <span class="built_in">Singleton</span>* obj4 = [[<span class="built_in">Singleton</span> alloc] init] <span class="comment">;</span>
-        NSLog(@<span class="string">"obj4 = %@."</span>, [obj4 copy]) <span class="comment">;</span>
-    }
-    <span class="keyword">return</span> <span class="number">0</span><span class="comment">;</span>
-}&lt;/foundation&gt;
+    <span class="built_in">NSLog</span>(<span class="string">@"开始《《《"</span>);
+    SingleClass *obj1 = [SingleClass shareInstance] ;
+    <span class="built_in">NSLog</span>(<span class="string">@"obj1 = %@."</span>, obj1) ;
+
+    SingleClass *obj2 = [SingleClass shareInstance] ;
+    <span class="built_in">NSLog</span>(<span class="string">@"obj2 = %@."</span>, obj2) ;
+
+    SingleClass *obj3 = [[SingleClass alloc] init] ;
+    <span class="built_in">NSLog</span>(<span class="string">@"obj3 = %@."</span>, obj3) ;
+
+    SingleClass* obj4 = [[SingleClass alloc] init] ;
+    <span class="built_in">NSLog</span>(<span class="string">@"obj4 = %@."</span>, [obj4 <span class="keyword">copy</span>]) ;
+
+    <span class="built_in">NSLog</span>(<span class="string">@"结束》》》"</span>);
+}
+
+<span class="keyword">@end</span>
 </code></pre><p>输出结果：</p>
-<pre><code><span class="number">2014-12-15</span> <span class="number">16:11:24.73</span>4 ObjcSingleton[<span class="number">8979:303</span>] obj1 = &lt;singleton: <span class="number">0x100108720</span>=""&gt;.
-<span class="number">2014-12-15</span> <span class="number">16:11:24.73</span>5 ObjcSingleton[<span class="number">8979:303</span>] obj2 = &lt;singleton: <span class="number">0x100108720</span>=""&gt;.
-<span class="number">2014-12-15</span> <span class="number">16:11:24.73</span>6 ObjcSingleton[<span class="number">8979:303</span>] obj3 = &lt;singleton: <span class="number">0x100108720</span>=""&gt;.
-<span class="number">2014-12-15</span> <span class="number">16:11:24.73</span>6 ObjcSingleton[<span class="number">8979:303</span>] obj4 = &lt;singleton: <span class="number">0x100108720</span>=""&gt;.&lt;/singleton:&gt;&lt;/singleton:&gt;&lt;/singleton:&gt;&lt;/singleton:&gt;
-</code></pre><p>可以看到获取到的对象都是一样的了。</p>
+<pre><code><span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">56</span>:<span class="number">27.261</span> aotulayoutDemo[<span class="number">7373</span>:<span class="number">205889</span>] 开始《《《
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">56</span>:<span class="number">27.263</span> aotulayoutDemo[<span class="number">7373</span>:<span class="number">205889</span>] obj1 = &lt;SingleClass: <span class="number">0x7fd9e261d690</span>&gt;.
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">56</span>:<span class="number">27.263</span> aotulayoutDemo[<span class="number">7373</span>:<span class="number">205889</span>] obj2 = &lt;SingleClass: <span class="number">0x7fd9e261d690</span>&gt;.
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">56</span>:<span class="number">27.264</span> aotulayoutDemo[<span class="number">7373</span>:<span class="number">205889</span>] obj3 = &lt;SingleClass: <span class="number">0x7fd9e261d690</span>&gt;.
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">56</span>:<span class="number">27.264</span> aotulayoutDemo[<span class="number">7373</span>:<span class="number">205889</span>] obj4 = &lt;SingleClass: <span class="number">0x7fd9e261d690</span>&gt;.
+<span class="number">2016</span>-<span class="number">04</span>-<span class="number">11</span> <span class="number">15</span>:<span class="number">56</span>:<span class="number">27.264</span> aotulayoutDemo[<span class="number">7373</span>:<span class="number">205889</span>] 结束》》》
+</code></pre><p>这里我们可以看到，获取到的对象都是一样的了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cimvf498f002j5u0jiarop7gd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cimvpxepl002jrm0jii466lvl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单例-GCD/">单例 GCD</a></li></ul>
