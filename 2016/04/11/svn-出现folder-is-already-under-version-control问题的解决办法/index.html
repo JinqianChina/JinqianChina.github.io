@@ -3,32 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案） | Jinge&#39;blog</title>
+  <title>[svn]出现folder_is_already_under_version_control问题的解决办法 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天真机调试的时候出现了这个错误，如下图
-
-这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：
-Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for">
+  <meta name="description" content="今天在提交项目时添加一个文件夹（folderName），结果svn出现了：Folder（文件夹）is already under version control这样的警告信息，并且怎么也提交不上。刚遇到此问题的时候感觉很奇怪，自己并没有在svn上添加这个目录（folderName），这里却提醒此目录（folderName）已经有version。而且svn上该目录状态也是？状态。经过查阅资料后才明白">
 <meta property="og:type" content="article">
-<meta property="og:title" content="报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）">
-<meta property="og:url" content="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/index.html">
+<meta property="og:title" content="[svn]出现folder_is_already_under_version_control问题的解决办法">
+<meta property="og:url" content="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="今天真机调试的时候出现了这个错误，如下图
-
-这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：
-Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/16.png">
-<meta property="og:updated_time" content="2015-12-21T08:44:13.000Z">
+<meta property="og:description" content="今天在提交项目时添加一个文件夹（folderName），结果svn出现了：Folder（文件夹）is already under version control这样的警告信息，并且怎么也提交不上。刚遇到此问题的时候感觉很奇怪，自己并没有在svn上添加这个目录（folderName），这里却提醒此目录（folderName）已经有version。而且svn上该目录状态也是？状态。经过查阅资料后才明白">
+<meta property="og:updated_time" content="2016-04-11T03:06:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）">
-<meta name="twitter:description" content="今天真机调试的时候出现了这个错误，如下图
-
-这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：
-Could not launch “iOSStrongDemo”
-process launch failed: failed to get the task for">
+<meta name="twitter:title" content="[svn]出现folder_is_already_under_version_control问题的解决办法">
+<meta name="twitter:description" content="今天在提交项目时添加一个文件夹（folderName），结果svn出现了：Folder（文件夹）is already under version control这样的警告信息，并且怎么也提交不上。刚遇到此问题的时候感觉很奇怪，自己并没有在svn上添加这个目录（folderName），这里却提醒此目录（folderName）已经有version。而且svn上该目录状态也是？状态。经过查阅资料后才明白">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -78,10 +64,10 @@ process launch failed: failed to get the task for">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-svn-出现folder-is-already-under-version-control问题的解决办法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" class="article-date">
-  <time datetime="2015-05-30T10:38:26.000Z" itemprop="datePublished">2015-05-30</time>
+    <a href="/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" class="article-date">
+  <time datetime="2016-04-11T03:05:59.000Z" itemprop="datePublished">2016-04-11</time>
 </a>
     
   </div>
@@ -92,7 +78,7 @@ process launch failed: failed to get the task for">
         
   
     <h1 class="article-title" itemprop="name">
-      报错：process Launch Failed：failed to Get the Task for Process 1298（解决方案）
+      [svn]出现folder_is_already_under_version_control问题的解决办法
     </h1>
   
 
@@ -100,25 +86,25 @@ process launch failed: failed to get the task for">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天真机调试的时候出现了这个错误，如下图</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/15.jpg" alt="Mou icon"></p>
-<p>这一次碰到的问题是这样的：模拟器上运行正常。我在iPhone 6上运行，程序编译正常，但是跑起来之后，大概一两秒的时间，就闪退（代码是没有问题的）。这个时候，Xcode7.1弹出这样的提示：</p>
-<pre><code>Could <span class="operator">not</span> launch “iOSStrongDemo”
-<span class="built_in">process</span> launch failed: failed <span class="built_in">to</span> <span class="built_in">get</span> <span class="operator">the</span> task <span class="keyword">for</span> <span class="built_in">process</span> <span class="number">1298</span>
-</code></pre><p>错误分析:</p>
-<p>是因为我之前打包的时候，修改了Provisioning Profile。我看了一下Build Settings里的Code Signing配置，发现Provisioning Profile选择的是XC Ad Hoc: *。如下图所示：</p>
-<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/16.png" alt="Mou icon"></p>
-<p>Ad Hoc是用来实现发布前的用户测试的，也就是通过Ad Hoc将未发布的App给其他人提前使用。显然这是不对的，我们是要真机调试。</p>
-<p>解决方案：</p>
-<p>解决方法很简单，将Provisioning Profile换成用开发证书创建的Provisioning Profile即可。</p>
+        <p>今天在提交项目时添加一个文件夹（folderName），结果svn出现了：Folder（文件夹）is already under version control这样的警告信息，并且怎么也提交不上。刚遇到此问题的时候感觉很奇怪，自己并没有在svn上添加这个目录（folderName），这里却提醒此目录（folderName）已经有version。而且svn上该目录状态也是？状态。经过查阅资料后才明白，原因是：我所添加的这个文件夹是从另一个项目中拷贝过来的，而且这个项目也是在svn上保存的，这样就导致我所提交的文件或目录是其他svn的东西，也就是说下面有.svn的目录，要解决此问题，删除要提交目录下的所有.svn文件即可，记住是该目录下所有.svn文件，注意递归子目录。</p>
+<p>这里给出三种解决方式：其中前两种方法是递归删除该目录以及子目录下下所有.svn文件；第三种是本人用的比较笨的方法：也就是新建一个文件夹，然后将我们所需要的文件夹下的文件选中拷贝一份（记住不要拷贝目标文件夹，只拷贝里面需要的文件即可），最后将拷贝的文件放到新建的文件夹下，然后导入工程，避免有旧的.svn文件存在。</p>
+<p>方法一：</p>
+<p>打开终端，cd到你新增加的那个目录，然后用下面的命令</p>
+<pre><code><span class="built_in">find</span> . -mindepth <span class="number">2</span> -<span class="built_in">name</span> <span class="string">'.svn'</span> -<span class="built_in">exec</span> rm -rf <span class="string">'{}'</span> \;
+说明: -<span class="built_in">exec</span>之后的rm -rf是命令以及参数，{}就是<span class="built_in">find</span>的命令找到的结果集，\; 也是需要输入的哦
+</code></pre><p>方法二：</p>
+<p>同样是在终端里，cd到你新增加的那个目录，然后用下面的命令</p>
+<pre><code><span class="built_in">find</span> . -<span class="built_in">type</span> d -<span class="built_in">name</span> “.svn”|xargs rm -rf
+</code></pre><p>方法三：</p>
+<p>见上描述，本人觉得此方法是比较笨的方法，若有童鞋对命令行比较熟悉，可以采用以上高大上的方式，若像我一样对命令行了解不多，可以采用此方法，毕竟比较实用，哈哈！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cimvf496f000f5u0jcpu7g1oc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cimvf4970000y5u0jwdhqfgou" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
 
     </footer>
   </div>
@@ -126,19 +112,10 @@ process launch failed: failed to get the task for">
     
 <nav id="article-nav">
   
-    <a href="/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          如何更好的限制一个UITextField/UITextView的输入字数
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/05/01/纯命令行教你Cocoapods的安装和使用/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">纯命令行教你Cocoapods的安装和使用</div>
+      <div class="article-nav-title">将字符串切割成数组&amp;将数组元素拼接成字符串</div>
     </a>
   
 </nav>
