@@ -3,17 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: iOS webView JS | Jinge&#39;blog</title>
+  <title>动态计算UITableViewCell高度 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/tags/iOS-webView-JS/index.html">
+  <meta name="description" content="在iOS开发中，我们少不了和UITableview打交道，因为UITableview也是UIKit中最复杂的一个控件了。在使用UITableview的过程中，UITableviewCell也是必不可少的，页面列表形式的展示可谓是各种各样，相信不少童鞋们也曾为复杂的页面布局困惑过，其中比较难的也就数cell的高度自适应了，也就是说cell的高度是根据内容来动态计算的。
+不适用Autolayout的时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态计算UITableViewCell高度">
+<meta property="og:url" content="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="在iOS开发中，我们少不了和UITableview打交道，因为UITableview也是UIKit中最复杂的一个控件了。在使用UITableview的过程中，UITableviewCell也是必不可少的，页面列表形式的展示可谓是各种各样，相信不少童鞋们也曾为复杂的页面布局困惑过，其中比较难的也就数cell的高度自适应了，也就是说cell的高度是根据内容来动态计算的。
+不适用Autolayout的时">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/cell%E9%AB%98%E5%BA%A6%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/cell%E9%AB%98%E5%BA%A6%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97_2.png">
+<meta property="og:updated_time" content="2016-04-13T07:55:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="动态计算UITableViewCell高度">
+<meta name="twitter:description" content="在iOS开发中，我们少不了和UITableview打交道，因为UITableview也是UIKit中最复杂的一个控件了。在使用UITableview的过程中，UITableviewCell也是必不可少的，页面列表形式的展示可谓是各种各样，相信不少童鞋们也曾为复杂的页面布局困惑过，其中比较难的也就数cell的高度自适应了，也就是说cell的高度是根据内容来动态计算的。
+不适用Autolayout的时">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +69,123 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/03/22/iOS开发中webView与JS交互的使用/" class="archive-article-date">
-  <time datetime="2016-03-22T08:24:26.000Z" itemprop="datePublished">Mar 22</time>
+        <section id="main"><article id="post-动态计算UITableViewCell高度" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/13/动态计算UITableViewCell高度/" class="article-date">
+  <time datetime="2016-04-13T07:54:47.000Z" itemprop="datePublished">2016-04-13</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/22/iOS开发中webView与JS交互的使用/">iOS开发中webView与JS交互的使用</a>
+    <h1 class="article-title" itemprop="name">
+      动态计算UITableViewCell高度
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在iOS开发中，我们少不了和UITableview打交道，因为UITableview也是UIKit中最复杂的一个控件了。在使用UITableview的过程中，UITableviewCell也是必不可少的，页面列表形式的展示可谓是各种各样，相信不少童鞋们也曾为复杂的页面布局困惑过，其中比较难的也就数cell的高度自适应了，也就是说cell的高度是根据内容来动态计算的。</p>
+<p>不适用Autolayout的时候，计算cell的高度：</p>
+<pre><code><span class="comment">//返回cell的的高度</span>
+- (<span class="built_in">CGFloat</span>)tableView:(<span class="built_in">UITableView</span> *)tableView heightForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath
+{
+    PhotoInfo *photoInfo = [<span class="keyword">self</span><span class="variable">.dataArr</span> objectAtIndex:indexPath<span class="variable">.row</span>];
+    [<span class="keyword">self</span> heightForRowWithModel:photoInfo];
+}
+
+<span class="comment">//动态计算cell的高度 </span>
+- (<span class="built_in">CGFloat</span>)heightForRowWithModel:(PhotoInfo *)photoInfo 
+{ 
+    <span class="comment">//这里只写了label的计算</span>
+      <span class="comment">//文本的高度 </span>
+    <span class="built_in">CGSize</span> texSize = [<span class="keyword">self</span> labelAutoCalculateRectWith:photoInfo<span class="variable">.instruction</span> FontSize:<span class="number">15</span> MaxSize:<span class="built_in">CGSizeMake</span>(<span class="number">200</span>,<span class="number">1000</span>)];
+    <span class="comment">//3.返回cell 的总高度 </span>
+    <span class="keyword">return</span> <span class="number">44</span> + textSize<span class="variable">.height</span>;
+}  
+
+<span class="comment">/*根据传过来的文字内容、字体大小、宽度和最大尺寸动态计算文字所占用的size
+              * text 文本内容 
+              * fontSize 字体大小
+              * maxSize  size（宽度，1000）
+              * return  size （计算的size）
+              */</span>
+- (<span class="built_in">CGSize</span>)labelAutoCalculateRectWith:(<span class="built_in">NSString</span>*)text FontSize:(<span class="built_in">CGFloat</span>)fontSize MaxSize:(<span class="built_in">CGSize</span>)maxSize
+{
+    <span class="built_in">NSMutableParagraphStyle</span>* paragraphStyle = [[<span class="built_in">NSMutableParagraphStyle</span> alloc]init];
+   paragraphStyle<span class="variable">.lineBreakMode</span>=<span class="built_in">NSLineBreakByWordWrapping</span>;
+    <span class="built_in">NSDictionary</span>* attributes =@{<span class="built_in">NSFontAttributeName</span>:[<span class="built_in">UIFont</span> systemFontOfSize:fontSize],<span class="built_in">NSParagraphStyleAttributeName</span>:paragraphStyle<span class="variable">.copy</span>};
+    <span class="built_in">CGSize</span> labelSize;
+      <span class="comment">//如果是IOS6.0</span>
+    <span class="keyword">if</span> (![text respondsToSelector:<span class="keyword">@selector</span>(boundingRectWithSize:options:attributes:context:)]){
+        labelSize = [text sizeWithFont:[<span class="built_in">UIFont</span> systemFontOfSize:fontSize] constrainedToSize:maxSize lineBreakMode:<span class="built_in">NSLineBreakByWordWrapping</span>];
+    }
+    <span class="comment">//如果系统为iOS7.0</span>
+   　<span class="keyword">else</span>
+　　{
+　　        <span class="comment">// iOS7中用以下方法替代过时的iOS6中的sizeWithFont:constrainedToSize:lineBreakMode:方法</span>
+        labelSize = [text boundingRectWithSize: maxSize
+                                       options: <span class="built_in">NSStringDrawingUsesLineFragmentOrigin</span>|<span class="built_in">NSStringDrawingUsesFontLeading</span>|<span class="built_in">NSStringDrawingTruncatesLastVisibleLine</span>
+                                    attributes:attributes
+                                       context:<span class="literal">nil</span>]<span class="variable">.size</span>;
+    }
+    labelSize<span class="variable">.height</span>=ceil(labelSize<span class="variable">.height</span>);    
+    labelSize<span class="variable">.width</span>=ceil(labelSize<span class="variable">.width</span>);
+    <span class="keyword">return</span> labelSize;
+}
+</code></pre><p>使用Autolayout，- (CGSize)systemLayoutSizeFittingSize:(CGSize)targetSize这个方法就能搞定。不过，首先要在Xib上布局cell。</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/cell%E9%AB%98%E5%BA%A6%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97.png" alt="Mou icon"></p>
+<pre><code><span class="comment">//返回cell高度</span>
+- (<span class="built_in">CGFloat</span>)tableView:(<span class="built_in">UITableView</span> *)tableView heightForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath {
+    SystemMSGTableViewCell *cell = <span class="keyword">self</span><span class="variable">.cell</span>;
+    SystemmsgInfo *data = <span class="keyword">self</span><span class="variable">.dataArr</span>[indexPath<span class="variable">.row</span>];
+    <span class="built_in">CGFloat</span> height = [cell heightForCell:data];
+    <span class="keyword">return</span> height;
+} 
+
+<span class="comment">//动态计算cell的高度</span>
+- (<span class="built_in">CGFloat</span>)heightForCell:(SystemmsgInfo *)data
+{
+    <span class="keyword">self</span><span class="variable">.widthLabel</span><span class="variable">.constant</span> = ScreenWidth - <span class="number">40</span>;
+    <span class="keyword">self</span><span class="variable">.contentLabel</span><span class="variable">.text</span> = data<span class="variable">.promotionInfo</span>;
+    <span class="built_in">CGSize</span> size = [<span class="keyword">self</span><span class="variable">.contentView</span> systemLayoutSizeFittingSize:<span class="built_in">UILayoutFittingCompressedSize</span>];
+    <span class="built_in">NSLog</span>(<span class="string">@"h=%f"</span>, size<span class="variable">.height</span> + <span class="number">1</span>);
+    <span class="keyword">return</span> <span class="number">1</span>  + size<span class="variable">.height</span>;
+}
+</code></pre><p>效果图：</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/cell%E9%AB%98%E5%BA%A6%E5%8A%A8%E6%80%81%E8%AE%A1%E7%AE%97_2.png" alt="Mou icon"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cimykbsor000pea0jy446sch2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">[svn]出现folder_is_already_under_version_control问题的解决办法</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">

@@ -65,6 +65,278 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS开发之block使用详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/14/iOS开发之block使用详解/" class="article-date">
+  <time datetime="2016-03-14T01:49:26.000Z" itemprop="datePublished">2016-03-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/14/iOS开发之block使用详解/">iOS开发之block使用详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>苹果自从iOS4.0开始推出block，方便开发者使用，现代ios应用的开发，不使用GCD和block，效率会降低很多。在编程过程中，blocks被Obj-C看成是对象，它封装了一段代码，这段代码可以在任何时候执行。Blocks可以作为函数参数或者函数的返回值，而其本身又可以带输入参数或返回值。它和传统的函数指针很类似，但是有区别：blocks是inline的，并且它对局部变量是只读的。</p>
+<p>下面来看看block到底是什么鬼：</p>
+<ol>
+<li><p>block的定义</p>
+<pre><code><span class="comment">// 声明和实现写在一起，就像变量的声明实现 int a = 10;</span>
+<span class="keyword">int</span> (^aBlock)(<span class="keyword">int</span>, <span class="keyword">int</span>) = ^(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2) {
+  　　    <span class="keyword">return</span> num1 * num2;
+       };
+<span class="comment">// 声明和实现分开，就像变量先声明后实现 int a;a = 10;</span>
+<span class="keyword">int</span> (^cBlock)(<span class="keyword">int</span>,<span class="keyword">int</span>);
+ cBlock = ^(<span class="keyword">int</span> num1,<span class="keyword">int</span> num2)
+{
+    <span class="keyword">return</span> num1 * num2;
+};
+<span class="comment">//其中，定义了一个名字为aBlock的blocks对象，并携带了相关信息：</span>
+
+　　<span class="number">1.</span> aBlock 有两个形式参数，分别为<span class="keyword">int</span>类型；
+
+　　<span class="number">2.</span> aBlock 的返回值为<span class="keyword">int</span> 类型；
+
+　　<span class="number">3.</span> 等式右边就是blocks的具体实现；
+
+　　<span class="number">4.</span> ^ 带边blocks声明和实现的标示（关键字）；
+
+<span class="comment">//当然，你可以定义其他形式的block：无返回值，无形式参数等；</span>
+
+<span class="keyword">void</span> (^bBlock)() = ^()
+{
+    <span class="keyword">int</span> a = <span class="number">10</span>;
+    <span class="built_in">printf</span>(num = %d,a);
+};
+</code></pre></li>
+<li><p>blocks 访问权限</p>
+<pre><code><span class="comment">//1.blocks可以访问局部变量，但是不能修改。</span>
+<span class="built_in">int</span> a = <span class="number">10</span>;
+<span class="built_in">int</span> (^dBlock)(<span class="built_in">int</span>) = ^(<span class="built_in">int</span> <span class="built_in">num</span>)
+{
+    a++;<span class="comment">//not work！</span>
+    <span class="keyword">return</span> <span class="built_in">num</span> * a;
+};
+<span class="comment">//此处不能修改的原因是在编译期间确定的，编译器编译的时候把a的值复制到block作为一个新变量（假设是a‘ = 10），此时a'和a是没有关系的。</span>
+
+<span class="comment">//2.这个地方就是函数中的值传递。如果要修改就要加关键字：__block或者static</span>
+ __block <span class="built_in">int</span> a = <span class="number">7</span>;
+ <span class="built_in">int</span> (^dBlock)(<span class="built_in">int</span>) = ^(<span class="built_in">int</span> <span class="built_in">num</span>)
+ {
+     a++;<span class="comment">// work！</span>
+     <span class="keyword">return</span> <span class="built_in">num</span> * a;
+ };
+</code></pre></li>
+<li><p>block的调用</p>
+<pre><code><span class="comment">//1.block调用就像调用函数一样。e.g：</span>
+<span class="keyword">int</span> c = aBlock(<span class="number">10</span>,<span class="number">10</span>);
+bBlock();
+</code></pre></li>
+<li><p>block 应用</p>
+</li>
+</ol>
+<p>　　1. block返回对象以及参数是对象的使用<br>　　<br>　　头文件如下，实现文件中不需要实现任何代码。</p>
+<pre><code><span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span></span>
+<span class="keyword">typedef</span> <span class="keyword">int</span>(^compareBlock)(<span class="keyword">int</span> a, <span class="keyword">int</span> b);
+<span class="class"><span class="keyword">@interface</span> <span class="title">HBTestBlock</span> : <span class="title">NSObject</span></span>
+
+<span class="comment">//注意以下两种方式的不同</span>
+<span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) compareBlock compare;
+<span class="keyword">@property</span>(<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">UIView</span> *(^viewGetter)(<span class="built_in">NSString</span> *imageName); <span class="comment">//注意其返回类型为UIView *</span>
+<span class="keyword">@end</span>
+</code></pre><p>   下面这两个函数，展示的是如何在其他的类中，使用这两个属性。</p>
+<pre><code><span class="comment">#pragma mark 测试对象的属性为block</span>
+- (<span class="type">void</span>)testObjPropertyBlock
+{
+    <span class="type">HBTestBlock</span> *objPropertyBlockObj = [[<span class="type">HBTestBlock</span> alloc] init];
+    objPropertyBlockObj.viewGetter = ^(<span class="type">NSString</span> *imageName){
+//        <span class="keyword">return</span> [[<span class="type">UIView</span> alloc] init]; //特别注意此处，若对象不匹配，则会报错，设置为<span class="keyword">nil</span>也会报错。
+        <span class="keyword">return</span> [self currentView];
+    };
+    objPropertyBlockObj.viewGetter(@<span class="string">"hello"</span>); //实际执行<span class="keyword">block</span>
+}
+
+- (<span class="type">UIView</span> *)currentView
+{
+    <span class="type">NSLog</span>(@<span class="string">"now I am in currentView"</span>);
+    <span class="keyword">return</span> <span class="keyword">nil</span>;
+}
+
+- (<span class="type">void</span>)testPropertyBlock
+{
+    <span class="type">HBTestBlock</span> *properBlockObj = [[<span class="type">HBTestBlock</span> alloc] init];
+    properBlockObj.compare = ^(<span class="type">int</span> a,<span class="type">int</span> b)
+    {
+        <span class="type">int</span> <span class="literal">result</span> = [self maxer:a another:b];
+        <span class="type">NSLog</span>(@<span class="string">"the result is %d"</span>,<span class="literal">result</span>);
+        <span class="keyword">return</span> <span class="literal">result</span>;
+    };
+    <span class="type">NSLog</span>(@<span class="string">"the properBlockObj.compare is %d"</span>,properBlockObj.compare(<span class="number">100</span>,<span class="number">200</span>));
+}
+
+- (<span class="type">int</span>)maxer:(<span class="type">int</span>)a another:(<span class="type">int</span>)b
+{
+    <span class="keyword">if</span> (a &gt; b) {
+        <span class="keyword">return</span> a;
+    }
+    <span class="keyword">return</span>  b;
+}
+</code></pre><p>　　</p>
+<pre><code><span class="number">2</span>. Block作为<span class="keyword">property</span><span class="title"></span>属性实现页面之间传值
+</code></pre><p>假设我们熟悉代理递值的话，对代理我们可能又爱有恨！我们先建立模型A页面 push B页面，如果把A页面的值传递到B页面，属性和单例传值可以搞定！但是如果Pop过程中把B页面的值传递到A页面，那就可以用单例或者代理了！说到代理，我们要先声明协议，创建代理，很是麻烦。常常我们传递一个数值需要在两个页面间写很多代码，这些代码改变页面的整体顺序，可读性也打了折扣。所以，此时，block是一种优化方案！</p>
+<p>需求：在ViewController中，点击Button，push到下一个页面NextViewController，在NextViewController的输入框TextField中输入一串字符，返回的时候，在ViewController的Label上面显示文字内容，</p>
+<p>（1）第一种方法：首先看看通过“协议/代理”是怎么实现两个页面之间传值的吧，</p>
+<pre><code><span class="comment">//NextViewController是push进入的第二个页面</span>
+<span class="comment">//NextViewController.h 文件</span>
+<span class="comment">//定义一个协议，前一个页面ViewController要服从该协议，并且实现协议中的方法</span>
+<span class="class"><span class="keyword">@protocol</span> <span class="title">NextViewControllerDelegate</span> &lt;<span class="title">NSObject</span>&gt;</span>
+- (<span class="keyword">void</span>)passTextValue:(<span class="built_in">NSString</span> *)tfText;
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">NextViewController</span> : <span class="title">UIViewController</span></span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) <span class="keyword">id</span>&lt;NextViewControllerDelegate&gt; delegate;
+
+<span class="keyword">@end</span>
+
+<span class="comment">//NextViewController.m 文件</span>
+<span class="comment">//点击Button返回前一个ViewController页面</span>
+- (<span class="keyword">IBAction</span>)popBtnClicked:(<span class="keyword">id</span>)sender {
+    <span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.delegate</span> &amp;&amp; [<span class="keyword">self</span><span class="variable">.delegate</span> respondsToSelector:<span class="keyword">@selector</span>(passTextValue:)]) {
+        <span class="comment">//self.inputTF是该页面中的TextField输入框</span>
+        [<span class="keyword">self</span><span class="variable">.delegate</span> passTextValue:<span class="keyword">self</span><span class="variable">.inputTF</span><span class="variable">.text</span>];
+    }
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> popViewControllerAnimated:<span class="literal">YES</span>];
+}
+接下来我们在看看ViewController文件中的内容，
+
+<span class="comment">//ViewController.m 文件</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()&lt;<span class="title">NextViewControllerDelegate</span>&gt;</span>
+<span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>) <span class="keyword">IBOutlet</span> <span class="built_in">UILabel</span> *nextV<span class="built_in">CInfoLabel</span>;
+
+<span class="keyword">@end</span>
+<span class="comment">//点击Button进入下一个NextViewController页面</span>
+- (<span class="keyword">IBAction</span>)btnClicked:(<span class="keyword">id</span>)sender
+{
+    NextViewController *nextVC = [[NextViewController alloc] initWithNibName:<span class="string">@"NextViewController"</span> bundle:<span class="literal">nil</span>];
+    nextVC<span class="variable">.delegate</span> = <span class="keyword">self</span>;<span class="comment">//设置代理</span>
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:nextVC animated:<span class="literal">YES</span>];
+}
+
+<span class="comment">//实现协议NextViewControllerDelegate中的方法</span>
+<span class="preprocessor">#pragma mark - NextViewControllerDelegate method</span>
+- (<span class="keyword">void</span>)passTextValue:(<span class="built_in">NSString</span> *)tfText
+{
+    <span class="comment">//self.nextVCInfoLabel是显示NextViewController传递过来的字符串Label对象</span>
+    <span class="keyword">self</span><span class="variable">.nextVCInfoLabel</span><span class="variable">.text</span> = tfText;
+}
+这是通过“协议/代理”来实现的两个页面之间传值的方式。
+</code></pre><p>（2）第二种方法：使用Block作为property，实现两个页面之间传值，</p>
+<pre><code>先看看NextViewController文件中的内容，
+
+<span class="comment">//NextViewController.h 文件</span>
+<span class="class"><span class="keyword">@interface</span> <span class="title">NextViewController</span> : <span class="title">UIViewController</span></span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="keyword">void</span> (^NextViewControllerBlock)(<span class="built_in">NSString</span> *tfText);
+
+<span class="keyword">@end</span>
+<span class="comment">//NextViewContorller.m 文件</span>
+- (<span class="keyword">IBAction</span>)popBtnClicked:(<span class="keyword">id</span>)sender {
+    <span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.NextViewControllerBlock</span>) {
+        <span class="keyword">self</span><span class="variable">.NextViewControllerBlock</span>(<span class="keyword">self</span><span class="variable">.inputTF</span><span class="variable">.text</span>);
+    }
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> popViewControllerAnimated:<span class="literal">YES</span>];
+}
+再来看看ViewController文件中的内容，
+
+- (<span class="keyword">IBAction</span>)btnClicked:(<span class="keyword">id</span>)sender
+{
+    NextViewController *nextVC = [[NextViewController alloc] initWithNibName:<span class="string">@"NextViewController"</span> bundle:<span class="literal">nil</span>];
+    __<span class="keyword">weak</span> __<span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;
+    nextVC<span class="variable">.NextViewControllerBlock</span> = ^(<span class="built_in">NSString</span> *tfText){
+        [weakSelf resetLabel:tfText];
+    };
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:nextVC animated:<span class="literal">YES</span>];
+}
+<span class="preprocessor">#pragma mark - NextViewControllerBlock method</span>
+- (<span class="keyword">void</span>)resetLabel:(<span class="built_in">NSString</span> *)textStr
+{
+    <span class="keyword">self</span><span class="variable">.nextVCInfoLabel</span><span class="variable">.text</span> = textStr;
+}
+</code></pre><p>好了就这么多代码，可以使用Block来实现两个页面之间传值的目的，实际上就是取代了Delegate的功能。</p>
+<ol>
+<li><p>block的内存管理</p>
+<p> block本身是像对象一样可以retain，和release。但是，block在创建的时候，它的内存是分配在栈(stack)上，而不是在堆(heap)上。他本身的作于域是属于创建时候的作用域，一旦在创建时候的作用域外面调用block将导致程序崩溃。比如下面的例子。 我在view did load中创建了一个block：</p>
+<pre><code><span class="pp">- <span class="params">(void)</span>viewDidLoad
+{
+[superviewDidLoad];
+
+int number = 1;
+_block = ^<span class="params">()</span>{
+
+NSLog<span class="params">(@number <span class="comment">%d, number);</span>
+};
+}
+并且在一个按钮的事件中调用了这个block：
+
+- (<span class="variable">IBAction</span>)</span>testDidClick:<span class="params">(id)</span>sender {
+_block<span class="params">()</span>;
+}</span>
+</code></pre></li>
+</ol>
+<p>此时我按了按钮之后就会导致程序崩溃，解决这个问题的方法就是在创建完block的时候需要调用copy的方法。copy会把block从栈上移动到堆上，那么就可以在其他地方使用这个block了~ 修改代码如下：</p>
+<pre><code>_block = ^(){
+NSLog(@number %d, number)<span class="comment">;</span>
+}<span class="comment">;</span>
+
+_block = [_blockcopy]<span class="comment">;</span>
+</code></pre><p>同理，特别需要注意的地方就是在把block放到集合类当中去的时候，如果直接把生成的block放入到集合类中，是无法在其他地方使用block，必须要对block进行copy。不过代码看上去相对奇怪一些：</p>
+<pre><code>[array addObject:<span class="string">[[^{
+NSLog(@hello!);
+} copy] autorelease]]</span>;
+</code></pre><ol>
+<li>循环引用</li>
+</ol>
+<p>对于非ARC下, 为了防止循环引用, 我们使用<strong>block来修饰在Block中使用的对象:<br>对于ARC下, 为了防止循环引用, 我们使用</strong>weak来修饰在Block中使用的对象。原理就是:ARC中，Block中如果引用了__strong修饰符的自动变量，则相当于Block对该变量的引用计数+1。<br>这一点其实是在第一点的一个小的衍生。当在block内部使用成员变量的时候，比如</p>
+<pre><code><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> : <span class="title">UIViewController</span></span>
+{
+<span class="built_in">NSString</span> *_string;
+}
+<span class="keyword">@end</span>
+</code></pre><p>在block创建中：</p>
+<pre><code>_block = ^(){
+NSLog(@string %@, _string)<span class="comment">;</span>
+}<span class="comment">;</span>
+</code></pre><p>这里的_string相当于是self-&gt;_string；那么block是会对内部的对象进行一次retain。也就是说，self会被retain一次。当self释放的时候，需要block释放后才会对self进行释放，但是block的释放又需要等self的dealloc中才会释放。如此一来变形成了循环引用，导致内存泄露。</p>
+<p>修改方案是新建一个<strong>block scope的局部变量，并把self赋值给它，而在block内部则使用这个局部变量来进行取值。因为</strong>block标记的变量是不会被自动retain的。</p>
+<pre><code>__block ViewController *controller = self<span class="comment">;</span>
+_block = ^(){
+NSLog(@string %@, controller-&gt;_string)<span class="comment">;</span>
+}<span class="comment">;</span>
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/14/iOS开发之block使用详解/" data-id="cimykbspk001jea0j6re1w185" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-block/">iOS block</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Objective-c单例模式的几种写法有什么不同" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/02/19/Objective-c单例模式的几种写法有什么不同/" class="article-date">
@@ -259,7 +531,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cimvpxepl002jrm0jii466lvl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/02/19/Objective-c单例模式的几种写法有什么不同/" data-id="cimykbsqq002mea0j2raqktrh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单例-GCD/">单例 GCD</a></li></ul>
@@ -425,7 +697,7 @@ NSHTTPCookie *cookie = [NSHTTPCookie <span class="string">cookieWithProperties:<
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cimvpxekv0000rm0jpbkrxt7d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/07/Cookie机制以及cookie在iOS中使用介绍/" data-id="cimykbsnf0000ea0jqjvf4mk9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a></li></ul>
@@ -485,7 +757,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cimvpxenl001arm0jn15s8eph" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/06/iOS开发之指定UIView的某几个角-小于4-为圆角/" data-id="cimykbspg001dea0jnfchnhle" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a></li></ul>
@@ -542,7 +814,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cimvpxenh0017rm0jok8kt4od" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/23/iOS快速打企业包ipa/" data-id="cimykbspd001aea0j6bomjbbo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a></li></ul>
@@ -588,7 +860,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cimvpxeon0021rm0j695cbon9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/12/03/Xcode7-让你只需4步就可以免证书进行真机调试了！/" data-id="cimykbsq30024ea0jaq6mi9tj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a></li></ul>
@@ -637,7 +909,7 @@ testView<span class="variable">.layer</span><span class="variable">.mask</span> 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cimvpxeoa001srm0jf8pju6qg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/11/21/iOS中webView加载URL需要处理特殊字符/" data-id="cimykbspv001vea0jlvf8nj0q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a></li></ul>
@@ -727,7 +999,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cimvpxenn001drm0jf883yw6l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/iOS开发之各种动画各种页面切面效果/" data-id="cimykbspi001gea0jw8ib0691" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a></li></ul>
@@ -850,7 +1122,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cimvpxep9002arm0j03os8nvl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cimykbsqe002dea0j2x4ie0yb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>
@@ -1017,63 +1289,10 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cimvpxeoj001yrm0je5hkue00" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cimykbspy0021ea0jf1w5qu6b" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" class="article-date">
-  <time datetime="2015-09-17T04:38:58.000Z" itemprop="datePublished">2015-09-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/">横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来<br>横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。</p>
-<p>下面说说怎么让状态栏在横屏时显示出来：</p>
-<ol>
-<li><p>在plist文件中将 View controller-based status bar appearance 设置为 NO<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/iOS8显示电池状态栏1.png" alt="Mou icon"></p>
-</li>
-<li><p>在appdelegate.m中的- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions 方法中添加下面代码即可。</p>
-<pre><code>- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions
-{
-
-    [[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarHidden:<span class="literal">YES</span> withAnimation:<span class="built_in">UIStatusBarAnimationNone</span>];
-    [[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarHidden:<span class="literal">NO</span> withAnimation:<span class="built_in">UIStatusBarAnimationNone</span>];
-    <span class="keyword">return</span> <span class="literal">YES</span>;
-}
-</code></pre></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cimvpxem30009rm0jbzb3b2l8" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
 
     </footer>
   </div>
@@ -1097,7 +1316,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1106,7 +1325,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cell-动态计算高度/" style="font-size: 10px;">cell 动态计算高度</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
     </div>
   </div>
 
@@ -1115,7 +1334,7 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -1125,6 +1344,10 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/04/13/动态计算UITableViewCell高度/">动态计算UITableViewCell高度</a>
+          </li>
         
           <li>
             <a href="/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/">[svn]出现folder_is_already_under_version_control问题的解决办法</a>
@@ -1140,10 +1363,6 @@ timingFunction ：动画的运动轨迹，用于变化起点和终点之间的�
         
           <li>
             <a href="/2016/03/25/正则表达式在iOS中的应用总结/">正则表达式在iOS中的应用总结</a>
-          </li>
-        
-          <li>
-            <a href="/2016/03/22/iOS开发中webView与JS交互的使用/">iOS开发中webView与JS交互的使用</a>
           </li>
         
       </ul>
