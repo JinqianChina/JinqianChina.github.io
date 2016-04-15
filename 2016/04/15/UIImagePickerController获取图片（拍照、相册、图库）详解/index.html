@@ -3,48 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>tableview刷新某个区域（section）或者某一行（row） | Jinge&#39;blog</title>
+  <title>UIImagePickerController获取图片（拍照、相册、图库）详解 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="//一个section刷新    
-
-NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:2];    
-
-[tableview reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];    
-
-
-
-//一个cell刷新    
-
-NSIndexP">
+  <meta name="description" content="iOS 图片来源有三种方法：
+typedef NS_ENUM(NSInteger, UIImagePickerControllerSourceType) {
+    UIImagePickerControllerSourceTypePhotoLibrary,    //1.从图库中选择
+    UIImagePickerControllerSourceTypeCamera,          //">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tableview刷新某个区域（section）或者某一行（row）">
-<meta property="og:url" content="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/index.html">
+<meta property="og:title" content="UIImagePickerController获取图片（拍照、相册、图库）详解">
+<meta property="og:url" content="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="//一个section刷新    
-
-NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:2];    
-
-[tableview reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];    
-
-
-
-//一个cell刷新    
-
-NSIndexP">
-<meta property="og:updated_time" content="2016-04-08T13:01:46.000Z">
+<meta property="og:description" content="iOS 图片来源有三种方法：
+typedef NS_ENUM(NSInteger, UIImagePickerControllerSourceType) {
+    UIImagePickerControllerSourceTypePhotoLibrary,    //1.从图库中选择
+    UIImagePickerControllerSourceTypeCamera,          //">
+<meta property="og:updated_time" content="2016-04-15T06:41:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tableview刷新某个区域（section）或者某一行（row）">
-<meta name="twitter:description" content="//一个section刷新    
-
-NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:2];    
-
-[tableview reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];    
-
-
-
-//一个cell刷新    
-
-NSIndexP">
+<meta name="twitter:title" content="UIImagePickerController获取图片（拍照、相册、图库）详解">
+<meta name="twitter:description" content="iOS 图片来源有三种方法：
+typedef NS_ENUM(NSInteger, UIImagePickerControllerSourceType) {
+    UIImagePickerControllerSourceTypePhotoLibrary,    //1.从图库中选择
+    UIImagePickerControllerSourceTypeCamera,          //">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -94,10 +73,10 @@ NSIndexP">
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-tableview刷新某个区域（section）或者某一行（row）" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-UIImagePickerController获取图片（拍照、相册、图库）详解" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" class="article-date">
-  <time datetime="2016-04-08T13:00:03.000Z" itemprop="datePublished">2016-04-08</time>
+    <a href="/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" class="article-date">
+  <time datetime="2016-04-15T06:40:01.000Z" itemprop="datePublished">2016-04-15</time>
 </a>
     
   </div>
@@ -108,7 +87,7 @@ NSIndexP">
         
   
     <h1 class="article-title" itemprop="name">
-      tableview刷新某个区域（section）或者某一行（row）
+      UIImagePickerController获取图片（拍照、相册、图库）详解
     </h1>
   
 
@@ -116,27 +95,183 @@ NSIndexP">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <pre><code><span class="comment">//一个section刷新    </span>
+        <p>iOS 图片来源有三种方法：</p>
+<pre><code><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIImagePickerControllerSourceType</span>) {
+    <span class="built_in">UIImagePickerControllerSourceTypePhotoLibrary</span>,    <span class="comment">//1.从图库中选择</span>
+    <span class="built_in">UIImagePickerControllerSourceTypeCamera</span>,          <span class="comment">//2.直接调用摄像头拍照</span>
+    <span class="built_in">UIImagePickerControllerSourceTypeSavedPhotosAlbum</span> <span class="comment">//3.从相册中选择</span>
+} __TVOS_PROHIBITED;
+</code></pre><p>UIImagePickerController是系统提供的用来获取图片和视频的接口，用UIImagePickerController类来获取图片视频，大体分为以下几个步骤：</p>
+<pre><code><span class="number">1.</span> 实例化UIImagePickerController
+<span class="number">2.</span> 设置UIImagePickerController数据来源类型
+<span class="number">3.</span> 设置代理，遵循UIImagePickerControllerDelegate,UINavigationControllerDelegate协议
+<span class="number">4.</span> 实现代理方法接收选取图片并做处理
+</code></pre><p>在代理中获取我们选中的图片，UIImagePickerControllerDelegate代理中一共三个方法，其中一个3.0已经废弃了，只剩下两个我们需要用的。</p>
+<pre><code><span class="comment">//1.当用户选取完成后调用；</span>
+- (<span class="typename">void</span>)<span class="string">imagePickerController:</span>(UIImagePickerController *)picker <span class="string">didFinishPickingMediaWithInfo:</span>(NSDictionary *)info;
 
-NSIndexSet *indexSet=[[NSIndexSet alloc]<span class="string">initWithIndex:</span><span class="number">2</span>];    
+<span class="comment">//2.当用户取消选取时调用；</span>
+- (<span class="typename">void</span>)<span class="string">imagePickerControllerDidCancel:</span>(UIImagePickerController *)picker;
+</code></pre><p>在这里，我们主要使用第一个代理方法，在选取图片完成后调用，选取的信息都在info中，info 是一个字典。</p>
+<pre><code><span class="comment">// 代理方法,获取图片</span>
+<span class="comment">// 选取的信息都在info中，info 是一个字典。</span>
+/**
+<span class="comment">// info dictionary keys</span>
+UIKIT_EXTERN NSString *const UIImagePickerControllerMediaType __TVOS_PROHIBITED;<span class="comment">//指定用户选择的媒体类型</span>
+UIKIT_EXTERN NSString *const UIImagePickerControllerOriginalImage __TVOS_PROHIBITED;<span class="comment">//原始图片</span>
+UIKIT_EXTERN NSString *const UIImagePickerControllerEditedImage __TVOS_PROHIBITED;<span class="comment">//修改后的图片</span>
+UIKIT_EXTERN NSString *const UIImagePickerControllerCropRect __TVOS_PROHIBITED;<span class="comment">//裁剪尺寸</span>
+UIKIT_EXTERN NSString *const UIImagePickerControllerMediaURL __TVOS_PROHIBITED;<span class="comment">//媒体的URL</span>
+UIKIT_EXTERN NSString *const UIImagePickerControllerReferenceURL        NS_AVAILABLE_IOS(<span class="number">4</span>_1) __TVOS_PROHIBITED;<span class="comment">//原件的URL</span>
+UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAILABLE_IOS(<span class="number">4</span>_1) __TVOS_PROHIBITED;<span class="comment">//如果是拍照的照片，则需要手动保存到本地，系统不会自动保存拍照成功后的照片</span>
+</code></pre><p>下面是具体的代码，只写了核心的部分，当你需要获取系统图片时，执行- (void)startGetPhoto;此方法即可。</p>
+<pre><code><span class="comment">//点击更换头像时开始执行此方法</span>
+- (<span class="keyword">void</span>)startGetPhoto
+{
+    <span class="keyword">self</span><span class="variable">.actionSheet</span> = [[<span class="built_in">UIActionSheet</span> alloc] initWithTitle:<span class="literal">nil</span>
+                                                   delegate:<span class="keyword">self</span>
+                                          cancelButtonTitle:<span class="string">@"取消"</span>
+                                     destructiveButtonTitle:<span class="literal">nil</span>
+                                          otherButtonTitles:<span class="string">@"相册"</span>, <span class="string">@"拍照"</span>, <span class="literal">nil</span>];
+    <span class="keyword">self</span><span class="variable">.actionSheet</span><span class="variable">.tag</span> = ActionSheetTagAddPhoto;
+    [<span class="keyword">self</span><span class="variable">.actionSheet</span> showInView:<span class="keyword">self</span><span class="variable">.view</span>];
+}
 
-[tableview <span class="string">reloadSections:</span>indexSet <span class="string">withRowAnimation:</span>UITableViewRowAnimationAutomatic];    
+<span class="preprocessor">#pragma mark -</span>
+<span class="preprocessor">#pragma mark UIActionSheetDelegate Call Back Implementation</span>
 
+- (<span class="keyword">void</span>)actionSheet:(<span class="built_in">UIActionSheet</span> *)actionSheet clickedButtonAtIndex:(<span class="built_in">NSInteger</span>)buttonIndex
+{
+       <span class="keyword">if</span> (<span class="number">0</span> == buttonIndex)
+    {
+        <span class="comment">//打开本地相册</span>
+        [<span class="keyword">self</span> localPhoto];
+    }
+    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="number">1</span> == buttonIndex)
+    {
+        <span class="comment">// 开始拍照</span>
+        [<span class="keyword">self</span> takePhoto];
+    }
 
+}
 
-<span class="comment">//一个cell刷新    </span>
+<span class="preprocessor">#pragma mark -</span>
+<span class="preprocessor">#pragma mark UIImagePickerControllerDelegate Call Back Implementation</span>
 
-NSIndexPath *indexPath=[NSIndexPath <span class="string">indexPathForRow:</span><span class="number">3</span> <span class="string">inSection:</span><span class="number">0</span>];    
+- (<span class="keyword">void</span>)imagePickerController:(<span class="built_in">UIImagePickerController</span> *)picker didFinishPickingMediaWithInfo:(<span class="built_in">NSDictionary</span> *)info
+{
+    <span class="built_in">NSString</span> *type = [info objectForKey:<span class="built_in">UIImagePickerControllerMediaType</span>];
 
-[tableView <span class="string">reloadRowsAtIndexPaths:</span>[NSArray <span class="string">arrayWithObjects:</span>indexPath,nil] <span class="string">withRowAnimation:</span>UITableViewRowAnimationNone];  
+    <span class="comment">//当选择的类型是图片</span>
+    <span class="keyword">if</span> ([type isEqualToString:<span class="string">@"public.image"</span>])
+    {
+        <span class="built_in">NSString</span> *key = <span class="literal">nil</span>;
+
+        <span class="keyword">if</span> (picker<span class="variable">.allowsEditing</span>)
+        {
+            key = <span class="built_in">UIImagePickerControllerEditedImage</span>;
+        }
+        <span class="keyword">else</span>
+        {
+            key = <span class="built_in">UIImagePickerControllerOriginalImage</span>;
+        }
+        <span class="comment">//获取图片</span>
+        <span class="built_in">UIImage</span> *image = [info objectForKey:key];
+
+        <span class="keyword">if</span> (picker<span class="variable">.sourceType</span> == <span class="built_in">UIImagePickerControllerSourceTypeCamera</span>) {
+            <span class="comment">// 固定方向</span>
+            image = [image fixOrientation];<span class="comment">//这个方法是UIImage+Extras.h中方法</span>
+            <span class="comment">//压缩图片质量</span>
+            image = [<span class="keyword">self</span> reduceImage:image percent:<span class="number">0.1</span>];
+            <span class="built_in">CGSize</span> imageSize = image<span class="variable">.size</span>;
+            imageSize<span class="variable">.height</span> = <span class="number">320</span>;
+            imageSize<span class="variable">.width</span> = <span class="number">320</span>;
+            <span class="comment">//压缩图片尺寸</span>
+            image = [<span class="keyword">self</span> imageWithImageSimple:image scaledToSize:imageSize];
+        }
+        <span class="comment">//上传到服务器</span>
+        <span class="comment">//[self doAddPhoto:image];</span>
+        <span class="comment">//关闭相册界面</span>
+        [picker dismissViewControllerAnimated:<span class="literal">YES</span> completion:^{
+
+        }];
+    }
+}
+
+<span class="comment">// 开始拍照</span>
+-(<span class="keyword">void</span>)takePhoto
+{
+    <span class="keyword">if</span> ([<span class="built_in">UIImagePickerController</span> isSourceTypeAvailable:<span class="built_in">UIImagePickerControllerSourceTypeCamera</span>])
+    {
+        <span class="built_in">UIImagePickerController</span> *picker = [[<span class="built_in">UIImagePickerController</span> alloc] init];
+        picker<span class="variable">.sourceType</span> = <span class="built_in">UIImagePickerControllerSourceTypeCamera</span>;
+        picker<span class="variable">.delegate</span> = <span class="keyword">self</span>;
+        <span class="comment">//设置拍照后的图片可被编辑</span>
+        picker<span class="variable">.allowsEditing</span> = <span class="literal">YES</span>;
+        picker<span class="variable">.sourceType</span> = <span class="built_in">UIImagePickerControllerSourceTypeCamera</span>;
+        <span class="comment">//先检查相机可用是否</span>
+        <span class="built_in">BOOL</span> cameraIsAvailable = [<span class="keyword">self</span> checkCamera];
+        <span class="keyword">if</span> (<span class="literal">YES</span> == cameraIsAvailable) {
+            [<span class="keyword">self</span> presentViewController:picker animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];
+        }<span class="keyword">else</span> {
+            <span class="built_in">UIAlertView</span> *alert = [[<span class="built_in">UIAlertView</span> alloc] initWithTitle:<span class="string">@"提示"</span> message:<span class="string">@"请在iPhone的“设置-隐私-相机”选项中，允许本应用程序访问你的相机。"</span> delegate:<span class="keyword">self</span> cancelButtonTitle:<span class="string">@"好，我知道了"</span> otherButtonTitles:<span class="literal">nil</span>];
+            [alert show];
+        }
+
+    }
+}
+
+<span class="comment">// 打开本地相册</span>
+-(<span class="keyword">void</span>)localPhoto
+{    
+    <span class="comment">//本地相册不需要检查，因为UIImagePickerController会自动检查并提醒</span>
+    <span class="built_in">UIImagePickerController</span> *picker = [[<span class="built_in">UIImagePickerController</span> alloc] init];
+    picker<span class="variable">.sourceType</span> = <span class="built_in">UIImagePickerControllerSourceTypePhotoLibrary</span>;
+    picker<span class="variable">.delegate</span> = <span class="keyword">self</span>;
+    <span class="comment">//设置选择后的图片可被编辑</span>
+    picker<span class="variable">.allowsEditing</span> = <span class="literal">YES</span>;
+    [<span class="keyword">self</span> presentViewController:picker animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];
+}
+
+    <span class="comment">//检查相机是否可用</span>
+- (<span class="built_in">BOOL</span>)checkCamera
+{
+    <span class="built_in">NSString</span> *mediaType = <span class="built_in">AVMediaTypeVideo</span>;
+    <span class="built_in">AVAuthorizationStatus</span> authStatus = [<span class="built_in">AVCaptureDevice</span> authorizationStatusForMediaType:mediaType];
+    <span class="keyword">if</span>(<span class="built_in">AVAuthorizationStatusRestricted</span> == authStatus ||
+       <span class="built_in">AVAuthorizationStatusDenied</span> == authStatus)
+    {
+        <span class="comment">//相机不可用</span>
+        <span class="keyword">return</span> <span class="literal">NO</span>;
+    }
+    <span class="comment">//相机可用</span>
+    <span class="keyword">return</span> <span class="literal">YES</span>;
+}
+
+<span class="comment">//压缩图片质量</span>
+-(<span class="built_in">UIImage</span> *)reduceImage:(<span class="built_in">UIImage</span> *)image percent:(<span class="keyword">float</span>)percent
+{
+    <span class="built_in">NSData</span> *imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, percent);
+    <span class="built_in">UIImage</span> *newImage = [<span class="built_in">UIImage</span> imageWithData:imageData];
+    <span class="keyword">return</span> newImage;
+}
+<span class="comment">//压缩图片尺寸</span>
+- (<span class="built_in">UIImage</span>*)imageWithImageSimple:(<span class="built_in">UIImage</span>*)image scaledToSize:(<span class="built_in">CGSize</span>)newSize
+{
+    <span class="built_in">UIGraphicsBeginImageContext</span>(newSize);
+    [image drawInRect:<span class="built_in">CGRectMake</span>(<span class="number">0</span>,<span class="number">0</span>,newSize<span class="variable">.width</span>,newSize<span class="variable">.height</span>)];
+    <span class="built_in">UIImage</span>* newImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();
+    <span class="built_in">UIGraphicsEndImageContext</span>();
+    <span class="keyword">return</span> newImage;
+}
 </code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cin1cjjj8000yyr0jbl2xc2i5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cin1cjjks002jyr0j43dmfd6g" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a></li></ul>
 
     </footer>
   </div>
@@ -144,19 +279,10 @@ NSIndexPath *indexPath=[NSIndexPath <span class="string">indexPathForRow:</span>
     
 <nav id="article-nav">
   
-    <a href="/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          将字符串切割成数组&amp;将数组元素拼接成字符串
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/03/25/正则表达式在iOS中的应用总结/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/04/15/UIImagePickerController显示中文界面/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">正则表达式在iOS中的应用总结</div>
+      <div class="article-nav-title">UIImagePickerController显示中文界面</div>
     </a>
   
 </nav>

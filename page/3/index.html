@@ -65,6 +65,129 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-UITextView-UITextField检测并过滤Emoji表情符号" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" class="article-date">
+  <time datetime="2015-10-17T08:31:09.000Z" itemprop="datePublished">2015-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/">UITextView/UITextField检测并过滤Emoji表情符号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UITextView/UITextField检测并过滤Emoji表情符号</p>
+<p>本人在开发过程中遇到过这种情况，服务器端不支持Emoji表情，因此要求客户端在上传用户输入时，不能包含Emoji表情。在客户端发送请求前，判断用户输入中是否含有表情，如果含有表情，则提示用户重新输入。这个过程关键是如何判断字符串中是否含有Emoji表情。要判断是否含有Emoji表情，必须先了解什么是Emoji。</p>
+<p>百度百科中告诉我们“自苹果公司发布的iOS 5输入法中加入了emoji后，这种表情符号开始席卷全球，目前emoji已被大多数现代计算机系统所兼容的Unicode编码采纳，普遍应用于各种手机短信和社交网络中。[1] ”，Emoji表情最终会被编码成Unicode，因此，只要知道Emoji表情的Unicode编码的范围，就可以判断用户是否输入了Emoji表情。</p>
+<p>经过多番查找资料和测试Demo，目前有以下两种方式比较合理：</p>
+<ol>
+<li><p>当用户切换键盘为Emoji表情时，输入的表情不响应（即表情符号不显示到UITextView或UITextField）。这里可以通过UITextView或UITextField的回调和是否为emoji键盘：</p>
+<pre><code><span class="comment">/*
+*第一种方法，简单粗暴
+*/</span>
+- (<span class="built_in">BOOL</span>)textView:(<span class="built_in">UITextView</span> *)textView shouldChangeTextInRange:(<span class="built_in">NSRange</span>)range replacementText:(<span class="built_in">NSString</span> *)text
+{
+    <span class="comment">// 不让输入表情</span>
+    <span class="keyword">if</span> ([textView isFirstResponder]) {
+        <span class="keyword">if</span> ([[[textView textInputMode] primaryLanguage] isEqualToString:<span class="string">@"emoji"</span>] || ![[textView textInputMode] primaryLanguage]) {
+            <span class="built_in">NSLog</span>(<span class="string">@"输入的是表情，返回NO"</span>);
+            <span class="built_in">UIAlertView</span> *alertView = [[<span class="built_in">UIAlertView</span> alloc] initWithTitle:<span class="string">@"警告！"</span> message:<span class="string">@"不能输入表情"</span> delegate:<span class="keyword">self</span> cancelButtonTitle:<span class="string">@"取消"</span> otherButtonTitles:<span class="string">@"确定"</span>,<span class="literal">nil</span>];
+            [alertView show];
+            <span class="keyword">return</span> <span class="literal">NO</span>;
+        }
+    }
+    <span class="keyword">return</span> <span class="literal">YES</span>;
+}
+</code></pre></li>
+<li><p>为避免当用户通过中文键盘输入中文“哈哈”后出现可选文字中选中的Emoji笑脸，最后在- (void)textFieldDidEndEditing:(UITextField *)textField方法中统一通过检查最终字符串textField/textView.text的内容，通过Emoji筛unicode编码来判断是否存在Emoji表情，如果存在则提醒用户做修改。</p>
+<pre><code><span class="comment">//在输入完成时，调用下面那个方法来判断输入的字符串是否含有表情</span>
+- (<span class="keyword">void</span>)textFieldDidEndEditing:(UITextField *)textField
+{
+    <span class="keyword">if</span> ([self stringContainsEmoji:textField.text]) {
+        NSLog(@<span class="string">"含有表情"</span>);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@<span class="string">"警告！"</span> message:@<span class="string">"输入内容含有表情，请重新输入"</span> delegate:self cancelButtonTitle:@<span class="string">"取消"</span> otherButtonTitles:@<span class="string">"确定"</span>,nil];
+        [alertView show];
+        textField.text = @<span class="string">""</span>;
+        [textField becomeFirstResponder];
+    }<span class="keyword">else</span> {
+        NSLog(@<span class="string">"不含有表情"</span>);
+    }
+
+}
+
+<span class="comment">/*
+ *第二种方法，利用Emoji表情最终会被编码成Unicode，因此，
+ *只要知道Emoji表情的Unicode编码的范围，
+ *就可以判断用户是否输入了Emoji表情。
+ */</span>
+- (BOOL)stringContainsEmoji:(NSString *)<span class="built_in">string</span>
+{
+    <span class="comment">// 过滤所有表情。returnValue为NO表示不含有表情，YES表示含有表情</span>
+    __block BOOL returnValue = NO;
+    [<span class="built_in">string</span> enumerateSubstringsInRange:NSMakeRange(<span class="number">0</span>, [<span class="built_in">string</span> length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+
+        <span class="keyword">const</span> unichar hs = [substring characterAtIndex:<span class="number">0</span>];
+        <span class="comment">// surrogate pair</span>
+        <span class="keyword">if</span> (<span class="number">0xd800</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0xdbff</span>) {
+            <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
+                <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
+                <span class="keyword">const</span> <span class="keyword">int</span> uc = ((hs - <span class="number">0xd800</span>) * <span class="number">0x400</span>) + (ls - <span class="number">0xdc00</span>) + <span class="number">0x10000</span>;
+                <span class="keyword">if</span> (<span class="number">0x1d000</span> &lt;= uc &amp;&amp; uc &lt;= <span class="number">0x1f77f</span>) {
+                    returnValue = YES;
+                }
+            }
+        } <span class="keyword">else</span> <span class="keyword">if</span> (substring.length &gt; <span class="number">1</span>) {
+            <span class="keyword">const</span> unichar ls = [substring characterAtIndex:<span class="number">1</span>];
+            <span class="keyword">if</span> (ls == <span class="number">0x20e3</span>) {
+                returnValue = YES;
+            }
+        } <span class="keyword">else</span> {
+            <span class="comment">// non surrogate</span>
+            <span class="keyword">if</span> (<span class="number">0x2100</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x27ff</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2B05</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2b07</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x2934</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x2935</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="number">0x3297</span> &lt;= hs &amp;&amp; hs &lt;= <span class="number">0x3299</span>) {
+                returnValue = YES;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (hs == <span class="number">0xa9</span> || hs == <span class="number">0xae</span> || hs == <span class="number">0x303d</span> || hs == <span class="number">0x3030</span> || hs == <span class="number">0x2b55</span> || hs == <span class="number">0x2b1c</span> || hs == <span class="number">0x2b1b</span> || hs == <span class="number">0x2b50</span>) {
+                returnValue = YES;
+            }
+        }
+    }];
+    <span class="keyword">return</span> returnValue;
+}
+</code></pre></li>
+</ol>
+<p>ps：Demo已放在云盘里，链接: <a href="http://pan.baidu.com/s/1boguLgN" target="_blank" rel="external">http://pan.baidu.com/s/1boguLgN</a> 密码: keet</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/10/17/UITextView-UITextField检测并过滤Emoji表情符号/" data-id="cin1cjjkm002dyr0j4qjgk8h0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS6的单个控制器横竖屏显示以及旋转屏控制技巧" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" class="article-date">
@@ -220,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cin11iiyp0021wi0j3xbj68vh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" data-id="cin1cjjkb0021yr0jjnr95ery" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a></li></ul>
@@ -273,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cin11iix30009wi0jrh2v011j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cin1cjjic0009yr0ja0a14uk6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
@@ -491,7 +614,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/UICollectionview的使用详解/" data-id="cin11iizc002mwi0jxyjqysat" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/16/UICollectionview的使用详解/" data-id="cin1cjjl0002pyr0jtvcd0oio" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a></li></ul>
@@ -541,7 +664,7 @@ static NSString <span class="keyword">*</span>footerIdentifier = <span class="co
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cin11iiyx0027wi0jb6i3ob0v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/08/16/Undefined-symbols-for-architectur-referenced-from问题解决/" data-id="cin1cjjki0027yr0j9fnl51ik" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a></li></ul>
@@ -624,7 +747,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cin11iiyn001ywi0jlkbv9pzu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/07/iOS中nil-、NULL、-Nil-、NSNull，你真的了解吗？/" data-id="cin1cjjk7001yyr0jaq3ml7iw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a></li></ul>
@@ -688,7 +811,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cin11iix5000cwi0jp13sao17" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/07/07/根据label正文内容动态计算正文的宽或高/" data-id="cin1cjjif000cyr0jeotu2ltx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a></li></ul>
@@ -741,7 +864,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cin11iixp000vwi0jaycu7a02" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/07/uitextview-在中文后输入英文到行尾的时候，中文后的英文全部换到下一行/" data-id="cin1cjjj6000vyr0jmbqa9ujw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a></li></ul>
@@ -803,7 +926,7 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cin11iixg000mwi0jakpxkje6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/06/04/如何更好的限制一个UITextField-UITextView的输入字数/" data-id="cin1cjjir000myr0jns4yrwnb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a></li></ul>
@@ -852,94 +975,10 @@ dictionaryWithValuesForKeys:和setValuesForKeysWithDictionary:自动地将      
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cin11iix7000fwi0jz1c9xjwi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2015/05/30/报错：process-Launch-Failed：failed-to-Get-the-Task-for-Process-1298（解决方案）/" data-id="cin1cjjii000fyr0jrg2cyayp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-纯命令行教你Cocoapods的安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/05/01/纯命令行教你Cocoapods的安装和使用/" class="article-date">
-  <time datetime="2015-05-01T08:31:41.000Z" itemprop="datePublished">2015-05-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/01/纯命令行教你Cocoapods的安装和使用/">纯命令行教你Cocoapods的安装和使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于cocoapods的介绍和作用，网上有很多大神介绍的比我清楚，建议去看一下唐巧的<a href="http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/" target="_blank" rel="external">http://blog.devtang.com/blog/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/</a>、<a href="http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml" target="_blank" rel="external">http://www.360doc.com/content/14/0309/10/11029609_358970353.shtml</a><br>我就不多说了，这里直接上方法。</p>
-<p>一、安装 CocoaPods</p>
-<ol>
-<li><p>安装方式灰常简单，Mac下都自带ruby，使用ruby的gem命令即可下载安装：</p>
-<pre><code><span class="variable">$ </span>sudo gem install cocoapods
-<span class="variable">$ </span>pod setup
-
-注意：如果你的gem太老，这里会有问题，不过不用怕，可以尝试如下命令升级<span class="symbol">gem:</span>
-
-<span class="variable">$ </span>sudo gem update --system
-</code></pre></li>
-<li><p>对了，ruby的软件源<a href="https://rubygems.org使用的是亚马逊的云服务，被墙了，你懂的！更新一下ruby的源就行了，用如下代码将官方的" target="_blank" rel="external">https://rubygems.org使用的是亚马逊的云服务，被墙了，你懂的！更新一下ruby的源就行了，用如下代码将官方的</a> ruby 源替换成国内淘宝的源：</p>
-<pre><code><span class="variable">$ </span>gem sources --remove <span class="symbol">https:</span>/<span class="regexp">/rubygems.org/</span>
-<span class="variable">$ </span>gem sources -a <span class="symbol">http:</span>/<span class="regexp">/ruby.taobao.org/</span>
-
-查看ruby源
-<span class="variable">$ </span>gem sources -l
-</code></pre></li>
-<li><p>还有一点需要注意，pod setup在执行时，会输出Setting up CocoaPods master repo，但是会等待比较久的时间。这步其实是 Cocoapods 在将它的信息下载到 ~/.cocoapods目录下，如果你等太久，可以试着 cd 到那个目录，用du -sh *来查看下载进度。</p>
-</li>
-</ol>
-<p>二、使用 CocoaPods</p>
-<ol>
-<li><p>创建一个新的Project，cd到你创建的项目文件夹中，使用如下命令新建一个名为Podfile的文件；</p>
-<pre><code><span class="keyword">touch</span> Podfile
-</code></pre></li>
-<li><p>这里可以利用vim打开Podfile文件；</p>
-<pre><code><span class="title">vim</span> Podfile
-</code></pre><p> ps:如果不熟悉Vim编辑器，可以去看一下我的一篇关于Vim介绍的博客 <a href="http://jinqianchina.github.io/2015/04/20/vim-%E7%BC%96%E8%BE%91%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" target="_blank" rel="external">http://jinqianchina.github.io/2015/04/20/vim-%E7%BC%96%E8%BE%91%E5%99%A8%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</a></p>
-</li>
-<li><p>将依赖的库名字依次列在文件中即可；</p>
-<pre><code>platform <span class="symbol">:ios</span>
-pod <span class="string">'SDWebImage'</span>
-pod <span class="string">'AFNetworking'</span>
-pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0.0'</span>
-
-注意：~&gt;后面的是版本号，不加版本号的，，默认是最新版本
-</code></pre></li>
-<li><p>然后你将编辑好的Podfile保存退出 :wq。然后执行如下命令即可；</p>
-<pre><code>pod <span class="keyword">install</span>
-</code></pre></li>
-<li><p>到此，你的所有第三方库都已经下载完成并且设置好了编译参数和依赖（cocoapods自动完成），你只需要记住如下 2 点即可：</p>
-<pre><code><span class="number">1</span>. 使用 CocoaPods 生成的 <span class="class">.xcworkspace</span> 文件来打开工程，而不是以前的 <span class="class">.xcodeproj</span> 文件。
-<span class="number">2</span>. 每次更改了 Podfile 文件，你需要重新执行一次pod update命令。
-</code></pre></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/05/01/纯命令行教你Cocoapods的安装和使用/" data-id="cin11iiwr0003wi0jh98zyicl" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cocoapods/">cocoapods</a></li></ul>
 
     </footer>
   </div>
@@ -963,7 +1002,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -972,7 +1011,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UIImagePickerController-中文/" style="font-size: 10px;">UIImagePickerController 中文</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cell-动态计算高度/" style="font-size: 10px;">cell 动态计算高度</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UIImagePickerController-中文/" style="font-size: 10px;">UIImagePickerController 中文</a> <a href="/tags/UIImagePickerController-拍照-相册/" style="font-size: 10px;">UIImagePickerController 拍照 相册</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/cell-动态计算高度/" style="font-size: 10px;">cell 动态计算高度</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a>
     </div>
   </div>
 
@@ -981,7 +1020,7 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -991,6 +1030,10 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/">UIImagePickerController获取图片（拍照、相册、图库）详解</a>
+          </li>
         
           <li>
             <a href="/2016/04/15/UIImagePickerController显示中文界面/">UIImagePickerController显示中文界面</a>
@@ -1006,10 +1049,6 @@ pod <span class="string">'Reachability'</span>,  <span class="string">'~&gt; 3.0
         
           <li>
             <a href="/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/">将字符串切割成数组&amp;将数组元素拼接成字符串</a>
-          </li>
-        
-          <li>
-            <a href="/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/">tableview刷新某个区域（section）或者某一行（row）</a>
           </li>
         
       </ul>
