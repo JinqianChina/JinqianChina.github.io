@@ -3,34 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了 | Jinge&#39;blog</title>
+  <title>iOS用AFN上传图片到服务器 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。
-下面说说怎么让状态栏在横屏时显示出来：
-
-在plist文件中将 View controller-based status bar appearance 设置为 NO
-
-在ap">
+  <meta name="description" content="1.单张图片上传
+//上传图片(单张)
++(void)uploadPhotoAndController:(UIViewController *)controller WithSize:(CGSize)size Image:(UIImage*)image AndFinish:(void (^)(NSDictionary *, NSError *))finish
+{
+    //加载提示菊花">
 <meta property="og:type" content="article">
-<meta property="og:title" content="横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了">
-<meta property="og:url" content="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/index.html">
+<meta property="og:title" content="iOS用AFN上传图片到服务器">
+<meta property="og:url" content="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。
-下面说说怎么让状态栏在横屏时显示出来：
-
-在plist文件中将 View controller-based status bar appearance 设置为 NO
-
-在ap">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/iOS8显示电池状态栏1.png">
-<meta property="og:updated_time" content="2015-12-21T08:45:42.000Z">
+<meta property="og:description" content="1.单张图片上传
+//上传图片(单张)
++(void)uploadPhotoAndController:(UIViewController *)controller WithSize:(CGSize)size Image:(UIImage*)image AndFinish:(void (^)(NSDictionary *, NSError *))finish
+{
+    //加载提示菊花">
+<meta property="og:updated_time" content="2016-04-19T02:02:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了">
-<meta name="twitter:description" content="上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。
-下面说说怎么让状态栏在横屏时显示出来：
-
-在plist文件中将 View controller-based status bar appearance 设置为 NO
-
-在ap">
+<meta name="twitter:title" content="iOS用AFN上传图片到服务器">
+<meta name="twitter:description" content="1.单张图片上传
+//上传图片(单张)
++(void)uploadPhotoAndController:(UIViewController *)controller WithSize:(CGSize)size Image:(UIImage*)image AndFinish:(void (^)(NSDictionary *, NSError *))finish
+{
+    //加载提示菊花">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -80,10 +76,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-iOS用AFN上传图片到服务器" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" class="article-date">
-  <time datetime="2015-09-17T04:38:58.000Z" itemprop="datePublished">2015-09-17</time>
+    <a href="/2016/04/19/iOS用AFN上传图片到服务器/" class="article-date">
+  <time datetime="2016-04-19T02:01:40.000Z" itemprop="datePublished">2016-04-19</time>
 </a>
     
   </div>
@@ -94,7 +90,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了
+      iOS用AFN上传图片到服务器
     </h1>
   
 
@@ -102,29 +98,105 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来<br>横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。</p>
-<p>下面说说怎么让状态栏在横屏时显示出来：</p>
-<ol>
-<li><p>在plist文件中将 View controller-based status bar appearance 设置为 NO<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/iOS8显示电池状态栏1.png" alt="Mou icon"></p>
-</li>
-<li><p>在appdelegate.m中的- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions 方法中添加下面代码即可。</p>
-<pre><code>- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions
+        <p>1.单张图片上传</p>
+<pre><code><span class="comment">//上传图片(单张)</span>
++(<span class="keyword">void</span>)uploadPhotoAndController:(<span class="built_in">UIViewController</span> *)controller WithSize:(<span class="built_in">CGSize</span>)size Image:(<span class="built_in">UIImage</span>*)image AndFinish:(<span class="keyword">void</span> (^)(<span class="built_in">NSDictionary</span> *, <span class="built_in">NSError</span> *))finish
 {
+    <span class="comment">//加载提示菊花</span>
+    MBProgressHUD *hud;
+    <span class="keyword">if</span>(controller){
+        hud = [MBProgressHUD showHUDAddedTo:controller<span class="variable">.view</span> animated:<span class="literal">YES</span>];
+        hud<span class="variable">.label</span><span class="variable">.text</span> = <span class="built_in">NSLocalizedString</span>(<span class="string">@"加载中..."</span>, <span class="string">@"HUD loading title"</span>);
+    }
 
-    [[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarHidden:<span class="literal">YES</span> withAnimation:<span class="built_in">UIStatusBarAnimationNone</span>];
-    [[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarHidden:<span class="literal">NO</span> withAnimation:<span class="built_in">UIStatusBarAnimationNone</span>];
-    <span class="keyword">return</span> <span class="literal">YES</span>;
+    <span class="comment">//1. 存放图片的服务器地址，这里我用的宏定义</span>
+    <span class="built_in">NSString</span> * url = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@%@"</span>,Hx_Main_heard_API,IMAGE_UPLOAD_URL_API];
+
+    <span class="comment">//2. 利用时间戳当做图片名字</span>
+       <span class="built_in">NSDateFormatter</span> *formatter = [[<span class="built_in">NSDateFormatter</span> alloc] init];  
+    formatter<span class="variable">.dateFormat</span> = <span class="string">@"yyyyMMddHHmmss"</span>;  
+    <span class="built_in">NSString</span> *imageName = [formatter stringFromDate:[<span class="built_in">NSDate</span> date]];  
+    <span class="built_in">NSString</span> *fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@.jpg"</span>,imageName];
+
+    <span class="comment">//3. 图片二进制文件</span>
+    <span class="built_in">NSData</span> *imageData = <span class="built_in">UIImageJPEGRepresentation</span>(image, <span class="number">0.7</span>f);
+    <span class="built_in">NSLog</span>(<span class="string">@"upload image size: %ld k"</span>, (<span class="keyword">long</span>)(imageData<span class="variable">.length</span> / <span class="number">1024</span>));
+
+    <span class="comment">//4. 发起网络请求</span>
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager<span class="variable">.requestSerializer</span> = [AFHTTPRequestSerializer serializer];
+    manager<span class="variable">.responseSerializer</span> = [AFJSONResponseSerializer serializer];
+    [manager POST:url parameters:<span class="literal">nil</span> constructingBodyWithBlock:^(<span class="keyword">id</span>&lt;AFMultipartFormData&gt; formData) {
+        <span class="comment">// 上传图片，以文件流的格式，这里注意：name是指服务器端的文件夹名字</span>
+        [formData appendPartWithFileData:imageData name:<span class="string">@"file"</span> fileName:fileName mimeType:<span class="string">@"image/jpeg"</span>];
+    } success:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject) {
+        <span class="comment">//上传成功时的回调</span>
+        [hud hideAnimated:<span class="literal">YES</span>];
+        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,responseObject);
+        finish(responseObject,<span class="literal">nil</span>);
+    } failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error) {
+        <span class="comment">//失败时的回调</span>
+        [hud hideAnimated:<span class="literal">YES</span>];
+        finish(<span class="literal">nil</span>,error);
+    }];
 }
-</code></pre></li>
-</ol>
+</code></pre><p>2.多张图片上传</p>
+<pre><code><span class="comment">// 上传图片（多张）</span>
++(<span class="keyword">void</span>)uploadPhotoAndController:(<span class="built_in">UIViewController</span> *)controller WithSize:(<span class="built_in">CGSize</span>)size Image:(<span class="built_in">UIImage</span>*)image AndFinish:(<span class="keyword">void</span> (^)(<span class="built_in">NSDictionary</span> *, <span class="built_in">NSError</span> *))finish
+{
+    <span class="comment">//加载提示菊花</span>
+    MBProgressHUD *hud;
+    <span class="keyword">if</span>(controller){
+        hud = [MBProgressHUD showHUDAddedTo:controller<span class="variable">.view</span> animated:<span class="literal">YES</span>];
+        hud<span class="variable">.label</span><span class="variable">.text</span> = <span class="built_in">NSLocalizedString</span>(<span class="string">@"加载中..."</span>, <span class="string">@"HUD loading title"</span>);
+    }
+
+    <span class="comment">//1. 存放图片的服务器地址，这里我用的宏定义</span>
+    <span class="built_in">NSString</span> * url = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@%@"</span>,Hx_Main_heard_API,IMAGE_UPLOAD_URL_API];
+
+    <span class="comment">//2. 发起网络请求</span>
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager<span class="variable">.requestSerializer</span> = [AFHTTPRequestSerializer serializer];
+    manager<span class="variable">.responseSerializer</span> = [AFJSONResponseSerializer serializer];    
+    [manager POST:url parameters:<span class="literal">nil</span> constructingBodyWithBlock:^(<span class="keyword">id</span>&lt;AFMultipartFormData&gt; formData)
+    {
+        <span class="comment">// 上传多张图片</span>
+        <span class="keyword">for</span>(<span class="built_in">NSInteger</span> i = <span class="number">0</span>; i &lt; <span class="keyword">self</span><span class="variable">.imageDataArray</span><span class="variable">.count</span>; i++)
+        {
+            <span class="comment">//取出单张图片二进制数据</span>
+            <span class="built_in">NSData</span> * imageData = <span class="keyword">self</span><span class="variable">.imageDataArray</span>[i];
+
+            <span class="comment">// 上传的参数名，在服务器端保存文件的文件夹名</span>
+            <span class="built_in">NSString</span> * Name = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@%ld"</span>, Image_Name, i+<span class="number">1</span>];
+            <span class="comment">// 上传filename</span>
+            <span class="built_in">NSString</span> * fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@.jpg"</span>, Name];
+
+            [formData appendPartWithFileData:imageData name:Name fileName:fileName mimeType:<span class="string">@"image/jpeg"</span>];
+        }
+    }
+    success:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject)
+     {
+         <span class="comment">//上传成功时的回调</span>
+        [hud hideAnimated:<span class="literal">YES</span>];
+        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,responseObject);
+        finish(responseObject,<span class="literal">nil</span>);           
+     }
+     failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error)
+     {
+         <span class="comment">//失败时的回调</span>
+        [hud hideAnimated:<span class="literal">YES</span>];
+        finish(<span class="literal">nil</span>,error);
+     }];
+}
+</code></pre><p>PS:上传图片前，必须先压缩图片，不然图片过大，可能会导致上传失败！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cin6scmzs0009ng0jo36taml8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cin6scn0x001ang0jnchcpc1t" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片上传/">图片上传</a></li></ul>
 
     </footer>
   </div>
@@ -132,19 +204,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/08/16/UICollectionview的使用详解/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">UICollectionview的使用详解</div>
+      <div class="article-nav-title">UIImagePickerController获取图片（拍照、相册、图库）详解</div>
     </a>
   
 </nav>

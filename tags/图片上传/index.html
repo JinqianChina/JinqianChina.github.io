@@ -3,34 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了 | Jinge&#39;blog</title>
+  <title>Tag: 图片上传 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。
-下面说说怎么让状态栏在横屏时显示出来：
-
-在plist文件中将 View controller-based status bar appearance 设置为 NO
-
-在ap">
-<meta property="og:type" content="article">
-<meta property="og:title" content="横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了">
-<meta property="og:url" content="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/index.html">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jinge'blog">
+<meta property="og:url" content="http://yoursite.com/tags/图片上传/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description" content="上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。
-下面说说怎么让状态栏在横屏时显示出来：
-
-在plist文件中将 View controller-based status bar appearance 设置为 NO
-
-在ap">
-<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/iOS8显示电池状态栏1.png">
-<meta property="og:updated_time" content="2015-12-21T08:45:42.000Z">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了">
-<meta name="twitter:description" content="上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。
-下面说说怎么让状态栏在横屏时显示出来：
-
-在plist文件中将 View controller-based status bar appearance 设置为 NO
-
-在ap">
+<meta name="twitter:title" content="Jinge'blog">
+<meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -80,78 +63,39 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" class="article-date">
-  <time datetime="2015-09-17T04:38:58.000Z" itemprop="datePublished">2015-09-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/04/19/iOS用AFN上传图片到服务器/" class="archive-article-date">
+  <time datetime="2016-04-19T02:01:40.000Z" itemprop="datePublished">Apr 19</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/04/19/iOS用AFN上传图片到服务器/">iOS用AFN上传图片到服务器</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上次开发过程遇到有个页面横屏显示，当设置横屏展示时，就没有电池状态栏了。查了一些资料才发现，原来<br>横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了，是因为iOS8默认横屏时将电池状态栏隐藏了，这是iOS8的新特性。</p>
-<p>下面说说怎么让状态栏在横屏时显示出来：</p>
-<ol>
-<li><p>在plist文件中将 View controller-based status bar appearance 设置为 NO<br><img src="http://7xosy6.com1.z0.glb.clouddn.com/iOS8显示电池状态栏1.png" alt="Mou icon"></p>
-</li>
-<li><p>在appdelegate.m中的- (BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions 方法中添加下面代码即可。</p>
-<pre><code>- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions
-{
-
-    [[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarHidden:<span class="literal">YES</span> withAnimation:<span class="built_in">UIStatusBarAnimationNone</span>];
-    [[<span class="built_in">UIApplication</span> sharedApplication] setStatusBarHidden:<span class="literal">NO</span> withAnimation:<span class="built_in">UIStatusBarAnimationNone</span>];
-    <span class="keyword">return</span> <span class="literal">YES</span>;
-}
-</code></pre></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2015/09/17/横屏时，ios7上有电池状态栏，在iOS8就没有电池状态栏了/" data-id="cin6scmzs0009ng0jo36taml8" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/09/17/iOS6的单个控制器横竖屏显示以及旋转屏控制技巧/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          iOS6以后的单个控制器横竖屏显示以及旋转屏控制技巧
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/08/16/UICollectionview的使用详解/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">UICollectionview的使用详解</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
+  
+  
+    </div></section>
+  
 </section>
         
           <aside id="sidebar">
