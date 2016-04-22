@@ -17,7 +17,7 @@
 目前我所了解和掌握的传值方式有：属性传值、代理传值、Block传值、KVO传值、通知传值、单例传值、KVC传值。
 下面我们来一一看下它们究竟是怎样进行操作和传值的呢？
 假设">
-<meta property="og:updated_time" content="2016-04-22T08:33:43.000Z">
+<meta property="og:updated_time" content="2016-04-22T08:36:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ios页面传值：正向、反向">
 <meta name="twitter:description" content="iOS开发中，页面传值是很常见的，但是页面传值你究竟知道多少呢？笔者这篇文章就是给大家介绍一下页面传值的具体方式，有不足之处，欢迎大家指正，希望能和大家共同进步。说明一下：这里所说的正向、反向传值是指相关联的两个页面间的传值。
@@ -100,230 +100,214 @@
 <p>下面我们来一一看下它们究竟是怎样进行操作和传值的呢？</p>
 <p>假设我们现在有控制器（页面）A和控制器（页面）B，A-&gt;push-&gt;B，即A是B的上一个页面（控制器）。</p>
 <ol>
-<li><p>属性传值</p>
-<p> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
+<li><p>属性传值<br> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
 <p> A控制器.m文件：</p>
-<pre><code><span class="id">#import</span> <span class="string">"A_ViewController.h"</span>
-<span class="id">#import</span> <span class="string">"B_ViewController.h"</span>
-</code></pre></li>
-</ol>
-<pre><code>    <span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
+<pre><code><span class="preprocessor">#import <span class="title">"A_ViewController.h"</span></span>
+<span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
 
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *aTextField;
+<span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
 
-    <span class="keyword">@end</span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *aTextField;
 
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
+<span class="keyword">@end</span>
 
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
+<span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
 
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.aTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
 
-        <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aTextField</span>];
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.aTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
 
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+    <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aTextField</span>];
 
-    }
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
 
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+}
 
-        <span class="comment">/**
-         什么时候可以用 属性 传值
-
-         A 传到 B，正向传值
-
-         B 在 A页面 提前初始化
-
-         **/</span>
-
-        B_ViewController *bViewController = [[B_ViewController alloc] init];
-        bViewController<span class="variable">.string</span> = <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span>;
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
-
-
-    }
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.h</span>文件：
-
-    <span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *string;
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.m</span>文件：
-
-    <span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="built_in">UILabel</span> *bLabel = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        bLabel<span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        bLabel<span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:bLabel];
-
-        bLabel<span class="variable">.text</span> = <span class="keyword">self</span><span class="variable">.string</span>;
-    }
-
-    <span class="keyword">@end</span>
-</code></pre><ol>
-<li><p>代理传值</p>
-<p> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
-<p> A控制器.m文件：</p>
-<pre><code><span class="id">#import</span> <span class="string">"A_ViewController.h"</span>
-<span class="id">#import</span> <span class="string">"B_ViewController.h"</span>
-</code></pre></li>
-</ol>
-<pre><code>    <span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> () &lt;<span class="title">BToADelegate</span>&gt;</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UILabel</span> *aLabel;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.aLabel</span> = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aLabel</span>];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"push到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-    }
-
-    -(<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-
-        B_ViewController *bViewController = [[B_ViewController alloc] init];
-        <span class="comment">//设置代理</span>
-        bViewController<span class="variable">.delegate</span> = <span class="keyword">self</span>;
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
-    }
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
 
     <span class="comment">/**
-     什么时候可以用 代理 传值
+     什么时候可以用 属性 传值
 
-     B 传到 A，反向传值
+     A 传到 B，正向传值
 
-     B 在 A页面 初始化
-
-     设置A为B的代理
-
-     执行代理方法
+     B 在 A页面 提前初始化
 
      **/</span>
-    - (<span class="keyword">void</span>)transferString:(<span class="built_in">NSString</span> *)string {
 
-        <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.text</span> = string;
+    B_ViewController *bViewController = [[B_ViewController alloc] init];
+    bViewController<span class="variable">.string</span> = <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span>;
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
+
+}
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.h文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *string;
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.m文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="built_in">UILabel</span> *bLabel = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    bLabel<span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    bLabel<span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:bLabel];
+
+    bLabel<span class="variable">.text</span> = <span class="keyword">self</span><span class="variable">.string</span>;
+}
+
+<span class="keyword">@end</span>
+</code></pre></li>
+<li><p>代理传值<br> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
+<p> A控制器.m文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"A_ViewController.h"</span></span>
+<span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> () &lt;<span class="title">BToADelegate</span>&gt;</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UILabel</span> *aLabel;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.aLabel</span> = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aLabel</span>];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"push到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+
+}
+
+-(<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+
+    B_ViewController *bViewController = [[B_ViewController alloc] init];
+    <span class="comment">//设置代理</span>
+    bViewController<span class="variable">.delegate</span> = <span class="keyword">self</span>;
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
+}
+
+<span class="comment">/**
+ 什么时候可以用 代理 传值
+
+ B 传到 A，反向传值
+
+ B 在 A页面 初始化
+
+ 设置A为B的代理
+
+ 执行代理方法
+
+ **/</span>
+- (<span class="keyword">void</span>)transferString:(<span class="built_in">NSString</span> *)string {
+
+    <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.text</span> = string;
+}
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.h文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
+
+<span class="comment">// 声明代理</span>
+<span class="class"><span class="keyword">@protocol</span> <span class="title">BToADelegate</span> &lt;<span class="title">NSObject</span>&gt;</span>
+
+<span class="comment">// 代理方法</span>
+- (<span class="keyword">void</span>)transferString:(<span class="built_in">NSString</span> *)string;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
+
+<span class="comment">// 代理属性</span>
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="keyword">id</span>&lt;BToADelegate&gt; delegate;
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.m文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+
+}
+
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+
+    <span class="comment">// 判断有没有代理以及代理是否响应代理方法</span>
+    <span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.delegate</span> &amp;&amp; [<span class="keyword">self</span><span class="variable">.delegate</span> respondsToSelector:<span class="keyword">@selector</span>(transferString:)]) {
+        [<span class="keyword">self</span><span class="variable">.delegate</span> transferString:<span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>];
     }
 
-    <span class="keyword">@end</span>
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
+}
 
-B控制器<span class="variable">.h</span>文件：
-
-    <span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
-
-    <span class="comment">// 声明代理</span>
-    <span class="class"><span class="keyword">@protocol</span> <span class="title">BToADelegate</span> &lt;<span class="title">NSObject</span>&gt;</span>
-
-    <span class="comment">// 代理方法</span>
-    - (<span class="keyword">void</span>)transferString:(<span class="built_in">NSString</span> *)string;
-
-    <span class="keyword">@end</span>
-
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
-
-    <span class="comment">// 代理属性</span>
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="keyword">id</span>&lt;BToADelegate&gt; delegate;
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.m</span>文件：
-
-    <span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
-
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-    }
-
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-
-        <span class="comment">// 判断有没有代理以及代理是否响应代理方法</span>
-        <span class="keyword">if</span> (<span class="keyword">self</span><span class="variable">.delegate</span> &amp;&amp; [<span class="keyword">self</span><span class="variable">.delegate</span> respondsToSelector:<span class="keyword">@selector</span>(transferString:)]) {
-            [<span class="keyword">self</span><span class="variable">.delegate</span> transferString:<span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>];
-        }
-
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
-    }
-
-    <span class="keyword">@end</span>
-</code></pre><ol>
-<li><p>Block传值</p>
-<p> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
+<span class="keyword">@end</span>
+</code></pre></li>
+<li><p>Block传值<br> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
 <p> A控制器.m文件：</p>
 <pre><code><span class="preprocessor">#import <span class="title">"A_ViewController.h"</span></span>
 <span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
@@ -380,328 +364,310 @@ B控制器<span class="variable">.m</span>文件：
 <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>)BToAblock block;
 
 <span class="keyword">@end</span>
+</code></pre><p> B控制器.m文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+
+}
+
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+    <span class="comment">/**
+     Blcok 传值
+
+     反向传值
+
+     B 传到 A
+     */</span>
+    _block(<span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>);
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
+}
+
+<span class="keyword">@end</span>
 </code></pre></li>
-</ol>
-<pre><code>B控制器<span class="variable">.m</span>文件：
-
-    <span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-    }
-
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-        <span class="comment">/**
-         Blcok 传值
-
-         反向传值
-
-         B 传到 A
-         */</span>
-        _block(<span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>);
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
-    }
-
-    <span class="keyword">@end</span>
-</code></pre><ol>
-<li><p>KVO传值</p>
-<p> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
+<li><p>KVO传值<br> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
 <p> A控制器.m文件：</p>
-<pre><code><span class="id">#import</span> <span class="string">"A_ViewController.h"</span>
-<span class="id">#import</span> <span class="string">"B_ViewController.h"</span>
+<pre><code><span class="preprocessor">#import <span class="title">"A_ViewController.h"</span></span>
+<span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UILabel</span> *aLabel;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) B_ViewController *bViewController;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.aLabel</span> = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aLabel</span>];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"push到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+
+    <span class="comment">/**
+     KVO 创建 三步一定要写
+        1. 注册观察者
+        2. KVO的回调
+        3. 移除观察者
+
+     */</span>
+
+    <span class="comment">// B 传到 A ，反向传值</span>
+    <span class="comment">//注册观察者，注意：观察者的注册和移除要对应，如果移除时发现没有注册观察者，程序会crash</span>
+     <span class="keyword">self</span><span class="variable">.bViewController</span> = [[B_ViewController alloc] init];
+    [<span class="keyword">self</span><span class="variable">.bViewController</span> addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"string"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> context:<span class="literal">nil</span>];
+}
+
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:<span class="keyword">self</span><span class="variable">.bViewController</span> animated:<span class="literal">YES</span>];
+
+}
+
+<span class="comment">// KVO的回调</span>
+- (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath ofObject:(<span class="keyword">id</span>)object change:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *,<span class="keyword">id</span>&gt; *)change context:(<span class="keyword">void</span> *)context {
+
+    <span class="keyword">if</span> ([keyPath isEqualToString:<span class="string">@"string"</span>]) {
+        <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.text</span> = <span class="keyword">self</span><span class="variable">.bViewController</span><span class="variable">.string</span>;
+    }
+
+}
+<span class="comment">// KVO 的移除方式  （和通知一样要移除）</span>
+- (<span class="keyword">void</span>)dealloc {
+
+    [<span class="keyword">self</span><span class="variable">.bViewController</span> removeObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"string"</span>];
+}
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.h文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *string;
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.m文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+
+}
+
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+    <span class="comment">// KVO</span>
+    <span class="comment">// 把self.bTextfield.text 赋值给当前属性</span>
+    <span class="comment">// 在A中 监听 当前属性</span>
+    <span class="keyword">self</span><span class="variable">.string</span> = <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>;
+
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
+}
+
+<span class="keyword">@end</span>
 </code></pre></li>
-</ol>
-<pre><code>    <span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UILabel</span> *aLabel;
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) B_ViewController *bViewController;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.aLabel</span> = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aLabel</span>];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"push到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-        <span class="comment">/**
-         KVO 创建 三步一定要写
-            1. 注册观察者
-            2. KVO的回调
-            3. 移除观察者
-
-         */</span>
-
-        <span class="comment">// B 传到 A ，反向传值</span>
-        <span class="comment">//注册观察者，注意：观察者的注册和移除要对应，如果移除时发现没有注册观察者，程序会crash</span>
-         <span class="keyword">self</span><span class="variable">.bViewController</span> = [[B_ViewController alloc] init];
-        [<span class="keyword">self</span><span class="variable">.bViewController</span> addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"string"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> context:<span class="literal">nil</span>];
-    }
-
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:<span class="keyword">self</span><span class="variable">.bViewController</span> animated:<span class="literal">YES</span>];
-
-    }
-
-    <span class="comment">// KVO的回调</span>
-    - (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath ofObject:(<span class="keyword">id</span>)object change:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *,<span class="keyword">id</span>&gt; *)change context:(<span class="keyword">void</span> *)context {
-
-        <span class="keyword">if</span> ([keyPath isEqualToString:<span class="string">@"string"</span>]) {
-            <span class="keyword">self</span><span class="variable">.aLabel</span><span class="variable">.text</span> = <span class="keyword">self</span><span class="variable">.bViewController</span><span class="variable">.string</span>;
-        }
-
-    }
-    <span class="comment">// KVO 的移除方式  （和通知一样要移除）</span>
-    - (<span class="keyword">void</span>)dealloc {
-
-        [<span class="keyword">self</span><span class="variable">.bViewController</span> removeObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"string"</span>];
-    }
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.h</span>文件：
-
-    <span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *string;
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.m</span>文件：
-
-    <span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-    }
-
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-        <span class="comment">// KVO</span>
-        <span class="comment">// 把self.bTextfield.text 赋值给当前属性</span>
-        <span class="comment">// 在A中 监听 当前属性</span>
-        <span class="keyword">self</span><span class="variable">.string</span> = <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>;
-
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
-    }
-
-    <span class="keyword">@end</span>
-</code></pre><ol>
-<li><p>通知传值</p>
-<p> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
+<li><p>通知传值<br> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
 <p> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
 <p> 我们在此将两种传值情况写到一个Demo中，所以将上述Label换为Textfield即可，如下：</p>
 <p> A控制器.m文件：</p>
-<pre><code><span class="id">#import</span> <span class="string">"A_ViewController.h"</span>
-<span class="id">#import</span> <span class="string">"B_ViewController.h"</span>
+<pre><code><span class="preprocessor">#import <span class="title">"A_ViewController.h"</span></span>
+<span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *aTextField;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.aTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aTextField</span>];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+
+    <span class="comment">// 接收通知</span>
+    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(tzAction:) name:<span class="string">@"B2A"</span> object:<span class="literal">nil</span>];
+}
+
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+
+    <span class="comment">// 通知传值 一般是用于回传</span>
+
+    <span class="comment">// 现在是 A传到B，正向传值</span>
+
+    <span class="comment">// 发送通知的方法 要写在执行方法里面</span>
+
+    B_ViewController *bViewController = [[B_ViewController alloc] init];
+
+    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"A2B"</span> object:<span class="literal">nil</span> userInfo:@{<span class="string">@"key"</span>:<span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span>}];
+
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
+
+}
+
+<span class="comment">// 回调通知</span>
+- (<span class="keyword">void</span>)tzAction:(<span class="built_in">NSNotification</span> *)sender {
+
+    <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span> = sender<span class="variable">.userInfo</span>[<span class="string">@"key"</span>];
+}
+
+<span class="comment">// 移除通知</span>
+- (<span class="keyword">void</span>)dealloc {
+
+    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];
+}
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.m文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+}
+
+<span class="comment">//如果是从A传到B的话,B.m里要创建一个init方法,在里面写监听并在里面创建接收容器才能成功(因为程序先执行init方法再到viewDidLoad方法,当传值过去时在init就开始监听,如果这里没有创建textField接收,那就传不过去了,所以要在init里同时创建接收器(生命周期的问题));</span>
+-(instancetype)init
+{
+    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) {
+
+        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(tzAction:) name:<span class="string">@"A2B"</span> object:<span class="literal">nil</span>];
+
+        <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
+
+    }
+
+    <span class="keyword">return</span> <span class="keyword">self</span>;
+}
+
+<span class="comment">//接收通知</span>
+- (<span class="keyword">void</span>)tzAction:(<span class="built_in">NSNotification</span> *)sender {
+
+    <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span> = sender<span class="variable">.userInfo</span>[<span class="string">@"key"</span>];
+
+}
+
+<span class="comment">// 移除通知</span>
+- (<span class="keyword">void</span>)dealloc  {
+
+    <span class="comment">// 移除所有</span>
+    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];
+
+    <span class="comment">// 移除某个</span>
+    <span class="comment">// [[NSNotificationCenter defaultCenter] removeObserver:self name:@"tz" object:nil];</span>
+}
+
+<span class="comment">//发送通知</span>
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+    <span class="comment">// B传到A，反向传值</span>
+    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"B2A"</span> object:<span class="literal">nil</span> userInfo:@{<span class="string">@"key"</span>:<span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>}];
+
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
+
+}
+
+<span class="keyword">@end</span>
 </code></pre></li>
-</ol>
-<pre><code>    <span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *aTextField;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.aTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aTextField</span>];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-        <span class="comment">// 接收通知</span>
-        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(tzAction:) name:<span class="string">@"B2A"</span> object:<span class="literal">nil</span>];
-    }
-
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-
-        <span class="comment">// 通知传值 一般是用于回传</span>
-
-        <span class="comment">// 现在是 A传到B，正向传值</span>
-
-        <span class="comment">// 发送通知的方法 要写在执行方法里面</span>
-
-        B_ViewController *bViewController = [[B_ViewController alloc] init];
-
-        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"A2B"</span> object:<span class="literal">nil</span> userInfo:@{<span class="string">@"key"</span>:<span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span>}];
-
-
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
-
-    }
-
-    <span class="comment">// 回调通知</span>
-    - (<span class="keyword">void</span>)tzAction:(<span class="built_in">NSNotification</span> *)sender {
-
-        <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span> = sender<span class="variable">.userInfo</span>[<span class="string">@"key"</span>];
-    }
-
-    <span class="comment">// 移除通知</span>
-    - (<span class="keyword">void</span>)dealloc {
-
-        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];
-    }
-
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.m</span>文件：
-
-    <span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *bTextField;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-    }
-
-    <span class="comment">//如果是从A传到B的话,B.m里要创建一个init方法,在里面写监听并在里面创建接收容器才能成功(因为程序先执行init方法再到viewDidLoad方法,当传值过去时在init就开始监听,如果这里没有创建textField接收,那就传不过去了,所以要在init里同时创建接收器(生命周期的问题));</span>
-    -(instancetype)init
-    {
-        <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) {
-
-
-            [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(tzAction:) name:<span class="string">@"A2B"</span> object:<span class="literal">nil</span>];
-
-            <span class="keyword">self</span><span class="variable">.bTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-            <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-            <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-            [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.bTextField</span>];
-
-        }
-
-
-        <span class="keyword">return</span> <span class="keyword">self</span>;
-    }
-
-    <span class="comment">//接收通知</span>
-    - (<span class="keyword">void</span>)tzAction:(<span class="built_in">NSNotification</span> *)sender {
-
-        <span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span> = sender<span class="variable">.userInfo</span>[<span class="string">@"key"</span>];
-
-    }
-
-    <span class="comment">// 移除通知</span>
-    - (<span class="keyword">void</span>)dealloc  {
-
-        <span class="comment">// 移除所有</span>
-        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];
-
-        <span class="comment">// 移除某个</span>
-        <span class="comment">// [[NSNotificationCenter defaultCenter] removeObserver:self name:@"tz" object:nil];</span>
-    }
-
-    <span class="comment">//发送通知</span>
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-        <span class="comment">// B传到A，反向传值</span>
-        [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"B2A"</span> object:<span class="literal">nil</span> userInfo:@{<span class="string">@"key"</span>:<span class="keyword">self</span><span class="variable">.bTextField</span><span class="variable">.text</span>}];
-
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
-
-    }
-
-    <span class="keyword">@end</span>
-</code></pre><ol>
-<li><p>单例传值</p>
-<p> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
+<li><p>单例传值<br> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
 <p> 用法：反向传值：<br> 需求：A-push到B，当B消失的时候，A中有一个Label需要显示从B中的一个TextField输入的内容，这时我们需要用到反向传值。</p>
 <p> 我们在此将两种传值情况写到一个Demo中，所以将上述Label换为Textfield即可，如下：</p>
 <p> A控制器.m文件：</p>
@@ -844,119 +810,112 @@ B控制器<span class="variable">.m</span>文件：
 
 <span class="keyword">@end</span>
 </code></pre></li>
-<li><p>KVC传值</p>
-<p> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
+<li><p>KVC传值<br> 用法：正向传值<br> 需求：当A-push到B时，B中有一个Label需要显示从A中的一个TextField输入的内容，这时我们需要用到正向传值。</p>
 <p> A控制器.m文件：</p>
-<pre><code><span class="id">#import</span> <span class="string">"A_ViewController.h"</span>
-<span class="id">#import</span> <span class="string">"B_ViewController.h"</span>
+<pre><code><span class="preprocessor">#import <span class="title">"A_ViewController.h"</span></span>
+<span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *aTextField;
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+    <span class="comment">// Do any additional setup after loading the view.</span>
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="keyword">self</span><span class="variable">.aTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aTextField</span>];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+}
+
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+
+    B_ViewController *bViewController = [[B_ViewController alloc] init];
+
+    <span class="comment">/**
+        KVC 传值：这里只能传A传到B （因为 B在A页面提前初始化）
+        B 有个属性 string
+        用B对象 给B属性赋值（回顾下OC中KVC赋值 就理解了）
+
+        这里forkey 一定要和B 属性名字一致 （也可以用@"_string"）因为是属性
+     */</span>
+
+    <span class="comment">// 给B属性string  赋值</span>
+    [bViewController setValue:<span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span> forKey:<span class="string">@"string"</span>];
+
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
+}
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.h文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *string;
+
+<span class="keyword">@end</span>
+</code></pre><p> B控制器.m文件：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
+
+<span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
+
+<span class="keyword">@end</span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
+
+- (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+
+    <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+
+    <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
+    <span class="built_in">UILabel</span> *bLabel = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
+
+    bLabel<span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
+    bLabel<span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:bLabel];
+
+    <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
+    button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
+    [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
+    [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
+    [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
+
+    <span class="comment">// KVC 接收值</span>
+    bLabel<span class="variable">.text</span> = <span class="keyword">self</span><span class="variable">.string</span>;
+}
+
+- (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
+
+    [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
+}
+
+<span class="keyword">@end</span>
 </code></pre></li>
 </ol>
-<pre><code>    <span class="class"><span class="keyword">@interface</span> <span class="title">A_ViewController</span> ()</span>
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UITextField</span> *aTextField;
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">A_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-        <span class="comment">// Do any additional setup after loading the view.</span>
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"A"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="keyword">self</span><span class="variable">.aTextField</span> = [[<span class="built_in">UITextField</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        <span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:<span class="keyword">self</span><span class="variable">.aTextField</span>];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传到B"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-    }
-
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-
-        B_ViewController *bViewController = [[B_ViewController alloc] init];
-
-        <span class="comment">/**
-            KVC 传值：这里只能传A传到B （因为 B在A页面提前初始化）
-            B 有个属性 string
-            用B对象 给B属性赋值（回顾下OC中KVC赋值 就理解了）
-
-            这里forkey 一定要和B 属性名字一致 （也可以用@"_string"）因为是属性
-         */</span>
-
-        <span class="comment">// 给B属性string  赋值</span>
-        [bViewController setValue:<span class="keyword">self</span><span class="variable">.aTextField</span><span class="variable">.text</span> forKey:<span class="string">@"string"</span>];
-
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> pushViewController:bViewController animated:<span class="literal">YES</span>];
-    }
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.h</span>文件：
-
-    <span class="preprocessor">#import <span class="title">&lt;UIKit/UIKit.h&gt;</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> : <span class="title">UIViewController</span></span>
-
-
-    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *string;
-
-    <span class="keyword">@end</span>
-
-B控制器<span class="variable">.m</span>文件：
-
-    <span class="preprocessor">#import <span class="title">"B_ViewController.h"</span></span>
-
-    <span class="class"><span class="keyword">@interface</span> <span class="title">B_ViewController</span> ()</span>
-
-    <span class="keyword">@end</span>
-
-    <span class="class"><span class="keyword">@implementation</span> <span class="title">B_ViewController</span></span>
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-        [<span class="keyword">super</span> viewDidLoad];
-
-        <span class="keyword">self</span><span class="variable">.title</span> = <span class="string">@"B"</span>;
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-
-        <span class="keyword">self</span><span class="variable">.view</span><span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> whiteColor];
-        <span class="built_in">UILabel</span> *bLabel = [[<span class="built_in">UILabel</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">200</span>, <span class="number">100</span>, <span class="number">30</span>)];
-
-        bLabel<span class="variable">.layer</span><span class="variable">.borderColor</span> = [<span class="built_in">UIColor</span> grayColor]<span class="variable">.CGColor</span>;
-        bLabel<span class="variable">.layer</span><span class="variable">.borderWidth</span> = <span class="number">1</span>;
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:bLabel];
-
-        <span class="built_in">UIButton</span> *button = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];
-        button<span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>([<span class="built_in">UIScreen</span> mainScreen]<span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>/<span class="number">2</span>-<span class="number">50</span>, <span class="number">280</span>, <span class="number">100</span>, <span class="number">30</span>);
-        [button setTitleColor:[<span class="built_in">UIColor</span> grayColor] forState:<span class="built_in">UIControlStateNormal</span>];
-        [button setTitle:<span class="string">@"传值A"</span> forState:<span class="built_in">UIControlStateNormal</span>];
-        [button addTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(buttonAction:) forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];
-        [<span class="keyword">self</span><span class="variable">.view</span> addSubview:button];
-
-        <span class="comment">// KVC 接收值</span>
-        bLabel<span class="variable">.text</span> = <span class="keyword">self</span><span class="variable">.string</span>;
-    }
-
-    - (<span class="keyword">void</span>)buttonAction:(<span class="built_in">UIButton</span> *)sender {
-
-        [<span class="keyword">self</span><span class="variable">.navigationController</span> popToRootViewControllerAnimated:<span class="literal">YES</span>];
-    }
-
-    <span class="keyword">@end</span>
-</code></pre><p>好了，到此已经基本上介绍完页面传值了，相信你对页面传值已经有一定理解了吧，快去实践吧！</p>
+<p>好了，到此已经基本上介绍完页面传值了，相信你对页面传值已经有一定理解了吧，快去实践吧！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cinbgn7yy001akf0j50q7b01e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cinbgr4gi001ald0jo439xj2k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/页面传值/">页面传值</a></li></ul>
