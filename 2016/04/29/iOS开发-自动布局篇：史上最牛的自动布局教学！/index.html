@@ -43,7 +43,7 @@ UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通�
 <meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_12.png">
 <meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_13.png">
 <meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_14.png">
-<meta property="og:updated_time" content="2016-04-29T05:32:55.000Z">
+<meta property="og:updated_time" content="2016-04-29T05:49:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发-自动布局篇：史上最牛的自动布局教学！">
 <meta name="twitter:description" content="本文我们将提到：
@@ -138,17 +138,13 @@ UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通�
 <p>一、AutoLayout介绍</p>
 <p>UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通过UI控件的Frame属性和Autoresizing Mask来进行UI布局的。AutoLayout则是苹果公司在iOS6推出的一种基于约束的，描述性的布局系统。自从AutoLayout问世以来，逐步得到了iOS开发者们的青睐，尤其是iPhone6机型尺寸的出现，让AutoLayout从此走向人生巅峰，迎娶白富美，当上UI布局界的老大。~_~，好了，不扯淡了，下面来看看它的特殊之处。</p>
 <p>AutoLayout占据UI布局的主要领导位置依赖于它的特殊性：</p>
-<pre><code><span class="number">1.</span> 基于约束：和以往定义frame的位置和尺寸不同，AutoLayout的位置确定是以所谓相对位置的约束来定义的，比如x坐标为superView的中心，y坐标为屏幕底部上方<span class="number">10</span>像素等
-<span class="number">2.</span> 描述性：  约束的定义和各个view的关系使用接近自然语言或者可视化语言（稍后会提到）的方法来进行描述
-<span class="number">3.</span> 布局系统：即字面意思，用来负责界面的各个元素的位置。
-</code></pre><p>总而言之，AutoLayout为开发者提供了一种不同于传统对于UI元素位置指定的布局方法。以前，不论是在IB里拖放，还是在代码中写，每个UIView都会有自己的frame属性，来定义其在当前视图中的位置和尺寸。使用AutoLayout的话，就变为了使用约束条件来定义view的位置和尺寸。这样的最大好处是一举解决了不同分辨率和屏幕尺寸下view的适配问题，另外也简化了旋转时view的位置的定义，原来在底部之上10像素居中的view，不论在旋转屏幕或是更换设备（iPad或者iPhone5或者以后可能出现的mini iPad）的时候，始终还在底部之上10像素居中的位置，不会发生变化。 总的来说：使用约束条件来描述布局，view的frame会依据这些约束来进行计算。</p>
+<p>  1.基于约束：和以往定义frame的位置和尺寸不同，AutoLayout的位置确定是以所谓相对位置的约束来定义的，比如x坐标为superView的中心，y坐标为屏幕底部上方10像素等<br>  2.描述性：  约束的定义和各个view的关系使用接近自然语言或者可视化语言（稍后会提到）的方法来进行描述<br>  3.布局系统：即字面意思，用来负责界面的各个元素的位置。</p>
+<p>总而言之，AutoLayout为开发者提供了一种不同于传统对于UI元素位置指定的布局方法。以前，不论是在IB里拖放，还是在代码中写，每个UIView都会有自己的frame属性，来定义其在当前视图中的位置和尺寸。使用AutoLayout的话，就变为了使用约束条件来定义view的位置和尺寸。这样的最大好处是一举解决了不同分辨率和屏幕尺寸下view的适配问题，另外也简化了旋转时view的位置的定义，原来在底部之上10像素居中的view，不论在旋转屏幕或是更换设备（iPad或者iPhone5或者以后可能出现的mini iPad）的时候，始终还在底部之上10像素居中的位置，不会发生变化。 总的来说：使用约束条件来描述布局，view的frame会依据这些约束来进行计算。</p>
 <p>二、AutoLayout使用原理：</p>
 <ol>
 <li><p>创建约束，iOS6中新加入了一个类：NSLayoutConstraint。它的约束满足这个公式：</p>
-<p> item1.attribute = multiplier ⨉ item2.attribute + constant</p>
-</li>
-</ol>
-<p>对应的代码为</p>
+<pre><code>item1<span class="class">.attribute</span> = multiplier ⨉ item2<span class="class">.attribute</span> + constant
+</code></pre><p> 对应的代码为</p>
 <pre><code><span class="comment">//view_1(红色)top 距离self.view的top</span>
 <span class="built_in">NSLayoutConstraint</span> *view_1TopToSuperViewTop = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
                                                                            attribute:<span class="built_in">NSLayoutAttributeTop</span>
@@ -157,26 +153,28 @@ UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通�
                                                                            attribute:<span class="built_in">NSLayoutAttributeTop</span>
                                                                           multiplier:<span class="number">1</span>
                                                                             constant:<span class="number">30</span>];
-</code></pre><p>这里对应的约束是“view_1的顶部（y）＝ self.view的顶部(y)*1 + 30”。</p>
-<ol>
+</code></pre><p> 这里对应的约束是“view_1的顶部（y）＝ self.view的顶部(y)*1 + 30”。</p>
+</li>
 <li><p>添加约束，在创建约束之后，需要将其添加到作用的view上。UIView添加约束的实例方法：</p>
 <pre><code>- (<span class="keyword">void</span>)addConstraint:(<span class="built_in">NSLayoutConstraint</span> *)constraint <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">6</span>_0);
 - (<span class="keyword">void</span>)addConstraints:(<span class="built_in">NSArray</span>&lt;__kindof <span class="built_in">NSLayoutConstraint</span> *&gt; *)constraints <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">6</span>_0); 
-</code></pre></li>
-</ol>
-<p>用来将约束添加到view。在添加时唯一要注意的是添加的目标view要遵循以下规则：<br>   1.对于两个同层级view之间的约束关系，添加到他们的父view上<br>    <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_4.jpg" alt="Mou icon"><br>   2.对于两个不同层级view之间的约束关系，添加到他们最近的共同父view上<br>    <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_5.jpg" alt="Mou icon"><br>   3.对于有层次关系的两个view之间的约束关系，添加到层次较高的父view上<br>    <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_6.jpg" alt="Mou icon"></p>
-<ol>
-<li>刷新约束，可以通过-setNeedsUpdateConstraints和-layoutIfNeeded两个方法来刷新约束的改变，使UIView重新布局。</li>
+</code></pre><p> 用来将约束添加到view。在添加时唯一要注意的是添加的目标view要遵循以下规则：</p>
+<p> 1.对于两个同层级view之间的约束关系，添加到他们的父view上</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_4.jpg" alt="Mou icon"> </p>
+<p> 2.对于两个不同层级view之间的约束关系，添加到他们最近的共同父view上</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_5.jpg" alt="Mou icon"></p>
+<p> 3.对于有层次关系的两个view之间的约束关系，添加到层次较高的父view上</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_6.jpg" alt="Mou icon"></p>
+</li>
+<li><p>刷新约束，可以通过-setNeedsUpdateConstraints和-layoutIfNeeded两个方法来刷新约束的改变，使UIView重新布局。</p>
+</li>
 </ol>
 <p>三、AutoLayout的不同使用方式</p>
 <p>OK，到这里我们讲了一堆理论，相信对AutoLayout对不熟悉的童鞋依然比较迷茫，你必须要进行代码的洗礼，才会对它大彻大悟。好的，那么我们开始上代码吧！</p>
 <p>如图1：我们需要布局红、绿、蓝三个view位置如图所示，他们距离父视图边距以及相互之间的距离都为30px，红色view和绿色view宽度相等，并且三个view的高度相等。并且在横屏时，他们的位置还是一样保持不变。</p>
 <p><img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_1.png" alt="Mou icon"></p>
-<p>图1</p>
 <p><img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_2.png" alt="Mou icon"></p>
-<p>图2</p>
 <p><img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_3.gif" alt="Mou icon"></p>
-<p>图3</p>
 <p>如果用传统布局方式利用Frame属性，则需要分情况来判断并改变控件Frame的值以达到适应屏幕的尺寸。下面来看看AutoLayout自动布局的实现方法：</p>
 <ol>
 <li><p>AutoLayout（系统手码）</p>
@@ -208,128 +206,124 @@ view_3<span class="variable">.backgroundColor</span> = [<span class="built_in">U
 view_1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
 view_2<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
 view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
-</code></pre></li>
-</ol>
-<pre><code>    <span class="comment">//3.接着，添加约束，先添加边距约束，再添加宽高约束（个人习惯）</span>
-    <span class="comment">/*
-     * 添加约束 公式：item1.attribute = multiplier ⨉ item2.attribute + constant
-     */</span>
 
-    <span class="comment">//view_1(红色)top 距离self.view的top</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_1TopToSuperViewTop = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
-                                                                               attribute:<span class="built_in">NSLayoutAttributeTop</span>
+<span class="comment">//3.接着，添加约束，先添加边距约束，再添加宽高约束（个人习惯）</span>
+<span class="comment">/*
+ * 添加约束 公式：item1.attribute = multiplier ⨉ item2.attribute + constant
+ */</span>
+
+<span class="comment">//view_1(红色)top 距离self.view的top</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1TopToSuperViewTop = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
+                                                                           attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                           relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                              toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                           attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                          multiplier:<span class="number">1</span>
+                                                                            constant:<span class="number">30</span>];
+<span class="comment">//view_1(红色)left 距离self.view的left</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1LeftToSuperViewLeft = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
+                                                                             attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                             relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                             attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                            multiplier:<span class="number">1</span>
+                                                                              constant:<span class="number">30</span>];
+<span class="comment">//view_1(红色)right 距离view_2(绿色)的left</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1RightToview_2Left = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                           attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                           relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                              toItem:view_1
+                                                                           attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                          multiplier:<span class="number">1</span>
+                                                                            constant:<span class="number">30</span>];
+<span class="comment">//view_1(红色)bottom 距离view_3(蓝色)的top</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1BottomToview_3Top = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
+                                                                           attribute:<span class="built_in">NSLayoutAttributeBottom</span>
+                                                                           relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                              toItem:view_3
+                                                                           attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                          multiplier:<span class="number">1</span>
+                                                                            constant:- <span class="number">30</span>];
+
+<span class="comment">//view_2(绿色)right 距离self.view的right</span>
+<span class="built_in">NSLayoutConstraint</span> *view_2RightToSuperViewRight = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                               attribute:<span class="built_in">NSLayoutAttributeRight</span>
                                                                                relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
                                                                                   toItem:<span class="keyword">self</span><span class="variable">.view</span>
-                                                                               attribute:<span class="built_in">NSLayoutAttributeTop</span>
-                                                                              multiplier:<span class="number">1</span>
-                                                                                constant:<span class="number">30</span>];
-    <span class="comment">//view_1(红色)left 距离self.view的left</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_1LeftToSuperViewLeft = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
-                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
-                                                                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                    toItem:<span class="keyword">self</span><span class="variable">.view</span>
-                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
-                                                                                multiplier:<span class="number">1</span>
-                                                                                  constant:<span class="number">30</span>];
-    <span class="comment">//view_1(红色)right 距离view_2(绿色)的left</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_1RightToview_2Left = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
-                                                                               attribute:<span class="built_in">NSLayoutAttributeLeft</span>
-                                                                               relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                  toItem:view_1
                                                                                attribute:<span class="built_in">NSLayoutAttributeRight</span>
-                                                                              multiplier:<span class="number">1</span>
-                                                                                constant:<span class="number">30</span>];
-    <span class="comment">//view_1(红色)bottom 距离view_3(蓝色)的top</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_1BottomToview_3Top = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
-                                                                               attribute:<span class="built_in">NSLayoutAttributeBottom</span>
-                                                                               relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                  toItem:view_3
-                                                                               attribute:<span class="built_in">NSLayoutAttributeTop</span>
                                                                               multiplier:<span class="number">1</span>
                                                                                 constant:- <span class="number">30</span>];
 
-    <span class="comment">//view_2(绿色)right 距离self.view的right</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_2RightToSuperViewRight = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
-                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
-                                                                                   relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                      toItem:<span class="keyword">self</span><span class="variable">.view</span>
-                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
-                                                                                  multiplier:<span class="number">1</span>
-                                                                                    constant:- <span class="number">30</span>];
-
-
-    <span class="comment">//view_2(绿色)centerY 和 view_1(红色)的centerY 一致</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_2CenterYToView_1CenterY = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
-                                                                                    attribute:<span class="built_in">NSLayoutAttributeCenterY</span>
-                                                                                    relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                       toItem:view_1
-                                                                                    attribute:<span class="built_in">NSLayoutAttributeCenterY</span>
-                                                                                   multiplier:<span class="number">1</span>
-                                                                                     constant:<span class="number">0</span>];
-
-
-    <span class="comment">//view_3(蓝色)left 距离 self.view left</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_3LeftToSuperViewLeft = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
-                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
-                                                                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                    toItem:<span class="keyword">self</span><span class="variable">.view</span>
-                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
-                                                                                multiplier:<span class="number">1</span>
-                                                                                  constant:<span class="number">30</span>];
-
-    <span class="comment">//view_3(蓝色)right 距离 self.view right</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_3RightToSuperViewRight = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
-                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
-                                                                                   relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                      toItem:<span class="keyword">self</span><span class="variable">.view</span>
-                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
-                                                                                  multiplier:<span class="number">1</span>
-                                                                                    constant:- <span class="number">30</span>];
-
-    <span class="comment">//view_3(蓝色)Bottom 距离 self.view bottom</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_3BottomToSuperViewBottom = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
-                                                                                     attribute:<span class="built_in">NSLayoutAttributeBottom</span>
-                                                                                     relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                        toItem:<span class="keyword">self</span><span class="variable">.view</span>
-                                                                                     attribute:<span class="built_in">NSLayoutAttributeBottom</span>
-                                                                                    multiplier:<span class="number">1</span>
-                                                                                      constant:- <span class="number">30</span>];
-
-    <span class="comment">//view_1(红色)width 和view_2(绿色)的width相等</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_1WidthToview_2Width = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
-                                                                                attribute:<span class="built_in">NSLayoutAttributeWidth</span>
+<span class="comment">//view_2(绿色)centerY 和 view_1(红色)的centerY 一致</span>
+<span class="built_in">NSLayoutConstraint</span> *view_2CenterYToView_1CenterY = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                                attribute:<span class="built_in">NSLayoutAttributeCenterY</span>
                                                                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
                                                                                    toItem:view_1
-                                                                                attribute:<span class="built_in">NSLayoutAttributeWidth</span>
+                                                                                attribute:<span class="built_in">NSLayoutAttributeCenterY</span>
                                                                                multiplier:<span class="number">1</span>
                                                                                  constant:<span class="number">0</span>];
 
-    <span class="comment">//view_1(红色)height 和view_2(绿色)的height相等</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_1HeightToview_2Height = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
-                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
-                                                                                  relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                     toItem:view_1
-                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
-                                                                                 multiplier:<span class="number">1</span>
-                                                                                   constant:<span class="number">0</span>];
+<span class="comment">//view_3(蓝色)left 距离 self.view left</span>
+<span class="built_in">NSLayoutConstraint</span> *view_3LeftToSuperViewLeft = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                             attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                             relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                             attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                            multiplier:<span class="number">1</span>
+                                                                              constant:<span class="number">30</span>];
 
-    <span class="comment">//view_1(红色)height 和 view_3(蓝色)的height相等</span>
-    <span class="built_in">NSLayoutConstraint</span> *view_1HeightToview_3Height = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
-                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
-                                                                                  relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
-                                                                                     toItem:view_1
-                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
-                                                                                 multiplier:<span class="number">1</span>
-                                                                                   constant:<span class="number">0</span>];
+<span class="comment">//view_3(蓝色)right 距离 self.view right</span>
+<span class="built_in">NSLayoutConstraint</span> *view_3RightToSuperViewRight = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                               attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                               relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                  toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                               attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                              multiplier:<span class="number">1</span>
+                                                                                constant:- <span class="number">30</span>];
 
-    <span class="comment">//添加约束，因为view_1、2、3是同层次关系，且他们公有的父视图都是self.view，所以这里把约束都添加到self.view上即可</span>
-    [<span class="keyword">self</span><span class="variable">.view</span> addConstraints:@[view_1TopToSuperViewTop,view_1LeftToSuperViewLeft,view_1RightToview_2Left,view_2RightToSuperViewRight,view_1WidthToview_2Width,view_1BottomToview_3Top,view_2CenterYToView_1CenterY,view_3LeftToSuperViewLeft,view_3RightToSuperViewRight,view_3BottomToSuperViewBottom,view_1HeightToview_2Height,view_1HeightToview_3Height]];
+<span class="comment">//view_3(蓝色)Bottom 距离 self.view bottom</span>
+<span class="built_in">NSLayoutConstraint</span> *view_3BottomToSuperViewBottom = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span>
+                                                                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                    toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span>
+                                                                                multiplier:<span class="number">1</span>
+                                                                                  constant:- <span class="number">30</span>];
 
-    [<span class="keyword">self</span><span class="variable">.view</span> layoutIfNeeded];
-    }
+<span class="comment">//view_1(红色)width 和view_2(绿色)的width相等</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1WidthToview_2Width = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                            attribute:<span class="built_in">NSLayoutAttributeWidth</span>
+                                                                            relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                               toItem:view_1
+                                                                            attribute:<span class="built_in">NSLayoutAttributeWidth</span>
+                                                                           multiplier:<span class="number">1</span>
+                                                                             constant:<span class="number">0</span>];
 
-看到这里，相信大家要哭了吧，为毛就写这三个视图要这么麻烦，没错，小编这里就是用来恶心你的，哈哈！其实，我去研究它的时候，也是被恶心的要死，没办法，为了帮助大家对AutoLayout进行深入理解，小编也是拼了（ps：其实我在项目中基本不用这个系统手码的）。还好，苹果还给我们提供了一种可视化自然语言用于自动布局的约束：VFL（Visual Format Language），简化了添加约束。
-</code></pre><ol>
+<span class="comment">//view_1(红色)height 和view_2(绿色)的height相等</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1HeightToview_2Height = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                              attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                              relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                 toItem:view_1
+                                                                              attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                             multiplier:<span class="number">1</span>
+                                                                               constant:<span class="number">0</span>];
+
+<span class="comment">//view_1(红色)height 和 view_3(蓝色)的height相等</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1HeightToview_3Height = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                              attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                              relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                 toItem:view_1
+                                                                              attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                             multiplier:<span class="number">1</span>
+                                                                               constant:<span class="number">0</span>];
+
+<span class="comment">//添加约束，因为view_1、2、3是同层次关系，且他们公有的父视图都是self.view，所以这里把约束都添加到self.view上即可</span>
+[<span class="keyword">self</span><span class="variable">.view</span> addConstraints:@[view_1TopToSuperViewTop,view_1LeftToSuperViewLeft,view_1RightToview_2Left,view_2RightToSuperViewRight,view_1WidthToview_2Width,view_1BottomToview_3Top,view_2CenterYToView_1CenterY,view_3LeftToSuperViewLeft,view_3RightToSuperViewRight,view_3BottomToSuperViewBottom,view_1HeightToview_2Height,view_1HeightToview_3Height]];
+
+[<span class="keyword">self</span><span class="variable">.view</span> layoutIfNeeded];
+}
+</code></pre><p> 看到这里，相信大家要哭了吧，为毛就写这三个视图要这么麻烦，没错，小编这里就是用来恶心你的，哈哈！其实，我去研究它的时候，也是被恶心的要死，没办法，为了帮助大家对AutoLayout进行深入理解，小编也是拼了（ps：其实我在项目中基本不用这个系统手码的）。还好，苹果还给我们提供了一种可视化自然语言用于自动布局的约束：VFL（Visual Format Language），简化了添加约束。</p>
+</li>
 <li><p>VFL约束</p>
 <pre><code>- (<span class="keyword">void</span>)viewDidLoad {
 [<span class="keyword">super</span> viewDidLoad];
@@ -543,13 +537,13 @@ OK，看看Masonry神器的代码吧！
     mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
     三种函数善加利用 就可以应对各种情况了
     */</span>
-</code></pre><p>小编在这里附上以上四种自动布局Demo：<a href="https://github.com/JinqianChina/aotulayoutDemo.git" target="_blank" rel="external">https://github.com/JinqianChina/aotulayoutDemo.git</a></p>
+</code></pre><p>喜欢的童鞋，动一下小手点击喜欢和关注喔！小编在这里附上以上四种自动布局Demo：<a href="https://github.com/JinqianChina/aotulayoutDemo.git" target="_blank" rel="external">https://github.com/JinqianChina/aotulayoutDemo.git</a></p>
 <p>参考文章：<br><a href="http://www.cocoachina.com/ios/20141219/10702.html" target="_blank" rel="external">http://www.cocoachina.com/ios/20141219/10702.html</a>  Masonry介绍与使用实践：快速上手Autolayout</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cinla9lv3001v3y0jw1yarfri" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cinlaun7r001v4w0jqf2ieq98" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a></li></ul>
