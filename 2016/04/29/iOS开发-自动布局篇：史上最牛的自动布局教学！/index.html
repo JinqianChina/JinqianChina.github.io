@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS开发-自动布局篇：史上最牛的自动布局教学！ | Jinge&#39;blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文我们将提到：
+
+aotulayout（手码）
+VFL
+aotulayout（Xib）
+Masonry（第三方框架）
+
+是不是很期待呢？那就跟着小编走吧！本文Demo地址：https://github.com/JinqianChina/aotulayoutDemo.git
+一、AutoLayout介绍
+UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通过UI控件的Frame属性和A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发-自动布局篇：史上最牛的自动布局教学！">
+<meta property="og:url" content="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/index.html">
+<meta property="og:site_name" content="Jinge'blog">
+<meta property="og:description" content="本文我们将提到：
+
+aotulayout（手码）
+VFL
+aotulayout（Xib）
+Masonry（第三方框架）
+
+是不是很期待呢？那就跟着小编走吧！本文Demo地址：https://github.com/JinqianChina/aotulayoutDemo.git
+一、AutoLayout介绍
+UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通过UI控件的Frame属性和A">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_4.jpg">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_5.jpg">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_6.jpg">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_1.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_2.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_3.gif">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_7.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_8.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_9.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_10.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_11.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_12.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_13.png">
+<meta property="og:image" content="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_14.png">
+<meta property="og:updated_time" content="2016-04-29T05:32:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发-自动布局篇：史上最牛的自动布局教学！">
+<meta name="twitter:description" content="本文我们将提到：
+
+aotulayout（手码）
+VFL
+aotulayout（Xib）
+Masonry（第三方框架）
+
+是不是很期待呢？那就跟着小编走吧！本文Demo地址：https://github.com/JinqianChina/aotulayoutDemo.git
+一、AutoLayout介绍
+UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通过UI控件的Frame属性和A">
+  
+    <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jinge&#39;blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">iOS探索之路</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iOS开发-自动布局篇：史上最牛的自动布局教学！" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" class="article-date">
+  <time datetime="2016-04-29T05:30:34.000Z" itemprop="datePublished">2016-04-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发-自动布局篇：史上最牛的自动布局教学！
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文我们将提到：</p>
+<ol>
+<li>aotulayout（手码）</li>
+<li>VFL</li>
+<li>aotulayout（Xib）</li>
+<li>Masonry（第三方框架）</li>
+</ol>
+<p>是不是很期待呢？那就跟着小编走吧！本文Demo地址：<a href="https://github.com/JinqianChina/aotulayoutDemo.git" target="_blank" rel="external">https://github.com/JinqianChina/aotulayoutDemo.git</a></p>
+<p>一、AutoLayout介绍</p>
+<p>UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通过UI控件的Frame属性和Autoresizing Mask来进行UI布局的。AutoLayout则是苹果公司在iOS6推出的一种基于约束的，描述性的布局系统。自从AutoLayout问世以来，逐步得到了iOS开发者们的青睐，尤其是iPhone6机型尺寸的出现，让AutoLayout从此走向人生巅峰，迎娶白富美，当上UI布局界的老大。~_~，好了，不扯淡了，下面来看看它的特殊之处。</p>
+<p>AutoLayout占据UI布局的主要领导位置依赖于它的特殊性：</p>
+<pre><code><span class="number">1.</span> 基于约束：和以往定义frame的位置和尺寸不同，AutoLayout的位置确定是以所谓相对位置的约束来定义的，比如x坐标为superView的中心，y坐标为屏幕底部上方<span class="number">10</span>像素等
+<span class="number">2.</span> 描述性：  约束的定义和各个view的关系使用接近自然语言或者可视化语言（稍后会提到）的方法来进行描述
+<span class="number">3.</span> 布局系统：即字面意思，用来负责界面的各个元素的位置。
+</code></pre><p>总而言之，AutoLayout为开发者提供了一种不同于传统对于UI元素位置指定的布局方法。以前，不论是在IB里拖放，还是在代码中写，每个UIView都会有自己的frame属性，来定义其在当前视图中的位置和尺寸。使用AutoLayout的话，就变为了使用约束条件来定义view的位置和尺寸。这样的最大好处是一举解决了不同分辨率和屏幕尺寸下view的适配问题，另外也简化了旋转时view的位置的定义，原来在底部之上10像素居中的view，不论在旋转屏幕或是更换设备（iPad或者iPhone5或者以后可能出现的mini iPad）的时候，始终还在底部之上10像素居中的位置，不会发生变化。 总的来说：使用约束条件来描述布局，view的frame会依据这些约束来进行计算。</p>
+<p>二、AutoLayout使用原理：</p>
+<ol>
+<li><p>创建约束，iOS6中新加入了一个类：NSLayoutConstraint。它的约束满足这个公式：</p>
+<p> item1.attribute = multiplier ⨉ item2.attribute + constant</p>
+</li>
+</ol>
+<p>对应的代码为</p>
+<pre><code><span class="comment">//view_1(红色)top 距离self.view的top</span>
+<span class="built_in">NSLayoutConstraint</span> *view_1TopToSuperViewTop = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
+                                                                           attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                           relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                              toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                           attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                          multiplier:<span class="number">1</span>
+                                                                            constant:<span class="number">30</span>];
+</code></pre><p>这里对应的约束是“view_1的顶部（y）＝ self.view的顶部(y)*1 + 30”。</p>
+<ol>
+<li><p>添加约束，在创建约束之后，需要将其添加到作用的view上。UIView添加约束的实例方法：</p>
+<pre><code>- (<span class="keyword">void</span>)addConstraint:(<span class="built_in">NSLayoutConstraint</span> *)constraint <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">6</span>_0);
+- (<span class="keyword">void</span>)addConstraints:(<span class="built_in">NSArray</span>&lt;__kindof <span class="built_in">NSLayoutConstraint</span> *&gt; *)constraints <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">6</span>_0); 
+</code></pre></li>
+</ol>
+<p>用来将约束添加到view。在添加时唯一要注意的是添加的目标view要遵循以下规则：<br>   1.对于两个同层级view之间的约束关系，添加到他们的父view上<br>    <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_4.jpg" alt="Mou icon"><br>   2.对于两个不同层级view之间的约束关系，添加到他们最近的共同父view上<br>    <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_5.jpg" alt="Mou icon"><br>   3.对于有层次关系的两个view之间的约束关系，添加到层次较高的父view上<br>    <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_6.jpg" alt="Mou icon"></p>
+<ol>
+<li>刷新约束，可以通过-setNeedsUpdateConstraints和-layoutIfNeeded两个方法来刷新约束的改变，使UIView重新布局。</li>
+</ol>
+<p>三、AutoLayout的不同使用方式</p>
+<p>OK，到这里我们讲了一堆理论，相信对AutoLayout对不熟悉的童鞋依然比较迷茫，你必须要进行代码的洗礼，才会对它大彻大悟。好的，那么我们开始上代码吧！</p>
+<p>如图1：我们需要布局红、绿、蓝三个view位置如图所示，他们距离父视图边距以及相互之间的距离都为30px，红色view和绿色view宽度相等，并且三个view的高度相等。并且在横屏时，他们的位置还是一样保持不变。</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_1.png" alt="Mou icon"></p>
+<p>图1</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_2.png" alt="Mou icon"></p>
+<p>图2</p>
+<p><img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_3.gif" alt="Mou icon"></p>
+<p>图3</p>
+<p>如果用传统布局方式利用Frame属性，则需要分情况来判断并改变控件Frame的值以达到适应屏幕的尺寸。下面来看看AutoLayout自动布局的实现方法：</p>
+<ol>
+<li><p>AutoLayout（系统手码）</p>
+<pre><code>- (<span class="keyword">void</span>)viewDidLoad {
+[<span class="keyword">super</span> viewDidLoad];
+
+<span class="comment">/*
+ * 需求
+ *
+ * 我们需要布局红(view_1)、绿(view_2)、蓝(view_3)三个view位置如图所示，
+ * 他们距离父视图边距以及相互之间的距离都为30px，红色view和绿色view宽度相等，
+ * 并且三个view的高度相等。并且在横屏时，他们的位置还是一样保持不变。
+ *
+ */</span>
+
+<span class="comment">//1.首先，创建视图控件，添加到self.view上</span>
+
+<span class="built_in">UIView</span> *view_1 = [[<span class="built_in">UIView</span> alloc] init];
+view_1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_1];
+<span class="built_in">UIView</span> *view_2 = [[<span class="built_in">UIView</span> alloc] init];
+view_2<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_2];
+<span class="built_in">UIView</span> *view_3 = [[<span class="built_in">UIView</span> alloc] init];
+view_3<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> blueColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_3];
+
+<span class="comment">//2.然后，记得要把AutoresizingMask布局关掉</span>
+view_1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+view_2<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+</code></pre></li>
+</ol>
+<pre><code>    <span class="comment">//3.接着，添加约束，先添加边距约束，再添加宽高约束（个人习惯）</span>
+    <span class="comment">/*
+     * 添加约束 公式：item1.attribute = multiplier ⨉ item2.attribute + constant
+     */</span>
+
+    <span class="comment">//view_1(红色)top 距离self.view的top</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_1TopToSuperViewTop = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
+                                                                               attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                               relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                  toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                               attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                              multiplier:<span class="number">1</span>
+                                                                                constant:<span class="number">30</span>];
+    <span class="comment">//view_1(红色)left 距离self.view的left</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_1LeftToSuperViewLeft = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
+                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                    toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                                multiplier:<span class="number">1</span>
+                                                                                  constant:<span class="number">30</span>];
+    <span class="comment">//view_1(红色)right 距离view_2(绿色)的left</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_1RightToview_2Left = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                               attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                               relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                  toItem:view_1
+                                                                               attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                              multiplier:<span class="number">1</span>
+                                                                                constant:<span class="number">30</span>];
+    <span class="comment">//view_1(红色)bottom 距离view_3(蓝色)的top</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_1BottomToview_3Top = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_1
+                                                                               attribute:<span class="built_in">NSLayoutAttributeBottom</span>
+                                                                               relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                  toItem:view_3
+                                                                               attribute:<span class="built_in">NSLayoutAttributeTop</span>
+                                                                              multiplier:<span class="number">1</span>
+                                                                                constant:- <span class="number">30</span>];
+
+    <span class="comment">//view_2(绿色)right 距离self.view的right</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_2RightToSuperViewRight = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                                   relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                      toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                                  multiplier:<span class="number">1</span>
+                                                                                    constant:- <span class="number">30</span>];
+
+
+    <span class="comment">//view_2(绿色)centerY 和 view_1(红色)的centerY 一致</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_2CenterYToView_1CenterY = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                                    attribute:<span class="built_in">NSLayoutAttributeCenterY</span>
+                                                                                    relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                       toItem:view_1
+                                                                                    attribute:<span class="built_in">NSLayoutAttributeCenterY</span>
+                                                                                   multiplier:<span class="number">1</span>
+                                                                                     constant:<span class="number">0</span>];
+
+
+    <span class="comment">//view_3(蓝色)left 距离 self.view left</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_3LeftToSuperViewLeft = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                    toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span>
+                                                                                multiplier:<span class="number">1</span>
+                                                                                  constant:<span class="number">30</span>];
+
+    <span class="comment">//view_3(蓝色)right 距离 self.view right</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_3RightToSuperViewRight = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                                   relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                      toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                                   attribute:<span class="built_in">NSLayoutAttributeRight</span>
+                                                                                  multiplier:<span class="number">1</span>
+                                                                                    constant:- <span class="number">30</span>];
+
+    <span class="comment">//view_3(蓝色)Bottom 距离 self.view bottom</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_3BottomToSuperViewBottom = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                                     attribute:<span class="built_in">NSLayoutAttributeBottom</span>
+                                                                                     relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                        toItem:<span class="keyword">self</span><span class="variable">.view</span>
+                                                                                     attribute:<span class="built_in">NSLayoutAttributeBottom</span>
+                                                                                    multiplier:<span class="number">1</span>
+                                                                                      constant:- <span class="number">30</span>];
+
+    <span class="comment">//view_1(红色)width 和view_2(绿色)的width相等</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_1WidthToview_2Width = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                                attribute:<span class="built_in">NSLayoutAttributeWidth</span>
+                                                                                relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                   toItem:view_1
+                                                                                attribute:<span class="built_in">NSLayoutAttributeWidth</span>
+                                                                               multiplier:<span class="number">1</span>
+                                                                                 constant:<span class="number">0</span>];
+
+    <span class="comment">//view_1(红色)height 和view_2(绿色)的height相等</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_1HeightToview_2Height = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_2
+                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                                  relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                     toItem:view_1
+                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                                 multiplier:<span class="number">1</span>
+                                                                                   constant:<span class="number">0</span>];
+
+    <span class="comment">//view_1(红色)height 和 view_3(蓝色)的height相等</span>
+    <span class="built_in">NSLayoutConstraint</span> *view_1HeightToview_3Height = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view_3
+                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                                  relatedBy:<span class="built_in">NSLayoutRelationEqual</span>
+                                                                                     toItem:view_1
+                                                                                  attribute:<span class="built_in">NSLayoutAttributeHeight</span>
+                                                                                 multiplier:<span class="number">1</span>
+                                                                                   constant:<span class="number">0</span>];
+
+    <span class="comment">//添加约束，因为view_1、2、3是同层次关系，且他们公有的父视图都是self.view，所以这里把约束都添加到self.view上即可</span>
+    [<span class="keyword">self</span><span class="variable">.view</span> addConstraints:@[view_1TopToSuperViewTop,view_1LeftToSuperViewLeft,view_1RightToview_2Left,view_2RightToSuperViewRight,view_1WidthToview_2Width,view_1BottomToview_3Top,view_2CenterYToView_1CenterY,view_3LeftToSuperViewLeft,view_3RightToSuperViewRight,view_3BottomToSuperViewBottom,view_1HeightToview_2Height,view_1HeightToview_3Height]];
+
+    [<span class="keyword">self</span><span class="variable">.view</span> layoutIfNeeded];
+    }
+
+看到这里，相信大家要哭了吧，为毛就写这三个视图要这么麻烦，没错，小编这里就是用来恶心你的，哈哈！其实，我去研究它的时候，也是被恶心的要死，没办法，为了帮助大家对AutoLayout进行深入理解，小编也是拼了（ps：其实我在项目中基本不用这个系统手码的）。还好，苹果还给我们提供了一种可视化自然语言用于自动布局的约束：VFL（Visual Format Language），简化了添加约束。
+</code></pre><ol>
+<li><p>VFL约束</p>
+<pre><code>- (<span class="keyword">void</span>)viewDidLoad {
+[<span class="keyword">super</span> viewDidLoad];
+<span class="comment">// Do any additional setup after loading the view from its nib.</span>
+<span class="comment">/*
+ * 需求
+ *
+ * 我们需要布局红(view_1)、绿(view_2)、蓝(view_3)三个view位置如图所示，
+ * 他们距离父视图边距以及相互之间的距离都为30px，红色view和绿色view宽度相等，
+ * 并且三个view的高度相等。并且在横屏时，他们的位置还是一样保持不变。
+ *
+ */</span>
+
+<span class="comment">//1.首先，创建视图控件，添加到self.view上</span>
+
+<span class="built_in">UIView</span> *view_1 = [[<span class="built_in">UIView</span> alloc] init];
+view_1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_1];
+<span class="built_in">UIView</span> *view_2 = [[<span class="built_in">UIView</span> alloc] init];
+view_2<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_2];
+<span class="built_in">UIView</span> *view_3 = [[<span class="built_in">UIView</span> alloc] init];
+view_3<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> blueColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_3];
+
+<span class="comment">//2.然后，记得要把AutoresizingMask布局关掉</span>
+view_1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+view_2<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+
+<span class="comment">//3.接着，添加约束</span>
+
+<span class="comment">// 间距</span>
+<span class="built_in">NSNumber</span> *margin = @(<span class="number">30</span>);
+<span class="built_in">NSNumber</span> *spacing = @(<span class="number">30</span>);
+<span class="built_in">NSDictionary</span> *views = <span class="built_in">NSDictionaryOfVariableBindings</span>(view_1,view_2,view_3);
+
+<span class="comment">// 添加水平方向的约束1</span>
+<span class="built_in">NSString</span> *vfl = <span class="string">@"H:|-margin-[view_1]-spacing-[view_2(==view_1)]-margin-|"</span>;
+<span class="built_in">NSDictionary</span> *mertrics = <span class="built_in">NSDictionaryOfVariableBindings</span>(margin,spacing);
+<span class="built_in">NSArray</span> *constraints = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:vfl options:<span class="built_in">NSLayoutFormatAlignAllTop</span> | <span class="built_in">NSLayoutFormatAlignAllBottom</span> metrics:mertrics views:views];
+[<span class="keyword">self</span><span class="variable">.view</span> addConstraints:constraints];
+
+<span class="comment">// 添加水平方向的约束2</span>
+<span class="built_in">NSString</span> *vfl1 = <span class="string">@"H:|-margin-[view_3]-margin-|"</span>;
+<span class="built_in">NSDictionary</span> *mertrics1 = <span class="built_in">NSDictionaryOfVariableBindings</span>(margin,spacing);
+
+<span class="built_in">NSArray</span> *constraints1 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:vfl1 options:kNilOptions metrics:mertrics1 views:views];
+[<span class="keyword">self</span><span class="variable">.view</span> addConstraints:constraints1];
+
+<span class="comment">// 添加竖直方向的约束</span>
+<span class="built_in">NSString</span> *vfl2 = <span class="string">@"V:|-margin-[view_1]-spacing-[view_3(==view_1)]-margin-|"</span>;
+<span class="built_in">NSDictionary</span> *mertrics2 = <span class="built_in">NSDictionaryOfVariableBindings</span>(margin, spacing);
+<span class="built_in">NSArray</span> *constraints2 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:vfl2 options:kNilOptions metrics:mertrics2 views:views];
+[<span class="keyword">self</span><span class="variable">.view</span> addConstraints:constraints2];
+}
+</code></pre><p> 看了VFL语言约束，是不是瞬间感觉高大上了许多，按照我们所想，依次写出约束VFL语句即可。这样虽然比系统手码方便多了，但是仍然需要写很多代码，小编下面要告诉你的是，不用写一行约束代码就能完成上面约束需求，那就是Xib可视化添加约束，下面来看看吧！</p>
+</li>
+<li><p>Xib可视化添加约束</p>
+<p> (1)首先，先拖拽三个UIview视图，如图。注意：这里我们只是暂时大致摆了一下位置，还没有添加约束。</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_7.png" alt="Mou icon"></p>
+<p> (2)view_1红色视图添加约束，如图，添加上和左距离父视图都是30px</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_8.png" alt="Mou icon"></p>
+<p> (3)view_2绿色视图添加约束，如图，添加左和右分别距离view_1和父视图的距离都是30px</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_9.png" alt="Mou icon"></p>
+<p> (4)view_2添加约束，如图，直接点击view_2拖拽到view_1上，然后选择Center Vertically、Equal Widths和Equal Heights，则添加了view_2约束：竖直方向上中心和view_1一致、宽度和高度也和view_1相等</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_10.png" alt="Mou icon"></p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_11.png" alt="Mou icon"></p>
+<p> (5)view_3蓝色视图添加约束，如图，添加左、下、右距离父视图的值都为30，上距离view_1的距离为30，并且高度和view_1相等</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_12.png" alt="Mou icon"></p>
+<p> (7)如图，约束已经添加完成，点击左侧的黄色警告补全视图差值</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_13.png" alt="Mou icon"></p>
+<p> (8)如图，则是我们布局完成后的Xib，运行效果就是开头那个GIF图效果，是不是很炫酷！</p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_14.png" alt="Mou icon"></p>
+<p> 到这里，是不是感觉很神奇了呢，不用一行代码，就可以完成上述那么多代码实现的效果。至此，Aotulayout布局已经基本介绍完了，对了，还有一个第三方库Masonry。</p>
+</li>
+<li><p>Masonry第三方库</p>
+<p> Masonry是一个轻量级的布局框架，拥有自己的描述语法，采用更优雅的链式语法封装自动布局，简洁明了 并具有高可读性，而且同时支持iOS和Max OS X。</p>
+<p> 下面简单说明一下Masonry：</p>
+<p> 先来看一段官方的sample code来认识一下Masonry</p>
+<pre><code><span class="collection">[view1 mas_makeConstraints:^<span class="list">(<span class="keyword">MASConstraintMaker</span> *make)</span> <span class="collection">{
+    make.edges.equalTo<span class="list">(<span class="keyword">superview</span>)</span>.with.insets<span class="list">(<span class="keyword">padding</span>)</span><span class="comment">;</span>
+}</span>]</span><span class="comment">;</span>
+</code></pre><p> 我们看到block里面的那句话: make edges equalTo superview with insets。这里通过链式的自然语言，就把view1给autolayout设置好了，看着是不是挺简单的？更符合我们编程的思想。</p>
+<p> 再来看一看它的属性：</p>
+<pre><code><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *left;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *top;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *right;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *bottom;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *leading;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *trailing;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *width;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *height;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *centerX;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *centerY;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *baseline;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *(^attribute)(<span class="built_in">NSLayoutAttribute</span> attr);
+
+<span class="preprocessor">#if TARGET_OS_IPHONE</span>
+
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *leftMargin;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *rightMargin;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *topMargin;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *bottomMargin;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *leadingMargin;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *trailingMargin;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *centerXWithinMargins;
+<span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASViewAttribute *centerYWithinMargins;
+</code></pre><p> 是不是觉得很眼熟？没错，它和我们系统的NSLayoutConstraint类下的NSLayoutAttribute枚举一致，这样就不难理解了，Masonry其实就是把我们系统的NSLayoutConstraint类等Aotulayout布局相关进行了封装，曝露出比较简单易懂（链式的自然语言）的Aotulayout接口，方便广大iOS开发者使用。</p>
+<pre><code><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">NSLayoutAttribute</span>) {
+<span class="built_in">NSLayoutAttributeLeft</span> = <span class="number">1</span>,
+<span class="built_in">NSLayoutAttributeRight</span>,
+<span class="built_in">NSLayoutAttributeTop</span>,
+<span class="built_in">NSLayoutAttributeBottom</span>,
+<span class="built_in">NSLayoutAttributeLeading</span>,
+<span class="built_in">NSLayoutAttributeTrailing</span>,
+<span class="built_in">NSLayoutAttributeWidth</span>,
+<span class="built_in">NSLayoutAttributeHeight</span>,
+<span class="built_in">NSLayoutAttributeCenterX</span>,
+<span class="built_in">NSLayoutAttributeCenterY</span>,
+<span class="built_in">NSLayoutAttributeBaseline</span>,
+<span class="built_in">NSLayoutAttributeLastBaseline</span> = <span class="built_in">NSLayoutAttributeBaseline</span>,
+<span class="built_in">NSLayoutAttributeFirstBaseline</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+</code></pre></li>
+</ol>
+<pre><code>    <span class="built_in">NSLayoutAttributeLeftMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+    <span class="built_in">NSLayoutAttributeRightMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+    <span class="built_in">NSLayoutAttributeTopMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+    <span class="built_in">NSLayoutAttributeBottomMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+    <span class="built_in">NSLayoutAttributeLeadingMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+    <span class="built_in">NSLayoutAttributeTrailingMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+    <span class="built_in">NSLayoutAttributeCenterXWithinMargins</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+    <span class="built_in">NSLayoutAttributeCenterYWithinMargins</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+
+    <span class="built_in">NSLayoutAttributeNotAnAttribute</span> = <span class="number">0</span>
+    };
+
+好了，简单说明之后，让我们更实际的来些代码吧！同样是上面的需求哦！come on
+首先，要导入Masonry库文件，这里要打一下广告了，Masonry 源码地址：&lt;https:<span class="comment">//github.com/Masonry/Masonry&gt; 你可以直接下载，然后将文件拖入工程，也可以使用cocoapods导入，如果不明白cocoapods怎么用的，可以看一下小编的一篇关于cocoapods的介绍:&lt;http://www.jianshu.com/p/c23eeb43438b&gt;</span>
+
+OK，看看Masonry神器的代码吧！
+
+    - (<span class="keyword">void</span>)viewDidLoad {
+    [<span class="keyword">super</span> viewDidLoad];
+    <span class="comment">// Do any additional setup after loading the view from its nib.</span>
+    <span class="comment">/*
+     * 需求
+     *
+     * 我们需要布局红(view_1)、绿(view_2)、蓝(view_3)三个view位置如图所示，
+     * 他们距离父视图边距以及相互之间的距离都为30px，红色view和绿色view宽度相等，
+     * 并且三个view的高度相等。并且在横屏时，他们的位置还是一样保持不变。
+     *
+     */</span>
+
+    <span class="comment">//1.首先，创建视图控件，添加到self.view上</span>
+
+    <span class="built_in">UIView</span> *view_1 = [[<span class="built_in">UIView</span> alloc] init];
+    view_1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_1];
+    <span class="built_in">UIView</span> *view_2 = [[<span class="built_in">UIView</span> alloc] init];
+    view_2<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_2];
+    <span class="built_in">UIView</span> *view_3 = [[<span class="built_in">UIView</span> alloc] init];
+    view_3<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> blueColor];
+    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_3];
+
+    <span class="comment">//2.然后，记得要把AutoresizingMask布局关掉</span>
+    view_1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+    view_2<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+    view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+
+    <span class="comment">//3.接着，添加约束</span>
+
+    __<span class="keyword">weak</span> __<span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;<span class="comment">//这里用一个弱引用来表示self，用于下面的Block中</span>
+
+    <span class="comment">//先确定view_1的约束</span>
+    [view_1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make<span class="variable">.top</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_top</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_1的上，距离self.view是30px</span>
+        make<span class="variable">.left</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_left</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_1de左，距离self.view是30px</span>
+    }];
+
+    <span class="comment">//然后确定view_2的约束</span>
+    [view_2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make<span class="variable">.centerY</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_centerY</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">0</span>); <span class="comment">//view2 Y方向上的中心线和view_1相等</span>
+        make<span class="variable">.left</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view2 的左距离view_1的右距离为30px</span>
+        make<span class="variable">.right</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-<span class="number">30</span>); <span class="comment">//view_2的右距离self.view30px</span>
+        make<span class="variable">.width</span><span class="variable">.equalTo</span>(view_1); <span class="comment">//view_2的宽度和view_1相等</span>
+        make<span class="variable">.height</span><span class="variable">.equalTo</span>(view_1); <span class="comment">//view_2的高度和view_1相等</span>
+    }];
+
+    <span class="comment">//最后确定view_3的约束</span>
+    [view_3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make<span class="variable">.top</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_3的上距离view_1的底部 30px</span>
+        make<span class="variable">.left</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_left</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_3的左距离self.view 30px</span>
+        make<span class="variable">.bottom</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>);<span class="comment">//view_3的底部距离self.view 30px</span>
+        make<span class="variable">.right</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-<span class="number">30</span>); <span class="comment">//view_3的右距离self.view 30px</span>
+        make<span class="variable">.height</span><span class="variable">.equalTo</span>(view_1);<span class="comment">//view_3的高度和view_1相等</span>
+    }];
+    }
+
+运行效果就是上面的GIF图，Masonry虽然也写了不少代码，但是他看起来比较简单易懂，在实战项目中，我们可以用Masonry作为Xib的辅助工具使用，利用代码处理一些动态的约束。
+
+最后说明一下，在Masonry中能够添加autolayout约束有三个函数：
+
+    - (<span class="built_in">NSArray</span> *)mas_makeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;
+    - (<span class="built_in">NSArray</span> *)mas_updateConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;
+    - (<span class="built_in">NSArray</span> *)mas_remakeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;
+    <span class="comment">/*
+    mas_makeConstraints 只负责新增约束 Autolayout不能同时存在两条针对于同一对象的约束 否则会报错 
+    mas_updateConstraints 针对上面的情况 会更新在block中出现的约束 不会导致出现两个相同约束的情况
+    mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
+    三种函数善加利用 就可以应对各种情况了
+    */</span>
+</code></pre><p>小编在这里附上以上四种自动布局Demo：<a href="https://github.com/JinqianChina/aotulayoutDemo.git" target="_blank" rel="external">https://github.com/JinqianChina/aotulayoutDemo.git</a></p>
+<p>参考文章：<br><a href="http://www.cocoachina.com/ios/20141219/10702.html" target="_blank" rel="external">http://www.cocoachina.com/ios/20141219/10702.html</a>  Masonry介绍与使用实践：快速上手Autolayout</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cinla9lv3001v3y0jw1yarfri" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/04/22/ios页面传值：正向、反向/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ios页面传值：正向、反向</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图片上传/">图片上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/页面传值/">页面传值</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UIImagePickerController-中文/" style="font-size: 10px;">UIImagePickerController 中文</a> <a href="/tags/UIImagePickerController-拍照-相册/" style="font-size: 10px;">UIImagePickerController 拍照 相册</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/aotulayout-Masonry-VFL-自动布局/" style="font-size: 10px;">aotulayout Masonry VFL 自动布局</a> <a href="/tags/cell-动态计算高度/" style="font-size: 10px;">cell 动态计算高度</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/页面传值/" style="font-size: 10px;">页面传值</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/">iOS开发-自动布局篇：史上最牛的自动布局教学！</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/22/ios页面传值：正向、反向/">ios页面传值：正向、反向</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/19/iOS用AFN上传图片到服务器/">iOS用AFN上传图片到服务器</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/">UIImagePickerController获取图片（拍照、相册、图库）详解</a>
+          </li>
+        
+          <li>
+            <a href="/2016/04/15/UIImagePickerController显示中文界面/">UIImagePickerController显示中文界面</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Jingege<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
