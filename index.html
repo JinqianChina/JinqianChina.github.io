@@ -358,6 +358,7 @@ view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> =
 <p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_13.png" alt="Mou icon"></p>
 <p> (8)如图，则是我们布局完成后的Xib，运行效果就是开头那个GIF图效果，是不是很炫酷！</p>
 <p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_14.png" alt="Mou icon"></p>
+<p> <img src="http://7xosy6.com1.z0.glb.clouddn.com/aotulayoutDemo_3.gif" alt="Mou icon"></p>
 <p> 到这里，是不是感觉很神奇了呢，不用一行代码，就可以完成上述那么多代码实现的效果。至此，Aotulayout布局已经基本介绍完了，对了，还有一个第三方库Masonry。</p>
 </li>
 <li><p>Masonry第三方库</p>
@@ -407,103 +408,97 @@ view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> =
 <span class="built_in">NSLayoutAttributeBaseline</span>,
 <span class="built_in">NSLayoutAttributeLastBaseline</span> = <span class="built_in">NSLayoutAttributeBaseline</span>,
 <span class="built_in">NSLayoutAttributeFirstBaseline</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+
+<span class="built_in">NSLayoutAttributeLeftMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+<span class="built_in">NSLayoutAttributeRightMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+<span class="built_in">NSLayoutAttributeTopMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+<span class="built_in">NSLayoutAttributeBottomMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+<span class="built_in">NSLayoutAttributeLeadingMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+<span class="built_in">NSLayoutAttributeTrailingMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+<span class="built_in">NSLayoutAttributeCenterXWithinMargins</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+<span class="built_in">NSLayoutAttributeCenterYWithinMargins</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
+
+<span class="built_in">NSLayoutAttributeNotAnAttribute</span> = <span class="number">0</span>
+};
+</code></pre><p> 好了，简单说明之后，让我们更实际的来些代码吧！同样是上面的需求哦！come on<br> 首先，要导入Masonry库文件，这里要打一下广告了，Masonry 源码地址：<a href="https://github.com/Masonry/Masonry" target="_blank" rel="external">https://github.com/Masonry/Masonry</a> 你可以直接下载，然后将文件拖入工程，也可以使用cocoapods导入，如果不明白cocoapods怎么用的，可以看一下小编的一篇关于cocoapods的介绍:<a href="http://www.jianshu.com/p/c23eeb43438b" target="_blank" rel="external">http://www.jianshu.com/p/c23eeb43438b</a></p>
+<p> OK，看看Masonry神奇的代码吧！</p>
+<pre><code>- (<span class="keyword">void</span>)viewDidLoad {
+[<span class="keyword">super</span> viewDidLoad];
+<span class="comment">// Do any additional setup after loading the view from its nib.</span>
+<span class="comment">/*
+ * 需求
+ *
+ * 我们需要布局红(view_1)、绿(view_2)、蓝(view_3)三个view位置如图所示，
+ * 他们距离父视图边距以及相互之间的距离都为30px，红色view和绿色view宽度相等，
+ * 并且三个view的高度相等。并且在横屏时，他们的位置还是一样保持不变。
+ *
+ */</span>
+
+<span class="comment">//1.首先，创建视图控件，添加到self.view上</span>
+
+<span class="built_in">UIView</span> *view_1 = [[<span class="built_in">UIView</span> alloc] init];
+view_1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_1];
+<span class="built_in">UIView</span> *view_2 = [[<span class="built_in">UIView</span> alloc] init];
+view_2<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_2];
+<span class="built_in">UIView</span> *view_3 = [[<span class="built_in">UIView</span> alloc] init];
+view_3<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> blueColor];
+[<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_3];
+
+<span class="comment">//2.然后，记得要把AutoresizingMask布局关掉</span>
+view_1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+view_2<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
+
+<span class="comment">//3.接着，添加约束</span>
+
+__<span class="keyword">weak</span> __<span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;<span class="comment">//这里用一个弱引用来表示self，用于下面的Block中</span>
+
+<span class="comment">//先确定view_1的约束</span>
+[view_1 mas_makeConstraints:^(MASConstraintMaker *make) {
+    make<span class="variable">.top</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_top</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_1的上，距离self.view是30px</span>
+    make<span class="variable">.left</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_left</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_1de左，距离self.view是30px</span>
+}];
+
+<span class="comment">//然后确定view_2的约束</span>
+[view_2 mas_makeConstraints:^(MASConstraintMaker *make) {
+    make<span class="variable">.centerY</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_centerY</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">0</span>); <span class="comment">//view2 Y方向上的中心线和view_1相等</span>
+    make<span class="variable">.left</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view2 的左距离view_1的右距离为30px</span>
+    make<span class="variable">.right</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-<span class="number">30</span>); <span class="comment">//view_2的右距离self.view30px</span>
+    make<span class="variable">.width</span><span class="variable">.equalTo</span>(view_1); <span class="comment">//view_2的宽度和view_1相等</span>
+    make<span class="variable">.height</span><span class="variable">.equalTo</span>(view_1); <span class="comment">//view_2的高度和view_1相等</span>
+}];
+
+<span class="comment">//最后确定view_3的约束</span>
+[view_3 mas_makeConstraints:^(MASConstraintMaker *make) {
+    make<span class="variable">.top</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_3的上距离view_1的底部 30px</span>
+    make<span class="variable">.left</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_left</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_3的左距离self.view 30px</span>
+    make<span class="variable">.bottom</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>);<span class="comment">//view_3的底部距离self.view 30px</span>
+    make<span class="variable">.right</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-<span class="number">30</span>); <span class="comment">//view_3的右距离self.view 30px</span>
+    make<span class="variable">.height</span><span class="variable">.equalTo</span>(view_1);<span class="comment">//view_3的高度和view_1相等</span>
+}];
+}
+</code></pre><p> 运行效果就是上面的GIF图，Masonry虽然也写了不少代码，但是他看起来比较简单易懂，在实战项目中，我们可以用Masonry作为Xib的辅助工具使用，利用代码处理一些动态的约束。</p>
+<p> 最后说明一下，在Masonry中能够添加autolayout约束有三个函数：</p>
+<pre><code>- (NSArray <span class="keyword">*</span>)mas_makeConstraints:(void(^)(MASConstraintMaker <span class="keyword">*</span>make))block;
+- (NSArray <span class="keyword">*</span>)mas_updateConstraints:(void(^)(MASConstraintMaker <span class="keyword">*</span>make))block;
+- (NSArray <span class="keyword">*</span>)mas_remakeConstraints:(void(^)(MASConstraintMaker <span class="keyword">*</span>make))block;
+/<span class="keyword">*</span>
+mas_makeConstraints 只负责新增约束 Autolayout不能同时存在两条针对于同一对象的约束 否则会报错 
+mas_updateConstraints 针对上面的情况 会更新在block中出现的约束 不会导致出现两个相同约束的情况
+mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
+三种函数善加利用 就可以应对各种情况了
+<span class="keyword">*</span>/
 </code></pre></li>
 </ol>
-<pre><code>    <span class="built_in">NSLayoutAttributeLeftMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-    <span class="built_in">NSLayoutAttributeRightMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-    <span class="built_in">NSLayoutAttributeTopMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-    <span class="built_in">NSLayoutAttributeBottomMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-    <span class="built_in">NSLayoutAttributeLeadingMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-    <span class="built_in">NSLayoutAttributeTrailingMargin</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-    <span class="built_in">NSLayoutAttributeCenterXWithinMargins</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-    <span class="built_in">NSLayoutAttributeCenterYWithinMargins</span> <span class="built_in">NS_ENUM_AVAILABLE_IOS</span>(<span class="number">8</span>_0),
-
-    <span class="built_in">NSLayoutAttributeNotAnAttribute</span> = <span class="number">0</span>
-    };
-
-好了，简单说明之后，让我们更实际的来些代码吧！同样是上面的需求哦！come on
-首先，要导入Masonry库文件，这里要打一下广告了，Masonry 源码地址：&lt;https:<span class="comment">//github.com/Masonry/Masonry&gt; 你可以直接下载，然后将文件拖入工程，也可以使用cocoapods导入，如果不明白cocoapods怎么用的，可以看一下小编的一篇关于cocoapods的介绍:&lt;http://www.jianshu.com/p/c23eeb43438b&gt;</span>
-
-OK，看看Masonry神器的代码吧！
-
-    - (<span class="keyword">void</span>)viewDidLoad {
-    [<span class="keyword">super</span> viewDidLoad];
-    <span class="comment">// Do any additional setup after loading the view from its nib.</span>
-    <span class="comment">/*
-     * 需求
-     *
-     * 我们需要布局红(view_1)、绿(view_2)、蓝(view_3)三个view位置如图所示，
-     * 他们距离父视图边距以及相互之间的距离都为30px，红色view和绿色view宽度相等，
-     * 并且三个view的高度相等。并且在横屏时，他们的位置还是一样保持不变。
-     *
-     */</span>
-
-    <span class="comment">//1.首先，创建视图控件，添加到self.view上</span>
-
-    <span class="built_in">UIView</span> *view_1 = [[<span class="built_in">UIView</span> alloc] init];
-    view_1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> redColor];
-    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_1];
-    <span class="built_in">UIView</span> *view_2 = [[<span class="built_in">UIView</span> alloc] init];
-    view_2<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];
-    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_2];
-    <span class="built_in">UIView</span> *view_3 = [[<span class="built_in">UIView</span> alloc] init];
-    view_3<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> blueColor];
-    [<span class="keyword">self</span><span class="variable">.view</span> addSubview:view_3];
-
-    <span class="comment">//2.然后，记得要把AutoresizingMask布局关掉</span>
-    view_1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
-    view_2<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
-    view_3<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;
-
-    <span class="comment">//3.接着，添加约束</span>
-
-    __<span class="keyword">weak</span> __<span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;<span class="comment">//这里用一个弱引用来表示self，用于下面的Block中</span>
-
-    <span class="comment">//先确定view_1的约束</span>
-    [view_1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make<span class="variable">.top</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_top</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_1的上，距离self.view是30px</span>
-        make<span class="variable">.left</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_left</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_1de左，距离self.view是30px</span>
-    }];
-
-    <span class="comment">//然后确定view_2的约束</span>
-    [view_2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make<span class="variable">.centerY</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_centerY</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">0</span>); <span class="comment">//view2 Y方向上的中心线和view_1相等</span>
-        make<span class="variable">.left</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view2 的左距离view_1的右距离为30px</span>
-        make<span class="variable">.right</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-<span class="number">30</span>); <span class="comment">//view_2的右距离self.view30px</span>
-        make<span class="variable">.width</span><span class="variable">.equalTo</span>(view_1); <span class="comment">//view_2的宽度和view_1相等</span>
-        make<span class="variable">.height</span><span class="variable">.equalTo</span>(view_1); <span class="comment">//view_2的高度和view_1相等</span>
-    }];
-
-    <span class="comment">//最后确定view_3的约束</span>
-    [view_3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make<span class="variable">.top</span><span class="variable">.equalTo</span>(view_1<span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_3的上距离view_1的底部 30px</span>
-        make<span class="variable">.left</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_left</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>); <span class="comment">//view_3的左距离self.view 30px</span>
-        make<span class="variable">.bottom</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_bottom</span>)<span class="variable">.with</span><span class="variable">.offset</span>(<span class="number">30</span>);<span class="comment">//view_3的底部距离self.view 30px</span>
-        make<span class="variable">.right</span><span class="variable">.equalTo</span>(weakSelf<span class="variable">.view</span><span class="variable">.mas_right</span>)<span class="variable">.with</span><span class="variable">.offset</span>(-<span class="number">30</span>); <span class="comment">//view_3的右距离self.view 30px</span>
-        make<span class="variable">.height</span><span class="variable">.equalTo</span>(view_1);<span class="comment">//view_3的高度和view_1相等</span>
-    }];
-    }
-
-运行效果就是上面的GIF图，Masonry虽然也写了不少代码，但是他看起来比较简单易懂，在实战项目中，我们可以用Masonry作为Xib的辅助工具使用，利用代码处理一些动态的约束。
-
-最后说明一下，在Masonry中能够添加autolayout约束有三个函数：
-
-    - (<span class="built_in">NSArray</span> *)mas_makeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;
-    - (<span class="built_in">NSArray</span> *)mas_updateConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;
-    - (<span class="built_in">NSArray</span> *)mas_remakeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;
-    <span class="comment">/*
-    mas_makeConstraints 只负责新增约束 Autolayout不能同时存在两条针对于同一对象的约束 否则会报错 
-    mas_updateConstraints 针对上面的情况 会更新在block中出现的约束 不会导致出现两个相同约束的情况
-    mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
-    三种函数善加利用 就可以应对各种情况了
-    */</span>
-</code></pre><p>喜欢的童鞋，动一下小手点击喜欢和关注喔！小编在这里附上以上四种自动布局Demo：<a href="https://github.com/JinqianChina/aotulayoutDemo.git" target="_blank" rel="external">https://github.com/JinqianChina/aotulayoutDemo.git</a></p>
+<p>喜欢的童鞋，动一下小手点击喜欢和关注喔！小编在这里附上以上四种自动布局Demo：<a href="https://github.com/JinqianChina/aotulayoutDemo.git" target="_blank" rel="external">https://github.com/JinqianChina/aotulayoutDemo.git</a></p>
 <p>参考文章：<br><a href="http://www.cocoachina.com/ios/20141219/10702.html" target="_blank" rel="external">http://www.cocoachina.com/ios/20141219/10702.html</a>  Masonry介绍与使用实践：快速上手Autolayout</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cinlaun7r001v4w0jqf2ieq98" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cinlb3pwn001v5c0j7vc8oexn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a></li></ul>
@@ -1357,7 +1352,7 @@ OK，看看Masonry神器的代码吧！
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cinlaun76001a4w0jur38zvrt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cinlb3pw4001a5c0j6loopnk9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/页面传值/">页面传值</a></li></ul>
@@ -1486,7 +1481,7 @@ OK，看看Masonry神器的代码吧！
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cinlaun7a001d4w0jgj00l1sb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cinlb3pw7001d5c0j6sol9aey" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片上传/">图片上传</a></li></ul>
@@ -1693,7 +1688,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cinlaun8o002s4w0jq4l9iqv6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cinlb3pxm002s5c0j5bsb6u8f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a></li></ul>
@@ -1742,7 +1737,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cinlaun8q002v4w0jfyz05ws0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cinlb3pxo002v5c0jof5fp7t8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a></li></ul>
@@ -1849,7 +1844,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cinlaun6k000p4w0j0tldoc1y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cinlb3pvf000p5c0j7bubl245" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a></li></ul>
@@ -1898,7 +1893,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cinlaun6x00114w0jnx34ijib" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cinlb3pvu00115c0jmunzxbfs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
@@ -1945,7 +1940,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cinlaun6f000l4w0j1chlimju" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cinlb3pva000l5c0j5qbvfat5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1994,7 +1989,7 @@ NSIndexPath *indexPath=[NSIndexPath <span class="string">indexPathForRow:</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cinlaun6v000y4w0j5v205p9w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cinlb3pvs000y5c0j9mkjkr13" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a></li></ul>
@@ -2162,7 +2157,7 @@ eg：021-68686868  0511-6868686；
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/25/正则表达式在iOS中的应用总结/" data-id="cinlaun6100064w0jq1ujlqs7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/03/25/正则表达式在iOS中的应用总结/" data-id="cinlb3pus00065c0j795116v8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a></li></ul>
