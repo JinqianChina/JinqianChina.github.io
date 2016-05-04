@@ -89,7 +89,7 @@
       
         <ol>
 <li><p>点（Point）</p>
-<p>（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;</p>
+<p> （1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;</p>
 <pre><code>/<span class="keyword">*</span>
  <span class="keyword">*</span> 描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
  <span class="keyword">*</span> 参数：point -&gt; 一个视图（view）坐标系上的点 
@@ -103,9 +103,7 @@
      // 在controllerA中实现:
     CGRect point = [self.view convertPoint:aPoint fromView:cell];
     // 此 point 为在 controllerA 的 view 中的 point
-</code></pre></li>
-</ol>
-<p>（2）- (CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view; </p>
+</code></pre><p> （2）- (CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view; </p>
 <pre><code>/*
  * 描述：将坐标点point由point所在视图转换到目标视图<span class="built_in">view</span>中，返回在目标视图<span class="built_in">view</span>中的坐标点
  * 参数：point -&gt; 一个在当前视图坐标系中的点
@@ -119,10 +117,9 @@
      <span class="comment">// 在controllerA中实现:</span>
     CGRect point = [cell convertPoint:aPoint toView:self.<span class="built_in">view</span>];
     <span class="comment">// 此 point 为在 controllerA 的 view 中的 point</span>
-</code></pre><ol>
-<li>面（Rect）</li>
-</ol>
-<p>（1）- (CGRect)convertRect:(CGRect)rect fromView:(UIView *)view;</p>
+</code></pre></li>
+<li><p>面（Rect）</p>
+<p> （1）- (CGRect)convertRect:(CGRect)rect fromView:(UIView *)view;</p>
 <pre><code><span class="comment">/*
  * 描述：将rect从view中转换到当前视图中，返回在当前视图中的frame
  * 参数：rect -&gt; 一个视图在当前所在视图坐标系中的frame
@@ -138,7 +135,7 @@
     // 或当已知<span class="keyword">btn时:
 </span>    CGRect rect = [<span class="keyword">self.view </span>convertRect:<span class="keyword">btn.frame </span>fromView:<span class="keyword">btn.superview];
 </span>    // 此 rect 为 <span class="keyword">btn </span>在 controllerA 的 view 中的 rect
-</code></pre><p>（2）- (CGRect)convertRect:(CGRect)rect toView:(UIView *)view;</p>
+</code></pre><p> （2）- (CGRect)convertRect:(CGRect)rect toView:(UIView *)view;</p>
 <pre><code><span class="comment">/*
  * 描述：将rect由rect所在视图转换到目标视图view中，返回在目标视图view中的frame
  * 参数：rect -&gt; 一个视图在当前所在视图坐标系中的frame
@@ -154,12 +151,14 @@
 </span>    // 或当已知<span class="keyword">btn时:
 </span>    CGRect rect = [<span class="keyword">btn.superview </span>convertRect:<span class="keyword">btn.frame </span>toView:<span class="keyword">self.view];
 </span>    // 此 rect 为 <span class="keyword">btn </span>在 controllerA 的 view 中的 rect
-</code></pre><p>参考文章：<a href="http://www.cnblogs.com/pengyingh/articles/2379476.html" target="_blank" rel="external">http://www.cnblogs.com/pengyingh/articles/2379476.html</a> UIView 中常见的方法总结</p>
+</code></pre></li>
+</ol>
+<p>参考文章：<a href="http://www.cnblogs.com/pengyingh/articles/2379476.html" target="_blank" rel="external">http://www.cnblogs.com/pengyingh/articles/2379476.html</a> UIView 中常见的方法总结</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins83jn6001j6n0jr5g0d5af" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins86pif001j7e0j3iiqzw45" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/convert-坐标转换/">convert 坐标转换</a></li></ul>
@@ -604,7 +603,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cins83jnj001y6n0jz7k490vm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cins86pir001y7e0jg6kmqc5x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a></li></ul>
@@ -1458,7 +1457,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cins83jn1001a6n0j1q60sa54" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cins86pi9001a7e0jscfhfiw2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/页面传值/">页面传值</a></li></ul>
@@ -1587,7 +1586,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cins83jn3001d6n0jzillwxvq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cins86pic001d7e0je2gy11f8" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片上传/">图片上传</a></li></ul>
@@ -1794,7 +1793,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cins83jof002v6n0johrevyht" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cins86pjp002v7e0jhutqy2ai" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a></li></ul>
@@ -1843,7 +1842,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cins83jog002y6n0jn41l8c40" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cins86pjr002y7e0jg20wdkfi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a></li></ul>
@@ -1950,7 +1949,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cins83jmg000p6n0jzk7wkhij" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cins86phn000p7e0jszr9t83x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a></li></ul>
@@ -1999,7 +1998,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cins83jms00116n0jhnnyd2jv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cins86pi100117e0jqby3w21c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
@@ -2046,7 +2045,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cins83jmb000l6n0jfgdxffsb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cins86phj000l7e0jv18aqxg9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2095,7 +2094,7 @@ NSIndexPath *indexPath=[NSIndexPath <span class="string">indexPathForRow:</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cins83jmr000y6n0jru1fmfh1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cins86phy000y7e0j8d3vy1hc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a></li></ul>
