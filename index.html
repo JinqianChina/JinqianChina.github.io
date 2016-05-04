@@ -65,6 +65,109 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS开发常用方法-坐标转换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/04/iOS开发常用方法-坐标转换/" class="article-date">
+  <time datetime="2016-05-04T02:02:55.000Z" itemprop="datePublished">2016-05-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/04/iOS开发常用方法-坐标转换/">iOS开发常用方法--坐标转换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>点（Point）</p>
+<p>（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;</p>
+<p> /*</p>
+<ul>
+<li>描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点</li>
+<li>参数：point -&gt; 一个视图（view）坐标系上的点 </li>
+<li>参数：view -&gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基于窗</li>
+<li>口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。</li>
+<li><p>返回值： 一个转换到接收者（调用者）坐标系的点<br>*/</p>
+<p>用法：<br>  // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中<br>  // 在controllerA中实现:<br> CGRect point = [self.view convertPoint:aPoint fromView:cell];<br> // 此 point 为在 controllerA 的 view 中的 point</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>（2）- (CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view; </p>
+<pre><code>/*
+ * 描述：将坐标点point由point所在视图转换到目标视图<span class="built_in">view</span>中，返回在目标视图<span class="built_in">view</span>中的坐标点
+ * 参数：point -&gt; 一个在当前视图坐标系中的点
+ * 参数：<span class="built_in">view</span> -&gt; 目标视图对象<span class="built_in">view</span>。如果视图是nil，那么这个方法将会转换成基于窗
+ * 口的坐标。否则视图和接收者都要属于同一个UIWindow对象。 
+ * 返回值：一个转换到接收者（<span class="built_in">view</span>）坐标系的点 
+ */
+
+  用法： 
+     <span class="comment">// controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中</span>
+     <span class="comment">// 在controllerA中实现:</span>
+    CGRect point = [cell convertPoint:aPoint toView:self.<span class="built_in">view</span>];
+    <span class="comment">// 此 point 为在 controllerA 的 view 中的 point</span>
+</code></pre><ol>
+<li>面（Rect）</li>
+</ol>
+<p>（1）- (CGRect)convertRect:(CGRect)rect fromView:(UIView *)view;</p>
+<pre><code><span class="comment">/*
+ * 描述：将rect从view中转换到当前视图中，返回在当前视图中的frame
+ * 参数：rect -&gt; 一个视图在当前所在视图坐标系中的frame
+ * 参数：view -&gt; 当前坐标系视图对象。如果视图是nil，那么这个方法将会基于窗口来转换。   
+ * 否则视图和接收者必须都属于同一个UIWindow对象
+ * 返回值：The converted rectangle -&gt; 一个转换过的frame 
+ */</span>
+
+ 用法： 
+     // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，cell上放有一个<span class="keyword">button，现在要把UITableViewCell中的subview(btn)的frame转换到controllerA的view中
+</span>     // 在controllerA中实现:
+    CGRect rect = [<span class="keyword">self.view </span>convertRect:cell.<span class="keyword">btn.frame </span>fromView:cell]<span class="comment">;</span>
+    // 或当已知<span class="keyword">btn时:
+</span>    CGRect rect = [<span class="keyword">self.view </span>convertRect:<span class="keyword">btn.frame </span>fromView:<span class="keyword">btn.superview];
+</span>    // 此 rect 为 <span class="keyword">btn </span>在 controllerA 的 view 中的 rect
+</code></pre><p>（2）- (CGRect)convertRect:(CGRect)rect toView:(UIView *)view;</p>
+<pre><code><span class="comment">/*
+ * 描述：将rect由rect所在视图转换到目标视图view中，返回在目标视图view中的frame
+ * 参数：rect -&gt; 一个视图在当前所在视图坐标系中的frame
+ * 参数：view -&gt; 要转换过去的目标视图对象。如果这个是视图是nil，这个方法将会基于窗口坐标系来转换。
+ * 否者视图和接收者必须属于同一个UIwindow对象
+ * 返回值：The converted rectangle -&gt; 一个转换过的frame
+ */</span>
+
+ 用法：
+     // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，cell上放有一个<span class="keyword">button，现在要把UITableViewCell中的subview(btn)的frame转换到controllerA的view中
+</span>    // 在controllerA中实现:
+    CGRect rect = [cell convertRect:cell.<span class="keyword">btn.frame </span>toView:<span class="keyword">self.view];
+</span>    // 或当已知<span class="keyword">btn时:
+</span>    CGRect rect = [<span class="keyword">btn.superview </span>convertRect:<span class="keyword">btn.frame </span>toView:<span class="keyword">self.view];
+</span>    // 此 rect 为 <span class="keyword">btn </span>在 controllerA 的 view 中的 rect
+</code></pre><p>参考文章：<a href="http://www.cnblogs.com/pengyingh/articles/2379476.html" target="_blank" rel="external">http://www.cnblogs.com/pengyingh/articles/2379476.html</a> UIView 中常见的方法总结</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins806tu001j5n0jxkrlfr0t" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/convert-坐标转换/">convert 坐标转换</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-iOS开发-自动布局篇：史上最牛的自动布局教学！" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" class="article-date">
@@ -498,7 +601,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cinlb3pwn001v5c0j7vc8oexn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cins806u8001y5n0j35wppa9t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a></li></ul>
@@ -1352,7 +1455,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cinlb3pw4001a5c0j6loopnk9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cins806tn001a5n0j51p1iody" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/页面传值/">页面传值</a></li></ul>
@@ -1481,7 +1584,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cinlb3pw7001d5c0j6sol9aey" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cins806tq001d5n0j135trcc7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片上传/">图片上传</a></li></ul>
@@ -1688,7 +1791,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cinlb3pxm002s5c0j5bsb6u8f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cins806v6002v5n0jrbdkt6hd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a></li></ul>
@@ -1737,7 +1840,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cinlb3pxo002v5c0jof5fp7t8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cins806v8002y5n0j2tt7deqy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a></li></ul>
@@ -1844,7 +1947,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cinlb3pvf000p5c0j7bubl245" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cins806t1000p5n0jfqawesck" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a></li></ul>
@@ -1893,7 +1996,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cinlb3pvu00115c0jmunzxbfs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cins806tf00115n0jcaj5ex39" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
@@ -1940,7 +2043,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cinlb3pva000l5c0j5qbvfat5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cins806su000l5n0jemjncmyj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1989,178 +2092,10 @@ NSIndexPath *indexPath=[NSIndexPath <span class="string">indexPathForRow:</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cinlb3pvs000y5c0j9mkjkr13" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cins806td000y5n0j2z3d0nw7" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-正则表达式在iOS中的应用总结" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/03/25/正则表达式在iOS中的应用总结/" class="article-date">
-  <time datetime="2016-03-25T08:21:39.000Z" itemprop="datePublished">2016-03-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/03/25/正则表达式在iOS中的应用总结/">正则表达式在iOS中的应用总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、什么是正则表达式</p>
-<p>　　正则表达式，又称正规表示法，是对字符串操作的一种逻辑公式。正则表达式可以检测给定的字符串是否符合我们定义的逻辑，也可以从字符串中获取我们想要的特定部分。它可以迅速地用极简单的方式达到字符串的复杂控制。</p>
-<p>二、正则表达式的语法</p>
-<p>先看一个过滤纯数字的例子</p>
-<pre><code>- (<span class="built_in">BOOL</span>)validateNumber:(<span class="built_in">NSString</span> *) textString
-{ <span class="built_in">NSString</span>* number=<span class="string">@"^[0-9]+$"</span>;
-<span class="built_in">NSPredicate</span> *numberPre = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF MATCHES %@"</span>,number];
-<span class="keyword">return</span> [numberPre evaluateWithObject:textString];
-}
-</code></pre><p>其中下述语句就是一个正则表达式</p>
-<pre><code>@<span class="string">"^[0-9]+$"</span>
-它代表了字符串中只能包含&gt;=<span class="number">1</span>个<span class="number">0</span>-<span class="number">9</span>的数字，语法是不是有一些怪异？
-下面我们先撇开iOS中的正则表达式的语法，用通俗的正则表达式语法来为介绍一下。（iOS语法与通俗的正则表达式语法相同，不同在于对转义字符的处理上(语言类的都相同)）
-</code></pre><p>正则表达式语法：</p>
-<pre><code><span class="comment">首先，特殊符号'^'和'$'。他们的作用是分别指出一个字符串的开始和结束。eg：</span>
-<span class="comment">“^one”：表示所有以”one”开始的字符串（”one</span> <span class="comment">cat”，”one123″，·····）；</span>
-<span class="comment">类似于:</span><span class="literal">-</span> <span class="comment">(BOOL)hasPrefix:(NSString</span> <span class="comment">*)aString;</span>
-<span class="comment">“a</span> <span class="comment">dog$”：表示所以以”a</span> <span class="comment">dog”结尾的字符串（”it</span> <span class="comment">is</span> <span class="comment">a</span> <span class="comment">dog”，·····）；</span>
-<span class="comment">类似于:</span><span class="literal">-</span> <span class="comment">(BOOL)hasSuffix:(NSString</span> <span class="comment">*)aString;</span>
-<span class="comment">“^apple$”：表示开始和结尾都是”apple”的字符串，这个是唯一的~；</span>
-<span class="comment">“banana”：表示任何包含”banana”的字符串。</span>
-<span class="comment">类似于</span> <span class="comment">iOS8的新方法</span><span class="literal">-</span> <span class="comment">(BOOL)containsString:(NSString</span> <span class="comment">*)aString</span><span class="string">,</span><span class="comment">搜索子串用的。</span>
-<span class="comment">‘*'，'</span><span class="literal">+</span><span class="comment">'和'?'这三个符号，表示一个或N个字符重复出现的次数。它们分别表示“没有或更多”（</span><span class="title">[</span><span class="comment">0</span><span class="string">,</span><span class="literal">+</span><span class="comment">∞</span><span class="title">]</span><span class="comment">取整），“一次或更多”（</span><span class="title">[</span><span class="comment">1</span><span class="string">,</span><span class="literal">+</span><span class="comment">∞</span><span class="title">]</span><span class="comment">取整），“没有或一次”（</span><span class="title">[</span><span class="comment">0</span><span class="string">,</span><span class="comment">1</span><span class="title">]</span><span class="comment">取整）。下面是几个例子：</span>
-<span class="comment">“ab*”：表示一个字符串有一个a后面跟着零个或若干个b（”a”</span><span class="string">,</span> <span class="comment">“ab”</span><span class="string">,</span> <span class="comment">“abbb”</span><span class="string">,</span><span class="comment">……）；</span>
-<span class="comment">“ab</span><span class="literal">+</span><span class="comment">”：表示一个字符串有一个a后面跟着至少一个b或者更多（</span> <span class="comment">”ab”</span><span class="string">,</span> <span class="comment">“abbb”</span><span class="string">,</span><span class="comment">……）；</span>
-<span class="comment">“ab?”：表示一个字符串有一个a后面跟着零个或者一个b（</span> <span class="comment">”a”</span><span class="string">,</span> <span class="comment">“ab”）；</span>
-<span class="comment">“a?b</span><span class="literal">+</span><span class="comment">$”：表示在字符串的末尾有零个或一个a跟着一个或几个b（</span> <span class="comment">”b”</span><span class="string">,</span> <span class="comment">“ab”</span><span class="string">,</span><span class="comment">”bb”</span><span class="string">,</span><span class="comment">”abb”</span><span class="string">,</span><span class="comment">……）。</span>
-<span class="comment">可以用大括号括起来（{}），表示一个重复的具体范围。例如</span>
-<span class="comment">“ab{4}”：表示一个字符串有一个a跟着4个b（”abbbb”）；</span>
-<span class="comment">“ab{1</span><span class="string">,</span><span class="comment">}”：表示一个字符串有一个a跟着至少1个b（”ab”</span><span class="string">,</span><span class="comment">”abb”</span><span class="string">,</span><span class="comment">”abbb”</span><span class="string">,</span><span class="comment">……)；</span>
-<span class="comment">“ab{3</span><span class="string">,</span><span class="comment">4}”：表示一个字符串有一个a跟着3到4个b（”abbb”</span><span class="string">,</span><span class="comment">”abbbb”)。</span>
-<span class="comment">那么，“*”可以用{0，}表示，“</span><span class="literal">+</span><span class="comment">”可以用{1，}表示，“?”可以用{0，1}表示</span>
-<span class="comment">注意：可以没有下限，但是不能没有上限！例如“ab{</span><span class="string">,</span><span class="comment">5}”是错误的写法</span>
-<span class="comment">“</span> <span class="comment">|</span> <span class="comment">”表示“或”操作：</span>
-<span class="comment">“a|b”：表示一个字符串里有”a”或者”b”；</span>
-<span class="comment">“(a|bcd)ef”：表示”aef”或”bcdef”；</span>
-<span class="comment">“(a|b)*c”：表示一串”a”"b”混合的字符串后面跟一个”c”；</span>
-<span class="comment">方括号”</span><span class="title">[</span> <span class="title">]</span><span class="comment">“表示在括号内的众多字符中，选择1</span><span class="literal">-</span><span class="comment">N个括号内的符合语法的字符作为结果，例如</span>
-<span class="comment">“</span><span class="title">[</span><span class="comment">ab</span><span class="title">]</span><span class="comment">“：表示一个字符串有一个”a”或”b”（相当于”a|b”）；</span>
-<span class="comment">“</span><span class="title">[</span><span class="comment">a</span><span class="literal">-</span><span class="comment">d</span><span class="title">]</span><span class="comment">“：表示一个字符串包含小写的'a'到'd'中的一个（相当于”a|b|c|d”或者”</span><span class="title">[</span><span class="comment">abcd</span><span class="title">]</span><span class="comment">“）；</span>
-<span class="comment">“^</span><span class="title">[</span><span class="comment">a</span><span class="literal">-</span><span class="comment">zA</span><span class="literal">-</span><span class="comment">Z</span><span class="title">]</span><span class="comment">“：表示一个以字母开头的字符串；</span>
-<span class="comment">“</span><span class="title">[</span><span class="comment">0</span><span class="literal">-</span><span class="comment">9</span><span class="title">]</span><span class="comment">a”：表示a前有一位的数字；</span>
-<span class="comment">“</span><span class="title">[</span><span class="comment">a</span><span class="literal">-</span><span class="comment">zA</span><span class="literal">-</span><span class="comment">Z0</span><span class="literal">-</span><span class="comment">9</span><span class="title">]</span><span class="comment">$”：表示一个字符串以一个字母或数字结束。</span>
-<span class="comment">“</span><span class="string">.</span><span class="comment">”匹配除“\r\n”之外的任何单个字符：</span>
-<span class="comment">“a</span><span class="string">.</span><span class="title">[</span><span class="comment">a</span><span class="literal">-</span><span class="comment">z</span><span class="title">]</span><span class="comment">“：表示一个字符串有一个”a”后面跟着一个任意字符和一个小写字母；</span>
-<span class="comment">“^</span><span class="string">.</span><span class="comment">{5}$”：表示任意1个长度为5的字符串；</span>
-<span class="comment">“\num”</span> <span class="comment">其中num是一个正整数。表示”\num”之前的字符出现相同的个数，例如</span>
-<span class="comment">“(</span><span class="string">.</span><span class="comment">)\1″：表示两个连续的相同字符。</span>
-<span class="comment">“10\{1</span><span class="string">,</span><span class="comment">2\}”</span> <span class="comment">:</span> <span class="comment">表示数字1后面跟着1或者2个0</span> <span class="comment">(“10″</span><span class="string">,</span><span class="comment">”100″)。</span>
-<span class="comment">”</span> <span class="comment">0\{3</span><span class="string">,</span><span class="comment">\}</span> <span class="comment">”</span> <span class="comment">表示数字为至少3个连续的0</span> <span class="comment">（“000”，“0000”，······）。</span>
-<span class="comment">在方括号里用'^'表示不希望出现的字符，'^'应在方括号里的第一位。</span>
-<span class="comment">“@</span><span class="title">[</span><span class="comment">^a</span><span class="literal">-</span><span class="comment">zA</span><span class="literal">-</span><span class="comment">Z</span><span class="title">]</span><span class="comment">4@”表示两个”@”中不应该出现字母）。</span>
-<span class="comment">常用的还有：</span>
-<span class="comment">“</span> <span class="comment">\d</span> <span class="comment">”匹配一个数字字符。等价于</span><span class="title">[</span><span class="comment">0</span><span class="literal">-</span><span class="comment">9</span><span class="title">]</span><span class="comment">。</span>
-<span class="comment">“</span> <span class="comment">\D”匹配一个非数字字符。等价于</span><span class="title">[</span><span class="comment">^0</span><span class="literal">-</span><span class="comment">9</span><span class="title">]</span><span class="comment">。</span>
-<span class="comment">“</span> <span class="comment">\w</span> <span class="comment">”匹配包括下划线的任何单词字符。等价于“</span><span class="title">[</span><span class="comment">A</span><span class="literal">-</span><span class="comment">Za</span><span class="literal">-</span><span class="comment">z0</span><span class="literal">-</span><span class="comment">9_</span><span class="title">]</span><span class="comment">”。</span>
-<span class="comment">“</span> <span class="comment">\W</span> <span class="comment">”匹配任何非单词字符。等价于“</span><span class="title">[</span><span class="comment">^A</span><span class="literal">-</span><span class="comment">Za</span><span class="literal">-</span><span class="comment">z0</span><span class="literal">-</span><span class="comment">9_</span><span class="title">]</span><span class="comment">”。</span>
-<span class="comment">iOS中书写正则表达式，碰到转义字符，多加一个“\”</span><span class="string">,</span><span class="comment">例如：</span>
-<span class="comment">全数字字符：@”^\\d\</span><span class="literal">+</span><span class="comment">$”</span>
-</code></pre><p>　　<br>三、iOS中正则表达式的3种使用</p>
-<p>1.正则表达式与NSPredicate连用，eg：</p>
-<pre><code>- (<span class="built_in">BOOL</span>)validateNumber:(<span class="built_in">NSString</span> *) textString
-{
-<span class="built_in">NSString</span>* number=<span class="string">@"^[0-9]+$"</span>;
-<span class="built_in">NSPredicate</span> *numberPre = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF MATCHES %@"</span>,number];
-<span class="keyword">return</span> [numberPre evaluateWithObject:textString];
-}
-</code></pre><p>2.NSString方法</p>
-<pre><code>- (<span class="built_in">NSRange</span>)rangeOfString:(<span class="built_in">NSString</span> *)aString options:
-(<span class="built_in">NSStringCompareOptions</span>)mask;
-<span class="built_in">NSString</span> *searchText = <span class="string">@"rangeOfString"</span>;
-<span class="built_in">NSRange</span> range = [searchText rangeOfString:<span class="string">@"^[0-9]+$"</span> 
-options:<span class="built_in">NSRegularExpressionSearch</span>];
-<span class="keyword">if</span> (range<span class="variable">.location</span> != <span class="built_in">NSNotFound</span>) {
-<span class="built_in">NSLog</span>(<span class="string">@"range ：%@"</span>, [searchText substringWithRange:range]);
-}
-</code></pre><p>3.正则表达式类（NSRegularExpression）</p>
-<pre><code><span class="type">NSString</span> *searchText = @<span class="string">"you want to match"</span>; 
-<span class="type">NSError</span> *error = <span class="type">NULL</span>;
-<span class="type">NSRegularExpression</span> *regex = [<span class="type">NSRegularExpression</span> regularExpressionWithPattern:@<span class="string">"^[0-9]+$"</span> options:<span class="type">NSRegularExpressionCaseInsensitive</span> error:&amp;error];
-<span class="type">NSTextCheckingResult</span> *<span class="literal">result</span> = [regex firstMatchInString:searchText options:<span class="number">0</span> <span class="type">range</span>:<span class="type">NSMakeRange</span>(<span class="number">0</span>, [searchText length])];
-<span class="keyword">if</span> (<span class="literal">result</span>) {
- <span class="type">NSLog</span>(@<span class="string">"%@"</span>, [searchText substringWithRange:<span class="literal">result</span>.<span class="type">range</span>]);
-}
-</code></pre><p>四、常用的正则表达式</p>
-<pre><code>1.验证用户名和密码：”^[a-zA-Z]\w{5,15}$”
-2.验证电话号码：（”^(\\d{3,4}-)\\d{7,8}$”）
-eg：021-68686868  0511-6868686；
-3.验证手机号码：”^1[<span class="link_label">3|4|5|7|8</span>][<span class="link_reference">0-9</span>]\\d{8}$”；
-4.验证身份证号（15位或18位数字）：”\\d{14}[[0-9],0-9xX]”；
-5.验证Email地址：(“^\\w+([-+.]\\w+)<span class="emphasis">*@\\w+([-.]\\w+)*</span>\.\\w+([-.]\\w+)*$”)；
-6.只能输入由数字和26个英文字母组成的字符串：(“^[A-Za-z0-9]+$”) ;
-7.整数或者小数：^[0-9]+([.]{0,1}[0-9]+){0,1}$
-8.只能输入数字：”^[0-9]*$”。
-9.只能输入n位的数字：”^\\d{n}$”。
-10.只能输入至少n位的数字：”^\\d{n,}$”。
-11.只能输入m~n位的数字：”^\\d{m,n}$”。
-12.只能输入零和非零开头的数字：”^(0|[<span class="link_label">1-9</span>][<span class="link_reference">0-9</span>]*)$”。
-13.只能输入有两位小数的正实数：”^[0-9]+(.[0-9]{2})?$”。
-14.只能输入有1~3位小数的正实数：”^[0-9]+(\.[0-9]{1,3})?$”。
-15.只能输入非零的正整数：”^\+?[<span class="link_label">1-9</span>][<span class="link_reference">0-9</span>]*$”。
-16.只能输入非零的负整数：”^\-[<span class="link_label">1-9</span>][<span class="link_reference"></span>]0-9″*$。
-17.只能输入长度为3的字符：”^.{3}$”。
-18.只能输入由26个英文字母组成的字符串：”^[A-Za-z]+$”。
-19.只能输入由26个大写英文字母组成的字符串：”^[A-Z]+$”。
-20.只能输入由26个小写英文字母组成的字符串：”^[a-z]+$”。
-21.验证是否含有^%&amp;',;=?$\”等字符：”[^%&amp;',;=?$\x22]+”。
-22.只能输入汉字：”^[\u4e00-\u9fa5]{0,}$”。
-23.验证URL：”^http://([\\w-]+\.)+[\\w-]+(/[\\w-./?%&amp;=]*)?$”。
-24.验证一年的12个月：”^(0?[1-9]|1[0-2])$”正确格式为：”01″～”09″和”10″～”12″。
-25.验证一个月的31天：”^((0?[1-9])|((1|2)[0-9])|30|31)$”正确格式为；”01″～”09″、”10″～”29″和“30”~“31”。
-26.获取日期正则表达式：\\d{4}[年|\-|\.]\\d{\1-\12}[月|\-|\.]\\d{\1-\31}日?
-评注：可用来匹配大多数年月日信息。
-27.匹配双字节字符(包括汉字在内)：[^\x00-\xff]
-评注：可以用来计算字符串的长度（一个双字节字符长度计2，ASCII字符计1）
-28.匹配空白行的正则表达式：\n\s*\r
-评注：可以用来删除空白行
-29.匹配HTML标记的正则表达式：<span class="xml"><span class="tag">&lt;<span class="title">(\S*?)[^</span>&gt;</span></span>]<span class="emphasis">*&gt;.*</span>?<span class="xml"><span class="tag">&lt;/&gt;</span></span>|<span class="xml"><span class="tag">&lt;<span class="title">.*?</span> /&gt;</span></span>
-评注：网上流传的版本太糟糕，上面这个也仅仅能匹配部分，对于复杂的嵌套标记依旧无能为力
-30.匹配首尾空白字符的正则表达式：^\s<span class="emphasis">*|\s*</span>$
-评注：可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式
-31.匹配网址URL的正则表达式：[a-zA-z]+://[^\s]*
-评注：网上流传的版本功能很有限，上面这个基本可以满足需求
-32.匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[<span class="link_label">a-zA-Z</span>][<span class="link_reference">a-zA-Z0-9_</span>]{4,15}$
-评注：表单验证时很实用
-33.匹配腾讯QQ号：[<span class="link_label">1-9</span>][<span class="link_reference">0-9</span>]\{4,\}
-评注：腾讯QQ号从10 000 开始
-34.匹配中国邮政编码：[1-9]\\d{5}(?!\d)
-评注：中国邮政编码为6位数字
-35.匹配ip地址：((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)。
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/03/25/正则表达式在iOS中的应用总结/" data-id="cinlb3pus00065c0j795116v8" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a></li></ul>
 
     </footer>
   </div>
@@ -2184,7 +2119,7 @@ eg：021-68686868  0511-6868686；
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图片上传/">图片上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/页面传值/">页面传值</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CA动画-页面切换/">CA动画 页面切换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JSONKit-iOS9-arm7/">JSONKit iOS9 arm7</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UICollectionview-header-footerView/">UICollectionview header/footerView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UITextField-UITextView-过滤-Emoji表情/">UITextField UITextView 过滤 Emoji表情</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UIViewController-生命周期/">UIViewController 生命周期</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode7-真机调试/">Xcode7 真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/convert-坐标转换/">convert 坐标转换</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-block/">iOS block</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-nil-NULL-Nil-NSNull/">iOS nil NULL Nil NSNull</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-view-个别圆角/">iOS view 个别圆角</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-webView-JS/">iOS webView JS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-二维码-AVFoundation/">iOS 二维码 AVFoundation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-企业包-ipa/">iOS 企业包 ipa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-宏定义/">iOS 宏定义</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS-正则表达式/">iOS 正则表达式</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS6-横屏-旋转/">iOS6 横屏 旋转</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS8-横屏-状态栏/">iOS8 横屏 状态栏</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS真机调试/">iOS真机调试</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/label-动态计算宽高/">label 动态计算宽高</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-合作开发-冲突/">svn 合作开发 冲突</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView/">tableView</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textField-textView-限制字数/">textField textView 限制字数</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/textView-自动换行/">textView 自动换行</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webView-URL-特殊字符/">webView URL 特殊字符</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zsh/">zsh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例-GCD/">单例 GCD</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/图片上传/">图片上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/页面传值/">页面传值</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -2193,7 +2128,7 @@ eg：021-68686868  0511-6868686；
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UIImagePickerController-中文/" style="font-size: 10px;">UIImagePickerController 中文</a> <a href="/tags/UIImagePickerController-拍照-相册/" style="font-size: 10px;">UIImagePickerController 拍照 相册</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/aotulayout-Masonry-VFL-自动布局/" style="font-size: 10px;">aotulayout Masonry VFL 自动布局</a> <a href="/tags/cell-动态计算高度/" style="font-size: 10px;">cell 动态计算高度</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/页面传值/" style="font-size: 10px;">页面传值</a>
+      <a href="/tags/CA动画-页面切换/" style="font-size: 10px;">CA动画 页面切换</a> <a href="/tags/JSONKit-iOS9-arm7/" style="font-size: 10px;">JSONKit iOS9 arm7</a> <a href="/tags/UICollectionview-header-footerView/" style="font-size: 10px;">UICollectionview header/footerView</a> <a href="/tags/UIImagePickerController-中文/" style="font-size: 10px;">UIImagePickerController 中文</a> <a href="/tags/UIImagePickerController-拍照-相册/" style="font-size: 10px;">UIImagePickerController 拍照 相册</a> <a href="/tags/UITextField-UITextView-过滤-Emoji表情/" style="font-size: 10px;">UITextField UITextView 过滤 Emoji表情</a> <a href="/tags/UIViewController-生命周期/" style="font-size: 10px;">UIViewController 生命周期</a> <a href="/tags/Xcode7-真机调试/" style="font-size: 10px;">Xcode7 真机调试</a> <a href="/tags/aotulayout-Masonry-VFL-自动布局/" style="font-size: 10px;">aotulayout Masonry VFL 自动布局</a> <a href="/tags/cell-动态计算高度/" style="font-size: 10px;">cell 动态计算高度</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/convert-坐标转换/" style="font-size: 10px;">convert 坐标转换</a> <a href="/tags/cookie-iOS-NSHTTPCookie-NSHTTPCookieStorage/" style="font-size: 10px;">cookie iOS NSHTTPCookie NSHTTPCookieStorage</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS-block/" style="font-size: 10px;">iOS block</a> <a href="/tags/iOS-nil-NULL-Nil-NSNull/" style="font-size: 10px;">iOS nil NULL Nil NSNull</a> <a href="/tags/iOS-view-个别圆角/" style="font-size: 10px;">iOS view 个别圆角</a> <a href="/tags/iOS-webView-JS/" style="font-size: 10px;">iOS webView JS</a> <a href="/tags/iOS-二维码-AVFoundation/" style="font-size: 10px;">iOS 二维码 AVFoundation</a> <a href="/tags/iOS-企业包-ipa/" style="font-size: 10px;">iOS 企业包 ipa</a> <a href="/tags/iOS-宏定义/" style="font-size: 10px;">iOS 宏定义</a> <a href="/tags/iOS-正则表达式/" style="font-size: 10px;">iOS 正则表达式</a> <a href="/tags/iOS6-横屏-旋转/" style="font-size: 10px;">iOS6 横屏 旋转</a> <a href="/tags/iOS8-横屏-状态栏/" style="font-size: 10px;">iOS8 横屏 状态栏</a> <a href="/tags/iOS真机调试/" style="font-size: 10px;">iOS真机调试</a> <a href="/tags/label-动态计算宽高/" style="font-size: 10px;">label 动态计算宽高</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/svn-合作开发-冲突/" style="font-size: 10px;">svn 合作开发 冲突</a> <a href="/tags/tableView/" style="font-size: 10px;">tableView</a> <a href="/tags/tableView-刷新cell/" style="font-size: 10px;">tableView 刷新cell</a> <a href="/tags/textField-textView-限制字数/" style="font-size: 10px;">textField textView 限制字数</a> <a href="/tags/textView-自动换行/" style="font-size: 10px;">textView 自动换行</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/webView-URL-特殊字符/" style="font-size: 10px;">webView URL 特殊字符</a> <a href="/tags/zsh/" style="font-size: 10px;">zsh</a> <a href="/tags/单例-GCD/" style="font-size: 10px;">单例 GCD</a> <a href="/tags/图片上传/" style="font-size: 10px;">图片上传</a> <a href="/tags/页面传值/" style="font-size: 10px;">页面传值</a>
     </div>
   </div>
 
@@ -2202,7 +2137,7 @@ eg：021-68686868  0511-6868686；
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -2212,6 +2147,10 @@ eg：021-68686868  0511-6868686；
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/05/04/iOS开发常用方法-坐标转换/">iOS开发常用方法--坐标转换</a>
+          </li>
         
           <li>
             <a href="/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/">iOS开发-自动布局篇：史上最牛的自动布局教学！</a>
@@ -2227,10 +2166,6 @@ eg：021-68686868  0511-6868686；
         
           <li>
             <a href="/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/">UIImagePickerController获取图片（拍照、相册、图库）详解</a>
-          </li>
-        
-          <li>
-            <a href="/2016/04/15/UIImagePickerController显示中文界面/">UIImagePickerController显示中文界面</a>
           </li>
         
       </ul>

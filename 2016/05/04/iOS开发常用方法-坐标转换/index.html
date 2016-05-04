@@ -3,17 +3,36 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2015/1 | Jinge&#39;blog</title>
+  <title>iOS开发常用方法--坐标转换 | Jinge&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Jinge'blog">
-<meta property="og:url" content="http://yoursite.com/archives/2015/01/index.html">
+  <meta name="description" content="点（Point）
+（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;
+ /*
+
+描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+参数：point -&amp;gt; 一个视图（view）坐标系上的点 
+参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发常用方法--坐标转换">
+<meta property="og:url" content="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/index.html">
 <meta property="og:site_name" content="Jinge'blog">
-<meta property="og:description">
+<meta property="og:description" content="点（Point）
+（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;
+ /*
+
+描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+参数：point -&amp;gt; 一个视图（view）坐标系上的点 
+参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基">
+<meta property="og:updated_time" content="2016-05-04T02:03:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jinge'blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="iOS开发常用方法--坐标转换">
+<meta name="twitter:description" content="点（Point）
+（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;
+ /*
+
+描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+参数：point -&amp;gt; 一个视图（view）坐标系上的点 
+参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -63,39 +82,119 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/01/18/shell常用命令-脚本编写/" class="archive-article-date">
-  <time datetime="2015-01-18T02:04:34.000Z" itemprop="datePublished">Jan 18</time>
+        <section id="main"><article id="post-iOS开发常用方法-坐标转换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/04/iOS开发常用方法-坐标转换/" class="article-date">
+  <time datetime="2016-05-04T02:02:55.000Z" itemprop="datePublished">2016-05-04</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/01/18/shell常用命令-脚本编写/">shell常用命令&amp;脚本编写</a>
+    <h1 class="article-title" itemprop="name">
+      iOS开发常用方法--坐标转换
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>点（Point）</p>
+<p>（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;</p>
+<p> /*</p>
+<ul>
+<li>描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点</li>
+<li>参数：point -&gt; 一个视图（view）坐标系上的点 </li>
+<li>参数：view -&gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基于窗</li>
+<li>口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。</li>
+<li><p>返回值： 一个转换到接收者（调用者）坐标系的点<br>*/</p>
+<p>用法：<br>  // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中<br>  // 在controllerA中实现:<br> CGRect point = [self.view convertPoint:aPoint fromView:cell];<br> // 此 point 为在 controllerA 的 view 中的 point</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>（2）- (CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view; </p>
+<pre><code>/*
+ * 描述：将坐标点point由point所在视图转换到目标视图<span class="built_in">view</span>中，返回在目标视图<span class="built_in">view</span>中的坐标点
+ * 参数：point -&gt; 一个在当前视图坐标系中的点
+ * 参数：<span class="built_in">view</span> -&gt; 目标视图对象<span class="built_in">view</span>。如果视图是nil，那么这个方法将会转换成基于窗
+ * 口的坐标。否则视图和接收者都要属于同一个UIWindow对象。 
+ * 返回值：一个转换到接收者（<span class="built_in">view</span>）坐标系的点 
+ */
+
+  用法： 
+     <span class="comment">// controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中</span>
+     <span class="comment">// 在controllerA中实现:</span>
+    CGRect point = [cell convertPoint:aPoint toView:self.<span class="built_in">view</span>];
+    <span class="comment">// 此 point 为在 controllerA 的 view 中的 point</span>
+</code></pre><ol>
+<li>面（Rect）</li>
+</ol>
+<p>（1）- (CGRect)convertRect:(CGRect)rect fromView:(UIView *)view;</p>
+<pre><code><span class="comment">/*
+ * 描述：将rect从view中转换到当前视图中，返回在当前视图中的frame
+ * 参数：rect -&gt; 一个视图在当前所在视图坐标系中的frame
+ * 参数：view -&gt; 当前坐标系视图对象。如果视图是nil，那么这个方法将会基于窗口来转换。   
+ * 否则视图和接收者必须都属于同一个UIWindow对象
+ * 返回值：The converted rectangle -&gt; 一个转换过的frame 
+ */</span>
+
+ 用法： 
+     // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，cell上放有一个<span class="keyword">button，现在要把UITableViewCell中的subview(btn)的frame转换到controllerA的view中
+</span>     // 在controllerA中实现:
+    CGRect rect = [<span class="keyword">self.view </span>convertRect:cell.<span class="keyword">btn.frame </span>fromView:cell]<span class="comment">;</span>
+    // 或当已知<span class="keyword">btn时:
+</span>    CGRect rect = [<span class="keyword">self.view </span>convertRect:<span class="keyword">btn.frame </span>fromView:<span class="keyword">btn.superview];
+</span>    // 此 rect 为 <span class="keyword">btn </span>在 controllerA 的 view 中的 rect
+</code></pre><p>（2）- (CGRect)convertRect:(CGRect)rect toView:(UIView *)view;</p>
+<pre><code><span class="comment">/*
+ * 描述：将rect由rect所在视图转换到目标视图view中，返回在目标视图view中的frame
+ * 参数：rect -&gt; 一个视图在当前所在视图坐标系中的frame
+ * 参数：view -&gt; 要转换过去的目标视图对象。如果这个是视图是nil，这个方法将会基于窗口坐标系来转换。
+ * 否者视图和接收者必须属于同一个UIwindow对象
+ * 返回值：The converted rectangle -&gt; 一个转换过的frame
+ */</span>
+
+ 用法：
+     // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，cell上放有一个<span class="keyword">button，现在要把UITableViewCell中的subview(btn)的frame转换到controllerA的view中
+</span>    // 在controllerA中实现:
+    CGRect rect = [cell convertRect:cell.<span class="keyword">btn.frame </span>toView:<span class="keyword">self.view];
+</span>    // 或当已知<span class="keyword">btn时:
+</span>    CGRect rect = [<span class="keyword">btn.superview </span>convertRect:<span class="keyword">btn.frame </span>toView:<span class="keyword">self.view];
+</span>    // 此 rect 为 <span class="keyword">btn </span>在 controllerA 的 view 中的 rect
+</code></pre><p>参考文章：<a href="http://www.cnblogs.com/pengyingh/articles/2379476.html" target="_blank" rel="external">http://www.cnblogs.com/pengyingh/articles/2379476.html</a> UIView 中常见的方法总结</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins806tu001j5n0jxkrlfr0t" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/convert-坐标转换/">convert 坐标转换</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS开发-自动布局篇：史上最牛的自动布局教学！</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
