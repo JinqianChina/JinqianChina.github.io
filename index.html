@@ -90,17 +90,20 @@
         <ol>
 <li><p>点（Point）</p>
 <p>（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;</p>
-<p> /*</p>
-<ul>
-<li>描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点</li>
-<li>参数：point -&gt; 一个视图（view）坐标系上的点 </li>
-<li>参数：view -&gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基于窗</li>
-<li>口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。</li>
-<li><p>返回值： 一个转换到接收者（调用者）坐标系的点<br>*/</p>
-<p>用法：<br>  // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中<br>  // 在controllerA中实现:<br> CGRect point = [self.view convertPoint:aPoint fromView:cell];<br> // 此 point 为在 controllerA 的 view 中的 point</p>
-</li>
-</ul>
-</li>
+<pre><code>/<span class="keyword">*</span>
+ <span class="keyword">*</span> 描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+ <span class="keyword">*</span> 参数：point -&gt; 一个视图（view）坐标系上的点 
+ <span class="keyword">*</span> 参数：view -&gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基于窗
+ <span class="keyword">*</span> 口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。
+ <span class="keyword">*</span> 返回值： 一个转换到接收者（调用者）坐标系的点 
+ <span class="keyword">*</span>/
+
+ 用法： 
+     // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中
+     // 在controllerA中实现:
+    CGRect point = [self.view convertPoint:aPoint fromView:cell];
+    // 此 point 为在 controllerA 的 view 中的 point
+</code></pre></li>
 </ol>
 <p>（2）- (CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view; </p>
 <pre><code>/*
@@ -156,7 +159,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins806tu001j5n0jxkrlfr0t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins83jn6001j6n0jr5g0d5af" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/convert-坐标转换/">convert 坐标转换</a></li></ul>
@@ -601,7 +604,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cins806u8001y5n0j35wppa9t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/29/iOS开发-自动布局篇：史上最牛的自动布局教学！/" data-id="cins83jnj001y6n0jz7k490vm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aotulayout-Masonry-VFL-自动布局/">aotulayout Masonry VFL 自动布局</a></li></ul>
@@ -1455,7 +1458,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cins806tn001a5n0j51p1iody" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/22/ios页面传值：正向、反向/" data-id="cins83jn1001a6n0j1q60sa54" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/页面传值/">页面传值</a></li></ul>
@@ -1584,7 +1587,7 @@ mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cins806tq001d5n0j135trcc7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/19/iOS用AFN上传图片到服务器/" data-id="cins83jn3001d6n0jzillwxvq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/图片上传/">图片上传</a></li></ul>
@@ -1791,7 +1794,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cins806v6002v5n0jrbdkt6hd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController获取图片（拍照、相册、图库）详解/" data-id="cins83jof002v6n0johrevyht" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-拍照-相册/">UIImagePickerController 拍照 相册</a></li></ul>
@@ -1840,7 +1843,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cins806v8002y5n0j2tt7deqy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/15/UIImagePickerController显示中文界面/" data-id="cins83jog002y6n0jn41l8c40" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UIImagePickerController-中文/">UIImagePickerController 中文</a></li></ul>
@@ -1947,7 +1950,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cins806t1000p5n0jfqawesck" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/13/动态计算UITableViewCell高度/" data-id="cins83jmg000p6n0jzk7wkhij" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cell-动态计算高度/">cell 动态计算高度</a></li></ul>
@@ -1996,7 +1999,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cins806tf00115n0jcaj5ex39" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/11/svn-出现folder-is-already-under-version-control问题的解决办法/" data-id="cins83jms00116n0jhnnyd2jv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
@@ -2043,7 +2046,7 @@ UIKIT_EXTERN NSString *const UIImagePickerControllerMediaMetadata       NS_AVAIL
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cins806su000l5n0jemjncmyj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/将字符串切割成数组-将数组元素拼接成字符串/" data-id="cins83jmb000l6n0jfgdxffsb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2092,7 +2095,7 @@ NSIndexPath *indexPath=[NSIndexPath <span class="string">indexPathForRow:</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cins806td000y5n0j2z3d0nw7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/04/08/tableview刷新某个区域（section）或者某一行（row）/" data-id="cins83jmr000y6n0jru1fmfh1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tableView-刷新cell/">tableView 刷新cell</a></li></ul>

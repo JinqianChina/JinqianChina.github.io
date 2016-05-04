@@ -7,32 +7,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="点（Point）
 （1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;
- /*
-
-描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
-参数：point -&amp;gt; 一个视图（view）坐标系上的点 
-参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基">
+/*
+ * 描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+ * 参数：point -&amp;gt; 一个视图（view）坐标系上的点 
+ * 参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发常用方法--坐标转换">
 <meta property="og:url" content="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/index.html">
 <meta property="og:site_name" content="Jinge'blog">
 <meta property="og:description" content="点（Point）
 （1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;
- /*
-
-描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
-参数：point -&amp;gt; 一个视图（view）坐标系上的点 
-参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基">
-<meta property="og:updated_time" content="2016-05-04T02:03:59.000Z">
+/*
+ * 描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+ * 参数：point -&amp;gt; 一个视图（view）坐标系上的点 
+ * 参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方">
+<meta property="og:updated_time" content="2016-05-04T02:06:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发常用方法--坐标转换">
 <meta name="twitter:description" content="点（Point）
 （1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;
- /*
-
-描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
-参数：point -&amp;gt; 一个视图（view）坐标系上的点 
-参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基">
+/*
+ * 描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+ * 参数：point -&amp;gt; 一个视图（view）坐标系上的点 
+ * 参数：view -&amp;gt; 当前调用者视图。如果是图是nil，那么这个方">
   
     <link rel="alternative" href="/atom.xml" title="Jinge&#39;blog" type="application/atom+xml">
   
@@ -107,17 +104,20 @@
         <ol>
 <li><p>点（Point）</p>
 <p>（1）- (CGPoint)convertPoint:(CGPoint)point fromView:(UIView *)view;</p>
-<p> /*</p>
-<ul>
-<li>描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点</li>
-<li>参数：point -&gt; 一个视图（view）坐标系上的点 </li>
-<li>参数：view -&gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基于窗</li>
-<li>口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。</li>
-<li><p>返回值： 一个转换到接收者（调用者）坐标系的点<br>*/</p>
-<p>用法：<br>  // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中<br>  // 在controllerA中实现:<br> CGRect point = [self.view convertPoint:aPoint fromView:cell];<br> // 此 point 为在 controllerA 的 view 中的 point</p>
-</li>
-</ul>
-</li>
+<pre><code>/<span class="keyword">*</span>
+ <span class="keyword">*</span> 描述：将坐标点point从view中转换到当前调用者视图中，返回在当前视图中的坐标点
+ <span class="keyword">*</span> 参数：point -&gt; 一个视图（view）坐标系上的点 
+ <span class="keyword">*</span> 参数：view -&gt; 当前调用者视图。如果是图是nil，那么这个方法将尝试转换基于窗
+ <span class="keyword">*</span> 口的坐标系。否则视图和那个接收者必须属于同一个UIWindow对象。
+ <span class="keyword">*</span> 返回值： 一个转换到接收者（调用者）坐标系的点 
+ <span class="keyword">*</span>/
+
+ 用法： 
+     // controllerA 中有一个UITableView, UITableView里有多行UITableVieCell，现在要把UITableViewCell中的某个点Point转换到controllerA的view中
+     // 在controllerA中实现:
+    CGRect point = [self.view convertPoint:aPoint fromView:cell];
+    // 此 point 为在 controllerA 的 view 中的 point
+</code></pre></li>
 </ol>
 <p>（2）- (CGPoint)convertPoint:(CGPoint)point toView:(UIView *)view; </p>
 <pre><code>/*
@@ -173,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins806tu001j5n0jxkrlfr0t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/05/04/iOS开发常用方法-坐标转换/" data-id="cins83jn6001j6n0jr5g0d5af" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/convert-坐标转换/">convert 坐标转换</a></li></ul>
